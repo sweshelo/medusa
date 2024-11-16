@@ -5,22 +5,48 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "build:verify": "rimraf .next-verify && cross-env NEXT_BUILD_DIR=.next-verify next build && rimraf .next-verify",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint --fix",
+    "format": "prettier --write .",
+    "prepare": "husky",
+    "check:deps": "depcruise src"
   },
   "dependencies": {
+    "next": "15.0.3",
     "react": "19.0.0-rc-66855b96-20241106",
-    "react-dom": "19.0.0-rc-66855b96-20241106",
-    "next": "15.0.3"
+    "react-dom": "19.0.0-rc-66855b96-20241106"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "^8.14.0",
+    "@typescript-eslint/parser": "^8.14.0",
+    "dependency-cruiser": "^16.6.0",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "15.0.3",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
     "postcss": "^8",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "15.0.3"
+    "typescript": "^5"
+  },
+  "volta": {
+    "node": "20.18.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   }
 }
