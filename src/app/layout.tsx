@@ -4,7 +4,10 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: '閻魔帳',
+  title: {
+    template: '%s | 閻魔帳',
+    default: '閻魔帳',
+  },
   description: 'チェイスチェイスジョーカーズのプレイ履歴を分析します。',
 }
 
@@ -15,9 +18,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className={`antialiased font-mplus`}>
         <Header />
-        <div className="w-full mx-auto bg-cyan-50 p-7">{children}</div>
+        <div className="w-full min-h-screen mx-auto bg-cyan-50 p-7">{children}</div>
       </body>
     </html>
   )

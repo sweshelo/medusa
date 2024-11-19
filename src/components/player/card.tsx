@@ -1,12 +1,9 @@
 import Link from 'next/link'
 
+import { Player } from '@/app/types/player'
+
 interface PlayerCardProps {
-  player: {
-    chara: number
-    name: string
-    rank: number
-    points: number
-  }
+  player: Player
 }
 
 export const PlayerCard = ({ player }: PlayerCardProps) => {
@@ -21,9 +18,9 @@ export const PlayerCard = ({ player }: PlayerCardProps) => {
       />
       <div className="ml-3 flex-grow">
         <div className="text-sm text-gray-600">
-          {player.rank}位 - {player.points}P
+          {player.ranking}位 - {player.points}P
         </div>
-        <div className="text-lg font-bold">{player.name}</div>
+        <div className="text-3xl font-bold">{player.name}</div>
       </div>
     </Link>
   )

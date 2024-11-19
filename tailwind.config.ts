@@ -13,6 +13,12 @@ export default {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
       },
+      backgroundImage: {
+        rainbow: 'linear-gradient(45deg, #fad, #ffa, #afa, #aaf, #caf)',
+      },
+      fontFamily: {
+        mplus: ['"M PLUS 1p"', 'sans-serif'],
+      },
     },
   },
   plugins: [],
