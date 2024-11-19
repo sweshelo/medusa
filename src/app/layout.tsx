@@ -26,7 +26,7 @@ export default function RootLayout({
       </head>
       <body className={`antialiased font-mplus`}>
         <Header />
-        <div className="w-full min-h-screen mx-auto bg-cyan-50 p-7">{children}</div>
+        <div className="w-full min-h-screen mx-auto bg-gray-100 sm:p-7">{children}</div>
       </body>
     </html>
   )
