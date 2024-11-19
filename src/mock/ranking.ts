@@ -1,4 +1,4 @@
-import { Player, PlayerDetail } from '@/app/types/player'
+import { Player, PlayerDetail } from '@/types/player'
 
 export const MockRankingResponse: {
   ranking: Player[]

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { Player } from '@/app/types/player'
+import { Player } from '@/types/player'
 
 interface PlayerCardProps {
   player: Player

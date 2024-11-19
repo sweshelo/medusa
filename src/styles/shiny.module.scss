@@ -1,0 +1,61 @@
+.shiny-gold {
+  $color: gold;
+  background: linear-gradient(
+    -45deg,
+    lighten($color, 30%) 50%,
+    lighten($color, 50%) 60%,
+    lighten($color, 30%) 70%
+  );
+  background-size: 600% 100%;
+  animation: shine 20s infinite;
+  animation-delay: 0s;
+  animation-timing-function: linear;
+}
+
+.shiny-silver {
+  $color: gray;
+  background: linear-gradient(
+    -45deg,
+    lighten($color, 30%) 50%,
+    lighten($color, 50%) 60%,
+    lighten($color, 30%) 70%
+  );
+  background-size: 600% 100%;
+  animation: shine 20s infinite;
+  animation-delay: 0s;
+  animation-timing-function: linear;
+}
+
+.shiny-copper {
+  $color: #b87333;
+  background: linear-gradient(
+    -45deg,
+    lighten($color, 30%) 50%,
+    lighten($color, 50%) 60%,
+    lighten($color, 30%) 70%
+  );
+  background-size: 600% 100%;
+  animation: shine 20s infinite;
+  animation-delay: 0s;
+  animation-timing-function: linear;
+}
+
+.shiny-rainbow {
+  background: linear-gradient(-45deg, #ffa 20%, #afa 30%, #aaf 40%, #caf 50%, #fad 60%, #ffa 70%);
+  background-size: 600% 100%;
+  animation: shine 20s infinite;
+  animation-delay: 0s;
+  animation-timing-function: linear;
+}
+
+@keyframes shine {
+  0% {
+    background-position-x: 400%;
+  }
+  50% {
+    background-position-x: 0%;
+  }
+  100% {
+    background-position-x: -400%;
+  }
+}

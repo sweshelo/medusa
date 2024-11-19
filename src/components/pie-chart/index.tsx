@@ -2,8 +2,8 @@
 
 import { Cell, Pie, PieChart } from 'recharts'
 
-import { Player } from '@/app/types/player'
 import { Chara } from '@/constants/chara'
+import { Player } from '@/types/player'
 
 interface RankingPieChartProps {
   ranking: Player[]
