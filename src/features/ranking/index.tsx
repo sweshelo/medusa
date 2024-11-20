@@ -1,8 +1,8 @@
 import React from 'react'
 
+import { RankingPieChart } from '@/components/charts/pie-chart'
 import { Headline } from '@/components/common/headline'
 import { SmallHeadline } from '@/components/common/small-headline'
-import { RankingPieChart } from '@/components/pie-chart'
 import { PlayerCard } from '@/components/player/card'
 import { Player } from '@/types/player'
 
