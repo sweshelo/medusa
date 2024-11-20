@@ -14,7 +14,7 @@ export const PlayerPage = ({ player }: PlayerPageProps) => {
   return (
     <>
       <Achievement achievement={player.achievement} />
-      <div className="py-4">
+      <div className="py-3">
         <PlayerCard player={player} />
       </div>
       <div className="grid grid-cols-3 grid-rows-2 gap-2">

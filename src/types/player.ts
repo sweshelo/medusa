@@ -9,7 +9,12 @@ export interface Player {
 
 export type PlayerDetail = Player & {
   online: boolean
-  achievement: string
+  achievement:
+    | string
+    | {
+        name: string
+        html: string
+      }
   prefectures: string[]
   effectiveAverage: number
   deviationValue: number

@@ -1,10 +1,12 @@
+@use "sass:color";
+
 .shiny-gold {
   $color: gold;
   background: linear-gradient(
     -45deg,
-    lighten($color, 30%) 50%,
-    lighten($color, 50%) 60%,
-    lighten($color, 30%) 70%
+    color.adjust($color, $lightness: 30%) 50%,
+    color.adjust($color, $lightness: 50%) 60%,
+    color.adjust($color, $lightness: 30%) 70%
   );
   background-size: 600% 100%;
   animation: shine 20s infinite;
@@ -16,9 +18,9 @@
   $color: gray;
   background: linear-gradient(
     -45deg,
-    lighten($color, 30%) 50%,
-    lighten($color, 50%) 60%,
-    lighten($color, 30%) 70%
+    color.adjust($color, $lightness: 30%) 50%,
+    color.adjust($color, $lightness: 50%) 60%,
+    color.adjust($color, $lightness: 30%) 70%
   );
   background-size: 600% 100%;
   animation: shine 20s infinite;
@@ -30,9 +32,9 @@
   $color: #b87333;
   background: linear-gradient(
     -45deg,
-    lighten($color, 30%) 50%,
-    lighten($color, 50%) 60%,
-    lighten($color, 30%) 70%
+    color.adjust($color, $lightness: 30%) 50%,
+    color.adjust($color, $lightness: 50%) 60%,
+    color.adjust($color, $lightness: 30%) 70%
   );
   background-size: 600% 100%;
   animation: shine 20s infinite;

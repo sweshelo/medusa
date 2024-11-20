@@ -609,7 +609,10 @@ export const MockRankingResponse: {
 
 export const MockPlayerResponse: PlayerDetail = {
   name: 'カイル・ハイド',
-  achievement: 'ウラオキナワの帝王',
+  achievement: {
+    name: 'ウラオキナワの帝王',
+    html: '<span class="icon_0 icon"></span>ウラオキナワの<span style="color:#ff2c9a;">帝王</span><span class="icon_0 icon"></span>',
+  },
   chara: '8',
   points: 78991,
   ranking: 1,

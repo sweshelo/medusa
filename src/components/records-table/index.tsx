@@ -2,6 +2,8 @@ import { format } from 'date-fns'
 
 import { Record } from '@/types/record'
 
+import { Stage } from '../stage-icon'
+
 interface RecordsTableProps {
   records: Record[]
 }
@@ -27,8 +29,9 @@ export const RecordsTable = ({ records }: RecordsTableProps) => {
           {records.slice(0, 5).map((record, index) => {
             return (
               <tr key={index}>
-                <td className="text-center py-2">
-                  {format(new Date(record.datetime.date), 'yy/MM/dd hh:mm')}
+                <td className="text-center py-2 flex items-center gap-2 justify-center">
+                  {format(new Date(record.datetime.date), 'yy/MM/dd hh:mm')}{' '}
+                  <Stage name="ハロシブ" />
                 </td>
                 <td className="text-center">{record.points}P</td>
                 <td className="text-center">{record.diff}P</td>
