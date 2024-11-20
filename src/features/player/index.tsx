@@ -3,6 +3,7 @@ import { PointsLineChart } from '@/components/charts/line-chart'
 import { Shiny } from '@/components/common/shiny'
 import { SmallHeadline } from '@/components/common/small-headline'
 import { PlayerCard } from '@/components/player/card'
+import { RecordsTable } from '@/components/records-table'
 import { PlayerDetail } from '@/types/player'
 
 interface PlayerPageProps {
@@ -81,6 +82,9 @@ export const PlayerPage = ({ player }: PlayerPageProps) => {
       <div className="my-4">
         <SmallHeadline title="貢献度の推移" />
         <PointsLineChart records={player.records} />
+      </div>
+      <div className="my-4">
+        <RecordsTable records={player.records} />
       </div>
     </>
   )
