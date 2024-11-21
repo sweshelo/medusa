@@ -4,18 +4,22 @@ import { Shiny } from '@/components/common/shiny'
 import { SmallHeadline } from '@/components/common/small-headline'
 import { PlayerCard } from '@/components/player/card'
 import { RecordsTable } from '@/components/records-table'
-import { PlayerDetail } from '@/types/player'
+import { Database } from '@/types/database.types'
 
 interface PlayerPageProps {
-  player: PlayerDetail
+  player: Database['public']['Tables']['player']['Row'] & {
+    records: Database['public']['Tables']['record']['Row'][]
+  }
 }
 
 export const PlayerPage = ({ player }: PlayerPageProps) => {
+  const [digest] = player.records
+
   return (
     <>
-      <Achievement achievement={player.achievement} />
+      <Achievement achievement={digest.achievement} />
       <div className="py-3">
-        <PlayerCard player={player} />
+        <PlayerCard player={player} chara={digest.chara} ranking={digest.ranking} />
       </div>
       <div className="grid grid-cols-3 grid-rows-2 gap-2">
         <Shiny className="rounded-lg p-2 shadow" color="shiny-rainbow">

@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 import { PlayerPage } from '@/features/player'
-import { MockPlayerResponse } from '@/mock/ranking'
+import { fetchPlayer } from '@/service/supabase/player'
 
 interface PageProps {
   params: Promise<{ name: string }>
@@ -17,10 +17,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function Page({ params }: PageProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { name } = await params
+  const name = decodeURI((await params).name)
+  const player = await fetchPlayer(name)
 
-  // TODO: この name をもとに対象Playerのデータをfetchする
-  const player = MockPlayerResponse
   return <PlayerPage player={player} />
 }

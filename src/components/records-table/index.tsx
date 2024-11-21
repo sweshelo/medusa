@@ -30,10 +30,9 @@ export const RecordsTable = ({ records }: RecordsTableProps) => {
             return (
               <tr key={index}>
                 <td className="text-center py-2 flex items-center gap-2 justify-center">
-                  {format(new Date(record.datetime.date), 'yy/MM/dd hh:mm')}{' '}
-                  <Stage name="ハロシブ" />
+                  {format(new Date(record.created_at), 'yy/MM/dd hh:mm')} <Stage name="ハロシブ" />
                 </td>
-                <td className="text-center">{record.points}P</td>
+                <td className="text-center">{record.point}P</td>
                 <td className="text-center">{record.diff}P</td>
               </tr>
             )
