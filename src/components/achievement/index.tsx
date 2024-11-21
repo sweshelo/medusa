@@ -1,23 +1,31 @@
-import { PlayerDetail } from '@/types/player'
+import { Achievement } from '@/types/achievement'
 
 import { Shiny } from '../common/shiny'
 
 interface AchievementProps {
-  achievement: PlayerDetail['achievement']
+  achievement: Achievement
 }
 
-export const Achievement = ({ achievement }: AchievementProps) => {
+export const AchievementView = ({ achievement }: AchievementProps) => {
+  if (typeof achievement === 'string') {
+    return (
+      <div className="bg-silver-gradient text-center">
+        <span>{achievement}</span>
+      </div>
+    )
+  }
+
+  if (!achievement.html) {
+    return (
+      <div className="bg-silver-gradient text-center">
+        <span>{achievement.title}</span>
+      </div>
+    )
+  }
+
   return (
-    <>
-      {typeof achievement === 'string' ? (
-        <div className="bg-silver-gradient text-center">
-          <span>{achievement}</span>
-        </div>
-      ) : (
-        <Shiny color="shiny-gold" className="p-1 rounded shadow text-center">
-          <div dangerouslySetInnerHTML={{ __html: achievement.html }} />
-        </Shiny>
-      )}
-    </>
+    <Shiny color="shiny-gold" className="p-1 rounded shadow text-center">
+      <div dangerouslySetInnerHTML={{ __html: achievement.html }} />
+    </Shiny>
   )
 }

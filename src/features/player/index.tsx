@@ -1,4 +1,4 @@
-import { Achievement } from '@/components/achievement'
+import { AchievementView } from '@/components/achievement'
 import { PointsLineChart } from '@/components/charts/line-chart'
 import { Shiny } from '@/components/common/shiny'
 import { SmallHeadline } from '@/components/common/small-headline'
@@ -17,7 +17,7 @@ export const PlayerPage = ({ player }: PlayerPageProps) => {
 
   return (
     <>
-      <Achievement achievement={digest.achievement} />
+      <AchievementView achievement={digest.achievement} />
       <div className="py-3">
         <PlayerCard player={player} chara={digest.chara} ranking={digest.ranking} />
       </div>
