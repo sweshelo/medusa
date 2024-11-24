@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react'
 import { Cell, Pie, PieChart } from 'recharts'
 
 import { Chara } from '@/constants/chara'
-import { Player } from '@/types/player'
+import { Ranking } from '@/types/ranking'
 
 interface RankingPieChartProps {
-  ranking: Player[]
+  ranking: Ranking[]
 }
 
 export const RankingPieChart = ({ ranking }: RankingPieChartProps) => {

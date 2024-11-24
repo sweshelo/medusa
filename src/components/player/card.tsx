@@ -1,10 +1,11 @@
 import Link from 'next/link'
 
 import { Player } from '@/types/player'
+import { Ranking } from '@/types/ranking'
 import { Record } from '@/types/record'
 
 interface PlayerCardProps {
-  player: Player
+  player: Player | Ranking // FIXME: キモすぎるので辞めたい
   chara: Record['chara']
   ranking: Record['ranking']
 }

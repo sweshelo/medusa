@@ -4,10 +4,10 @@ import { RankingPieChart } from '@/components/charts/pie-chart'
 import { Headline } from '@/components/common/headline'
 import { SmallHeadline } from '@/components/common/small-headline'
 import { PlayerCard } from '@/components/player/card'
-import { Player } from '@/types/player'
+import { Ranking } from '@/types/ranking'
 
 interface RankingPageProps {
-  ranking: Player[]
+  ranking: Ranking[]
 }
 const RankingPage = ({ ranking }: RankingPageProps) => {
   return (
@@ -22,7 +22,7 @@ const RankingPage = ({ ranking }: RankingPageProps) => {
 
       <div className="mt-4 mb-4 space-y-2">
         {ranking.map((player, index) => (
-          <PlayerCard player={player} key={index} />
+          <PlayerCard player={player} chara={player.chara} ranking={player.rank} key={index} />
         ))}
       </div>
     </>
