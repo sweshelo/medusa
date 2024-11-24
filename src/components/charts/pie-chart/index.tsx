@@ -21,10 +21,9 @@ export const RankingPieChart = ({ ranking }: RankingPieChartProps) => {
   >([])
 
   useEffect(() => {
-    const counts = ranking.reduce(acc => {
-      const curr = 0 //acc.get(player.chara) || 0
-      //return acc.set(player.chara, curr + 1)
-      return acc.set('unknown', curr + 1)
+    const counts = ranking.reduce((acc, player) => {
+      const curr = acc.get(player.chara) || 0
+      return acc.set(player.chara, curr + 1)
     }, new Map<string, number>())
 
     setData(
@@ -39,7 +38,7 @@ export const RankingPieChart = ({ ranking }: RankingPieChartProps) => {
         })
         .filter(r => r.count && r.count > 0)
     )
-  }, [setData, ranking])
+  }, [setData])
 
   return data.length > 0 ? (
     <PieChart width={350} height={210}>
