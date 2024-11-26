@@ -15,7 +15,7 @@ interface PlayerPageProps {
 export const PlayerPage = ({ player }: PlayerPageProps) => {
   const [digest] = player.records
 
-  return (
+  return digest ? (
     <>
       <AchievementView achievement={digest.achievement} />
       <div className="py-3">
@@ -90,6 +90,20 @@ export const PlayerPage = ({ player }: PlayerPageProps) => {
       <div className="my-4">
         <RecordsTable records={player.records} />
       </div>
+    </>
+  ) : (
+    <>
+      <div className="py-3">
+        <div className="bg-white rounded-lg flex items-center shadow">
+          <div className="w-[80] h-[60] rounded-l-lg bg-gray-300 flex items-center justify-center">
+            <div className="text-center text-bold text-3xl">？</div>
+          </div>
+          <div className="ml-3 flex-grow">
+            <div className="text-3xl font-bold">{player.name}</div>
+          </div>
+        </div>
+      </div>
+      <p className="text-center">このプレーヤーの有効な記録が存在しません。</p>
     </>
   )
 }

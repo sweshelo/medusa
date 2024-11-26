@@ -20,5 +20,5 @@ export default async function Page({ params }: PageProps) {
   const name = decodeURI((await params).name)
   const player = await fetchPlayer(name)
 
-  return <PlayerPage player={player} />
+  return player ? <PlayerPage player={player} /> : <></>
 }
