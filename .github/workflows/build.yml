@@ -6,6 +6,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: actions
     steps:
       - name: checkout
         uses: actions/checkout@v3
