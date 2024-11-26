@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
   sassOptions: {
     silenceDeprecations: ['legacy-js-api'],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'p.eagate.573.jp',
+      },
+    ],
+  },
 }
 
 export default nextConfig
