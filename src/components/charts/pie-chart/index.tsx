@@ -38,7 +38,7 @@ export const RankingPieChart = ({ ranking }: RankingPieChartProps) => {
         })
         .filter(r => r.count && r.count > 0)
     )
-  }, [setData])
+  }, [setData, ranking])
 
   return data.length > 0 ? (
     <PieChart width={350} height={210}>
