@@ -19,7 +19,7 @@ export const PlayerCard = ({ player, chara, ranking }: PlayerCardProps) => {
         alt={''}
         width={80}
         height={60}
-        className="w-[80] h-[60] rounded-l-lg"
+        className="w-[80px] h-[60px] rounded-l-lg"
       />
       <div className="ml-3 flex-grow">
         <div className="text-sm text-gray-600">{ranking}位</div>

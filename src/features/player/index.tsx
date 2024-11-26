@@ -95,7 +95,7 @@ export const PlayerPage = ({ player }: PlayerPageProps) => {
     <>
       <div className="py-3">
         <div className="bg-white rounded-lg flex items-center shadow">
-          <div className="w-[80] h-[60] rounded-l-lg bg-gray-300 flex items-center justify-center">
+          <div className="w-[80px] h-[60px] rounded-l-lg bg-gray-300 flex items-center justify-center">
             <div className="text-center text-bold text-3xl">？</div>
           </div>
           <div className="ml-3 flex-grow">
