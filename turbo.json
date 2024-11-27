@@ -1,7 +1,14 @@
 {
   "tasks": {
     "build": {
-      "outputs": [".next/**"]
+      "outputs": [
+        ".next/**"
+      ],
+      "env": [
+        "SUPABASE_PASSWORD",
+        "SUPABASE_URL",
+        "SUPABASE_API_KEY"
+      ]
     },
     "build:verify": {},
     "lint": {},
