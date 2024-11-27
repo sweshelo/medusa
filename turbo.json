@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "build": {
+      "outputs": [".next/**"]
+    },
+    "lint": {},
+    "test": {},
+    "dev": {
+      "cache": false
+    }
+  }
+}
