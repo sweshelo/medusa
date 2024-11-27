@@ -19,10 +19,10 @@ jobs:
           cache: npm
 
       - name: Create .env file
-        run: echo "${{ secrets.DOTENV }}" > .env
+        run: echo -e "${{ secrets.DOTENV }}" > .env
 
       - name: npm-install
         run: npm i
 
       - name: npm-build
-        run: turbo run build
+        run: npx turbo run build
