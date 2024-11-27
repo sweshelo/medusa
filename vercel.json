@@ -1,0 +1,8 @@
+{
+  "build": {
+    "env": {
+      "TURBO_FORCE": "true",
+      "TURBO_CACHE": "true"
+    }
+  }
+}

@@ -19,7 +19,7 @@ jobs:
           cache: npm
 
       - name: Create .env file
-        run: echo -e "${{ secrets.DOTENV }}" > .env
+        run: echo -e "${{ secrets.DOTENV }}" > apps/web/.env
 
       - name: npm-install
         run: npm i
