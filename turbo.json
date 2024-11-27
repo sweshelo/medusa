@@ -3,6 +3,7 @@
     "build": {
       "outputs": [".next/**"]
     },
+    "build:verify": {},
     "lint": {},
     "test": {},
     "dev": {
