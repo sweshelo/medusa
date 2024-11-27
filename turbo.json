@@ -1,0 +1,20 @@
+{
+  "tasks": {
+    "build": {
+      "outputs": [
+        ".next/**"
+      ],
+      "env": [
+        "SUPABASE_PASSWORD",
+        "SUPABASE_URL",
+        "SUPABASE_API_KEY"
+      ]
+    },
+    "build:verify": {},
+    "lint": {},
+    "test": {},
+    "dev": {
+      "cache": false
+    }
+  }
+}

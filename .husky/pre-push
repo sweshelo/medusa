@@ -1,1 +1,1 @@
-npm run build:verify
+turbo run build:verify
