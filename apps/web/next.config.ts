@@ -1,3 +1,5 @@
+import path from 'path'
+
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
@@ -20,6 +22,14 @@ const nextConfig: NextConfig = {
         hostname: 'p.eagate.573.jp',
       },
     ],
+  },
+  webpack: config => {
+    config.resolve.alias['@shared'] = path.resolve(__dirname, '../../packages/shared')
+    config.resolve.alias['tailwind-config'] = path.resolve(
+      __dirname,
+      '../../packages/shared/tailwind.config.ts'
+    )
+    return config
   },
 }
 

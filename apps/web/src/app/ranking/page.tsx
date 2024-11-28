@@ -1,7 +1,7 @@
+import { fetchRankingTable } from '@shared/service/original/ranking'
 import { Metadata } from 'next'
 
 import RankingPage from '../../features/ranking'
-import { fetchRankingTable } from '../../service/original/ranking'
 
 export const metadata: Metadata = {
   title: 'ランキング',

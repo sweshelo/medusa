@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Player } from '../../types/player'
-import { Ranking } from '../../types/ranking'
-import { Record } from '../../types/record'
+import { Player } from '@shared/types/player'
+import { Ranking } from '@shared/types/ranking'
+import { Record } from '@shared/types/record'
 
 interface PlayerCardProps {
   player: Player | Ranking // FIXME: キモすぎるので辞めたい

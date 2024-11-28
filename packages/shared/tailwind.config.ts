@@ -1,14 +1,10 @@
-import * as shared from '../../packages/shared/tailwind.config'
-
 import type { Config } from 'tailwindcss'
 
 export default {
-  presets: [shared],
   content: [
-    '../../packages/shared/**/*.{js,ts,jsx,tsx,mdx}',
-    '../../packages/shared/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/features/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    // './apps/**/*.{js,ts,jsx,tsx}',
+    // './packages/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
     extend: {

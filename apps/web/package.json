@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "build:verify": "rimraf .next-verify && cross-env NEXT_BUILD_DIR=.next-verify next build && rimraf .next-verify",
     "start": "next start",

@@ -1,10 +1,9 @@
+import { RankingPieChart } from '@shared/components/charts/pie-chart'
+import { Headline } from '@shared/components/common/headline'
+import { SmallHeadline } from '@shared/components/common/small-headline'
+import { PlayerCard } from '@shared/components/player/card'
+import { Ranking } from '@shared/types/ranking'
 import React from 'react'
-
-import { RankingPieChart } from '../../components/charts/pie-chart'
-import { Headline } from '../../components/common/headline'
-import { SmallHeadline } from '../../components/common/small-headline'
-import { PlayerCard } from '../../components/player/card'
-import { Ranking } from '../../types/ranking'
 
 interface RankingPageProps {
   ranking: Ranking[]

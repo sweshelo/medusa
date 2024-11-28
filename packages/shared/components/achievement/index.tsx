@@ -1,5 +1,5 @@
-import { Achievement } from '../../types/achievement'
-import { Shiny } from '../common/shiny'
+import { Achievement } from "@shared/types/achievement"
+import { Shiny } from '@shared/components/common/shiny'
 
 interface AchievementProps {
   achievement: Achievement

@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { HTMLAttributes } from 'react'
 
-import styles from '@/styles/shiny.module.scss'
+import styles from '@shared/styles/shiny.module.scss'
 
 interface ShinyProps {
   className?: HTMLAttributes<HTMLDivElement>['className']

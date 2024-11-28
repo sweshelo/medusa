@@ -1,6 +1,6 @@
 import { format } from 'date-fns'
 
-import { Record } from '../../types/record'
+import { Record } from '@shared/types/record'
 import { Stage } from '../stage-icon'
 
 interface RecordsTableProps {

@@ -1,10 +1,10 @@
-import { AchievementView } from '../../components/achievement'
-import { PointsLineChart } from '../../components/charts/line-chart'
-import { Shiny } from '../../components/common/shiny'
-import { SmallHeadline } from '../../components/common/small-headline'
-import { PlayerCard } from '../../components/player/card'
-import { RecordsTable } from '../../components/records-table'
-import { Database } from '../../types/database.types'
+import { AchievementView } from '@shared/components/achievement'
+import { PointsLineChart } from '@shared/components/charts/line-chart'
+import { Shiny } from '@shared/components/common/shiny'
+import { SmallHeadline } from '@shared/components/common/small-headline'
+import { PlayerCard } from '@shared/components/player/card'
+import { RecordsTable } from '@shared/components/records-table'
+import { Database } from '@shared/types/database.types'
 
 interface PlayerPageProps {
   player: Database['public']['Tables']['player']['Row'] & {

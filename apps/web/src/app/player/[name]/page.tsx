@@ -1,7 +1,7 @@
+import { fetchPlayer } from '@shared/service/supabase/player'
 import { Metadata } from 'next'
 
 import { PlayerPage } from '../../../features/player'
-import { fetchPlayer } from '../../../service/supabase/player'
 
 interface PageProps {
   params: Promise<{ name: string }>

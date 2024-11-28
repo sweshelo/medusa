@@ -1,4 +1,4 @@
-import { PlayerDetail } from '../types/player'
+import { PlayerDetail } from '@shared/types/player'
 
 export const MockPlayerResponse: PlayerDetail = {
   id: 1,

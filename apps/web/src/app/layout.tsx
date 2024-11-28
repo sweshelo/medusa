@@ -1,7 +1,6 @@
+import { Header } from '@shared/components/header'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-
-import { Header } from '../components/header'
 
 import type { Metadata } from 'next'
 import './globals.css'
