@@ -14,8 +14,8 @@
 /coverage
 
 # next.js
-.next/
-.next-verify/
+/.next/
+/.next-verify/
 /out/
 
 # production
@@ -39,6 +39,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# turbo
-.turbo/
