@@ -1,8 +1,7 @@
+import classNames from 'classnames'
 import { format } from 'date-fns'
 
 import { Record } from '@/types/record'
-
-import { Stage } from '../stage-icon'
 
 interface RecordsTableProps {
   records: Record[]
@@ -26,11 +25,21 @@ export const RecordsTable = ({ records }: RecordsTableProps) => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {records.slice(0, 5).map((record, index) => {
+          {records.slice(0, 100).map((record, index) => {
             return (
-              <tr key={index}>
+              <tr
+                key={index}
+                className={classNames({
+                  ['bg-gray-200']: !record.elapsed || record.elapsed! >= 600,
+                })}
+              >
                 <td className="text-center py-2 flex items-center gap-2 justify-center">
-                  {format(new Date(record.created_at), 'yy/MM/dd hh:mm')} <Stage name="ハロシブ" />
+                  {format(
+                    new Date(
+                      `${record.recorded_at ?? record.created_at.replace(/\+00:00$/, '-09:00')}+09:00`
+                    ),
+                    'yy/MM/dd HH:mm'
+                  )}
                 </td>
                 <td className="text-center">{record.point}P</td>
                 <td className="text-center">{record.diff}P</td>

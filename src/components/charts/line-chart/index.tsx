@@ -16,17 +16,20 @@ export const PointsLineChart = ({ records }: PointsLineChartProps) => {
 
   useEffect(() => {
     // 日毎に分ける
-    const grouped = records.reduce<
-      Record<string, { total: number; counts: number; records: number[] }>
-    >((acc, record) => {
-      console.log(record.created_at)
-      const date = format(new Date(record.created_at), 'yy/MM/dd')
-      if (!acc[date]) acc[date] = { total: 0, counts: 0, records: [] }
-      acc[date].total += record.diff ?? 0
-      acc[date].counts += 1
-      acc[date].records.push(record.diff ?? 0)
-      return acc
-    }, {})
+    const grouped = records
+      .filter(record => record.elapsed && record.elapsed <= 600)
+      .reduce<Record<string, { total: number; counts: number; records: number[] }>>(
+        (acc, record) => {
+          console.log(record.created_at)
+          const date = format(new Date(record.created_at), 'yy/MM/dd')
+          if (!acc[date]) acc[date] = { total: 0, counts: 0, records: [] }
+          acc[date].total += record.diff ?? 0
+          acc[date].counts += 1
+          acc[date].records.push(record.diff ?? 0)
+          return acc
+        },
+        {}
+      )
 
     // 日毎の平均点を出す
     const entries = Object.entries(grouped).map(([date, { total, counts, records }]) => ({
