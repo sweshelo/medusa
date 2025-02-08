@@ -8,6 +8,7 @@ export const fetchPlayer = async (playerName: string) => {
     .eq('name', playerName)
     .single()
 
+  console.log(playerError)
   if (playerError) {
     throw new Error(`Error fetching player: ${playerError.message}`)
   }

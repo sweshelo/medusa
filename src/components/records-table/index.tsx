@@ -1,3 +1,4 @@
+import { tz, TZDate } from '@date-fns/tz'
 import classNames from 'classnames'
 import { format } from 'date-fns'
 
@@ -35,10 +36,11 @@ export const RecordsTable = ({ records }: RecordsTableProps) => {
               >
                 <td className="text-center py-2 flex items-center gap-2 justify-center">
                   {format(
-                    new Date(
+                    new TZDate(
                       `${record.recorded_at ?? record.created_at.replace(/\+00:00$/, '-09:00')}+09:00`
                     ),
-                    'yy/MM/dd HH:mm'
+                    'yy/MM/dd HH:mm',
+                    { in: tz('Asia/Tokyo') }
                   )}
                 </td>
                 <td className="text-center">{record.point}P</td>
