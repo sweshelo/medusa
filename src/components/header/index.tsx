@@ -10,7 +10,7 @@ export const Header = () => {
           </div>
           <div className="flex-grow">
             <h1 className="text-white text-2xl font-bold">閻魔帳</h1>
-            <p className="text-gray-300 text-sm">v2 - @sweshelo</p>
+            <p className="text-gray-300 text-xs">v2 &quot;medusa&quot; - @sweshelo</p>
           </div>
         </div>
       </div>
