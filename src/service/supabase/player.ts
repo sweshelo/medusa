@@ -2,15 +2,17 @@ import { supabase } from './client'
 
 export const fetchPlayer = async (playerName: string) => {
   // プレイヤー情報を取得
-  const { data: player, error: playerError } = await supabase
+  const { data: players, error: playerError } = await supabase
     .from('player')
     .select('*')
     .eq('name', playerName)
-    .single()
+    .limit(1)
 
   if (playerError) {
     throw new Error(`Error fetching player: ${playerError.message}`)
   }
+
+  const [player] = players
 
   // レコードを取得（新しい順に300件まで）
   const { data: records, error: recordsError } = await supabase
