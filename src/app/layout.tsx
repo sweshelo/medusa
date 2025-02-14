@@ -35,12 +35,18 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;700&display=swap"
           rel="stylesheet"
         />
+        {/* Manifestの設定 */}
+        <link rel="manifest" href="/manifest.json" />
+        {/* iOS用のapple-touch-icon */}
+        <link rel="apple-touch-icon" sizes="180x180" href="/image/icon-180.png" />
+        {/* ブラウザのテーマカラー */}
+        <meta name="theme-color" content="#7f1d1d" />
       </head>
       <body className={`antialiased font-mplus`}>
         <Header />
