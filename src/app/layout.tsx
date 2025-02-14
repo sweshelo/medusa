@@ -14,6 +14,19 @@ export const metadata: Metadata = {
     default: '閻魔帳',
   },
   description: 'チェイスチェイスジョーカーズのプレイ履歴を分析します。',
+  openGraph: {
+    title: '閻魔帳',
+    description: 'チェイスチェイスジョーカーズのプレイ履歴を分析します。',
+    url: 'https://放課後天地創造.club',
+    images: '/image/banner.png',
+  },
+  twitter: {
+    title: '閻魔帳',
+    description: 'チェイスチェイスジョーカーズのプレイ履歴を分析します。',
+    site: '@sweshelo',
+    images: '/image/banner.png',
+  },
+  icons: '/image/icon.png',
 }
 
 export default async function RootLayout({

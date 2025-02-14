@@ -10,7 +10,8 @@
     "lint": "next lint --fix",
     "format": "prettier --write .",
     "prepare": "husky",
-    "check:deps": "depcruise src"
+    "check:deps": "depcruise src",
+    "check:types": "tsx --noEmit"
   },
   "dependencies": {
     "@date-fns/tz": "^1.2.0",
