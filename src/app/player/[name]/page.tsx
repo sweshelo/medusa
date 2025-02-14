@@ -1,3 +1,5 @@
+'use cache'
+
 import { Metadata } from 'next'
 
 import { PlayerPage } from '@/features/player'

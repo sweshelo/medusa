@@ -50,6 +50,11 @@
   animation-timing-function: linear;
 }
 
+.shiny-none {
+  $color: white;
+  background: white;
+}
+
 @keyframes shine {
   0% {
     background-position-x: 400%;
