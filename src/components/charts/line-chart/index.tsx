@@ -20,7 +20,7 @@ export const PointsLineChart = ({ records }: PointsLineChartProps) => {
       .filter(record => record.elapsed && record.elapsed <= 600)
       .reduce<Record<string, { total: number; counts: number; records: number[] }>>(
         (acc, record) => {
-          const date = format(new Date(record.created_at), 'yy/MM/dd')
+          const date = format(new Date(record.recorded_at ?? ''), 'yy/MM/dd')
           if (!acc[date]) acc[date] = { total: 0, counts: 0, records: [] }
           acc[date].total += record.diff ?? 0
           acc[date].counts += 1
