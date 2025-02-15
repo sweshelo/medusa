@@ -11,5 +11,6 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const ranking = await fetchRankingTable()
+
   return <RankingPage ranking={ranking.sort((a, b) => a.rank - b.rank)} />
 }

@@ -7,6 +7,7 @@ import { SmallHeadline } from '@/components/common/small-headline'
 import { PlayerCard } from '@/components/player/card'
 import { RecordsTable } from '@/components/records-table'
 // import { Revalidater } from '@/components/revalidater'
+import { Achievement } from '@/types/achievement'
 import { Database } from '@/types/database.types'
 
 interface PlayerPageProps {
@@ -14,15 +15,16 @@ interface PlayerPageProps {
     records: Database['public']['Tables']['record']['Row'][]
     maxPoints?: number
   }
+  achievement?: Achievement
 }
 
-export const PlayerPage = ({ player }: PlayerPageProps) => {
+export const PlayerPage = ({ player, achievement }: PlayerPageProps) => {
   cacheTag(player.name)
   const [digest] = player.records
 
   return digest ? (
     <>
-      <AchievementView achievement={digest.achievement} />
+      <AchievementView achievement={achievement ?? digest.achievement} />
       <div className="py-3">
         <PlayerCard player={player} chara={digest.chara} ranking={digest.ranking} />
       </div>
