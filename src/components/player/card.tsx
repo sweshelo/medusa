@@ -9,9 +9,10 @@ interface PlayerCardProps {
   player: Player | Ranking // FIXME: キモすぎるので辞めたい
   chara: Record['chara']
   ranking: Record['ranking']
+  children?: React.ReactElement | React.ReactElement[]
 }
 
-export const PlayerCard = ({ player, chara, ranking }: PlayerCardProps) => {
+export const PlayerCard = ({ player, chara, ranking, children }: PlayerCardProps) => {
   return (
     <Link className="bg-white rounded-lg flex items-center shadow" href={`/player/${player.name}`}>
       <Image
@@ -22,7 +23,10 @@ export const PlayerCard = ({ player, chara, ranking }: PlayerCardProps) => {
         className="w-[80px] h-[60px] rounded-l-lg"
       />
       <div className="ml-3 flex-grow">
-        <div className="text-sm text-gray-600">{ranking}位</div>
+        <div className="flex">
+          <div className="text-sm text-gray-600">{ranking}位</div>
+          {children}
+        </div>
         <div className="text-3xl font-bold">{player.name}</div>
       </div>
     </Link>
