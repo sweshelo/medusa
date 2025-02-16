@@ -1,8 +1,12 @@
 import { cacheLife } from 'next/dist/server/use-cache/cache-life'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
 
 import { supabase } from './client'
 
 export const fetchPlayer = async (playerName: string) => {
+  cacheTag(playerName)
+  cacheLife('days')
+
   // プレイヤー情報を取得
   const { data: players, error: playerError } = await supabase
     .from('player')
