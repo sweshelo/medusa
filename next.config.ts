@@ -19,6 +19,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'p.eagate.573.jp',
       },
+      {
+        protocol: 'https',
+        hostname: 'eacache.s.konaminet.jp',
+      },
     ],
   },
   experimental: {
