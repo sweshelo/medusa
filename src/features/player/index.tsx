@@ -1,3 +1,5 @@
+'use cache'
+
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
 
 import { AchievementView } from '@/components/achievement'
@@ -18,7 +20,7 @@ interface PlayerPageProps {
   achievement?: Achievement
 }
 
-export const PlayerPage = ({ player, achievement }: PlayerPageProps) => {
+export const PlayerPage = async ({ player, achievement }: PlayerPageProps) => {
   cacheTag(player.name)
   const [digest] = player.records
 
