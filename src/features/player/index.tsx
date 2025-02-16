@@ -6,7 +6,7 @@ import { Shiny } from '@/components/common/shiny'
 import { SmallHeadline } from '@/components/common/small-headline'
 import { PlayerCard } from '@/components/player/card'
 import { RecordsTable } from '@/components/records-table'
-// import { Revalidater } from '@/components/revalidater'
+import { Revalidater } from '@/components/revalidater'
 import { Achievement } from '@/types/achievement'
 import { Database } from '@/types/database.types'
 
@@ -108,11 +108,15 @@ export const PlayerPage = ({ player, achievement }: PlayerPageProps) => {
           </Shiny>
         </div>
       </div>
-      {/*<Revalidater player={player.name} />*/}
       <div className="my-4">
         <SmallHeadline title="貢献度の推移" />
-        <PointsLineChart records={player.records} />
+        <PointsLineChart
+          records={player.records.filter(
+            record => record.diff && record.diff >= 50 && record.diff <= 500
+          )}
+        />
       </div>
+      <Revalidater player={player.name} />
       <div className="my-4">
         <RecordsTable records={player.records} />
       </div>
