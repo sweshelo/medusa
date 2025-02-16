@@ -26,7 +26,7 @@ export const PlayerPage = ({ player, achievement }: PlayerPageProps) => {
     <>
       <AchievementView achievement={achievement ?? digest.achievement} />
       <div className="py-3">
-        <PlayerCard player={player} chara={digest.chara} ranking={digest.ranking} />
+        <PlayerCard player={player} chara={digest.chara} />
       </div>
       <div className="relative">
         <div className="grid grid-cols-3 grid-rows-1 gap-2">
