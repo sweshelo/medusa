@@ -13,11 +13,7 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  'use cache'
-
   const name = decodeURI((await params).name)
-  cacheTag(name)
-  cacheLife('days')
 
   return {
     title: `${name}さんのページ`,
@@ -27,6 +23,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function Page({ params }: PageProps) {
   const name = decodeURI((await params).name)
+  cacheLife('days')
+  cacheTag(name)
+
   const player = await fetchPlayer(name)
   const achievement = (await fetchAchievement(player.records[0].achievement)) ?? undefined
 
