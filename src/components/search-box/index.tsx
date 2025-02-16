@@ -2,14 +2,12 @@
 
 import { useEffect, useMemo, useState } from 'react'
 
-import { Player } from '@/types/player'
-
 import action from './action'
 import { PlayerCard } from '../player/card'
 
 export const SearchBox = () => {
   const [query, setQuery] = useState('')
-  const [players, setPlayers] = useState<(Player & { chara: string; ranking: number })[]>([])
+  const [players, setPlayers] = useState<string[]>([])
 
   useEffect(() => {
     action().then(players => setPlayers(players))
@@ -19,7 +17,7 @@ export const SearchBox = () => {
     () =>
       players.filter(player => {
         if (query.length <= 3) {
-          return player.name
+          return player
             .toLowerCase()
             .includes(
               query
@@ -27,7 +25,7 @@ export const SearchBox = () => {
                 .replace(/[A-Za-z0-9]/g, s => String.fromCharCode(s.charCodeAt(0) + 0xfee0))
             )
         } else {
-          return player.name
+          return player
             .toLowerCase()
             .startsWith(
               query
@@ -52,7 +50,7 @@ export const SearchBox = () => {
         {query.length > 0 &&
           filteredItems.map((player, index) => (
             <li key={index} className="my-2">
-              <PlayerCard player={player} chara={player.chara} />
+              <PlayerCard player={{ name: player }} />
             </li>
           ))}
       </ul>

@@ -57,34 +57,12 @@ export const fetchPlayer = async (playerName: string) => {
 export const fetchPlayerNames = async () => {
   'use cache'
   cacheLife('days')
-  const { data, error } = await supabase.from('player').select('*').order('name')
-  const playersWithChara = await Promise.all(
-    (data ?? []).map(async player => {
-      const { data: records, error: recordError } = await supabase
-        .from('record')
-        .select('chara, ranking')
-        .eq('player_name', player.name)
-        // 最新のレコードを取得するため created_at で降順にソートし、1件だけ取得
-        .order('created_at', { ascending: false })
-        .limit(1)
-
-      if (recordError) {
-        console.error(`Error fetching record for player ${player.name}: ${recordError.message}`)
-      }
-
-      const [record] = records ?? []
-
-      return {
-        ...player,
-        ...record,
-      }
-    })
-  )
+  const { data, error } = await supabase.from('player').select('name').order('name')
 
   if (error) {
     console.error('ユーザ取得でエラー: ', error)
     return []
   } else {
-    return playersWithChara
+    return data.map(player => player.name)
   }
 }
