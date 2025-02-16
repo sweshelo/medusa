@@ -44,7 +44,13 @@ export const SearchBox = () => {
         className="w-full p-2 border border-gray-300 rounded mb-2"
         disabled={!players || players.length <= 0}
       />
-      {!players && <p>プレーヤー一覧を取得しています…</p>}
+      {!players && (
+        <div className="animate-pulse space-y-2">
+          <div className="h-12 bg-gray-200 rounded"></div>
+          <div className="h-12 bg-gray-200 rounded"></div>
+          <div className="h-12 bg-gray-200 rounded"></div>
+        </div>
+      )}
       {players &&
         (players?.length > 0 ? (
           <ul>
