@@ -1,13 +1,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Player } from '@/types/player'
-import { Ranking } from '@/types/ranking'
 import { Record } from '@/types/record'
 
 interface PlayerCardProps {
-  player: Player | Ranking // FIXME: キモすぎるので辞めたい
-  chara: Record['chara']
+  player: {
+    name: string
+  }
+  chara?: Record['chara']
   children?: React.ReactElement | React.ReactElement[]
 }
 
@@ -18,7 +18,11 @@ export const PlayerCard = ({ player, chara, children }: PlayerCardProps) => {
       href={`/player/${player.name}`}
     >
       <Image
-        src={`https://p.eagate.573.jp/game/chase2jokers/ccj/images/ranking/icon/ranking_icon_${chara}.png`}
+        src={
+          chara
+            ? `https://p.eagate.573.jp/game/chase2jokers/ccj/images/ranking/icon/ranking_icon_${chara}.png`
+            : 'https://eacache.s.konaminet.jp/game/chase2jokers/ccj/images/character/chara_image/icon/chara_icon_unbanned.png'
+        }
         alt={''}
         width={80}
         height={60}
