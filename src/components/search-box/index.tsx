@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import action from './action'
 import { PlayerCard } from '../player/card'
@@ -13,28 +13,25 @@ export const SearchBox = () => {
     action().then(players => setPlayers(players))
   }, [])
 
+  // 半角文字を全角に変換
+  const transform = useCallback(
+    (query: string) =>
+      query
+        .toLowerCase()
+        .replace(/[A-Za-z0-9]/g, s => String.fromCharCode(s.charCodeAt(0) + 0xfee0)),
+    []
+  )
+
   const filteredItems = useMemo(
     () =>
       players?.filter(player => {
         if (query.length <= 3) {
-          return player
-            .toLowerCase()
-            .includes(
-              query
-                .toLowerCase()
-                .replace(/[A-Za-z0-9]/g, s => String.fromCharCode(s.charCodeAt(0) + 0xfee0))
-            )
+          return player.toLowerCase().includes(transform(query))
         } else {
-          return player
-            .toLowerCase()
-            .startsWith(
-              query
-                .toLowerCase()
-                .replace(/[A-Za-z0-9]/g, s => String.fromCharCode(s.charCodeAt(0) + 0xfee0))
-            )
+          return player.toLowerCase().startsWith(transform(query))
         }
       }),
-    [query, players]
+    [players, query, transform]
   )
 
   return (
