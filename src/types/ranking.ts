@@ -3,7 +3,7 @@ export interface Ranking {
   points: number
   chara: string
   name: string
-  achivement: {
+  achievement: {
     title: string
     markup?: string
     icon: {

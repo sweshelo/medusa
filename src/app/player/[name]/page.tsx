@@ -3,6 +3,7 @@
 import { Metadata } from 'next'
 
 import { PlayerPage } from '@/features/player'
+import { fetchAchievement } from '@/service/supabase/achievement'
 import { fetchPlayer } from '@/service/supabase/player'
 
 interface PageProps {
@@ -21,6 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function Page({ params }: PageProps) {
   const name = decodeURI((await params).name)
   const player = await fetchPlayer(name)
+  const achievement = (await fetchAchievement(player.records[0].achievement)) ?? undefined
 
-  return player ? <PlayerPage player={player} /> : <></>
+  return player ? <PlayerPage player={player} achievement={achievement} /> : <></>
 }

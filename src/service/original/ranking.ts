@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio'
 import { format } from 'date-fns'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 import { Ranking } from '@/types/ranking'
 
@@ -9,6 +10,9 @@ const originalPageURL = (index: number) => {
 }
 
 export const fetchRankingTable = async () => {
+  'use cache'
+  cacheLife('hours')
+
   const ranking: Ranking[] = []
 
   await Promise.all(
@@ -74,7 +78,7 @@ export const fetchRankingTable = async () => {
               points,
               chara,
               name,
-              achivement: {
+              achievement: {
                 title: achievementTitle, // || achievementMarkup || '', // マークアップの構成が色付き/色無しで変わるため、色無しの場合は空文字列となる。
                 markup: achievementMarkup,
                 icon: {

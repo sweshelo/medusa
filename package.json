@@ -1,6 +1,6 @@
 {
   "name": "medusa",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -11,7 +11,8 @@
     "format": "prettier --write .",
     "prepare": "husky",
     "check:deps": "depcruise src",
-    "check:types": "tsx --noEmit"
+    "check:types": "tsc --noEmit",
+    "schema:update": "supabase gen types typescript --linked > src/types/database.types.ts"
   },
   "dependencies": {
     "@date-fns/tz": "^1.2.0",

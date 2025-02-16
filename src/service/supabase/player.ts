@@ -1,3 +1,5 @@
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
+
 import { supabase } from './client'
 
 export const fetchPlayer = async (playerName: string) => {
@@ -49,5 +51,21 @@ export const fetchPlayer = async (playerName: string) => {
     maxPoint,
     ranking,
     records,
+  }
+}
+
+export const fetchPlayerWithRecord = async (): Promise<string[]> => {
+  'use cache'
+  cacheLife('days')
+  const { data: players, error: joinError } = await supabase
+    .from('player')
+    .select(`name`)
+    .order('name')
+
+  if (joinError) {
+    console.error('ユーザ取得でエラー: ', joinError)
+    return []
+  } else {
+    return players.map(player => player.name)
   }
 }

@@ -1,25 +1,56 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 export type Database = {
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          operationName?: string
+          query?: string
+          variables?: Json
+          extensions?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
       achievement: {
         Row: {
           created_at: string
-          html: string | null
+          icon_first: string | null
+          icon_last: string | null
           id: number
+          markup: string | null
           title: string
         }
         Insert: {
           created_at?: string
-          html?: string | null
+          icon_first?: string | null
+          icon_last?: string | null
           id?: number
+          markup?: string | null
           title: string
         }
         Update: {
           created_at?: string
-          html?: string | null
+          icon_first?: string | null
+          icon_last?: string | null
           id?: number
+          markup?: string | null
           title?: string
         }
         Relationships: []
@@ -32,6 +63,7 @@ export type Database = {
           effective_average: number | null
           id: number
           name: string
+          points: number | null
           ranking: number | null
           updated_at: string | null
         }
@@ -42,6 +74,7 @@ export type Database = {
           effective_average?: number | null
           id?: number
           name: string
+          points?: number | null
           ranking?: number | null
           updated_at?: string | null
         }
@@ -52,36 +85,11 @@ export type Database = {
           effective_average?: number | null
           id?: number
           name?: string
+          points?: number | null
           ranking?: number | null
           updated_at?: string | null
         }
         Relationships: []
-      }
-      profile: {
-        Row: {
-          created_at: string
-          id: string
-          player_id: number | null
-        }
-        Insert: {
-          created_at?: string
-          id: string
-          player_id?: number | null
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          player_id?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'profile_player_id_fkey'
-            columns: ['player_id']
-            isOneToOne: false
-            referencedRelation: 'player'
-            referencedColumns: ['id']
-          },
-        ]
       }
       record: {
         Row: {
@@ -186,7 +194,29 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_player_record: {
+        Args: {
+          player_name: string
+        }
+        Returns: {
+          id: number
+          name: string
+          achievement: string
+          point: number
+          ranking: number
+        }[]
+      }
+      get_records_by_player_names: {
+        Args: {
+          player_names: string[]
+        }
+        Returns: {
+          id: number
+          player_name: string
+          recorded_at: string
+          point: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

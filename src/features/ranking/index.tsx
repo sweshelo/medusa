@@ -5,9 +5,10 @@ import { Headline } from '@/components/common/headline'
 import { SmallHeadline } from '@/components/common/small-headline'
 import { PlayerCard } from '@/components/player/card'
 import { Ranking } from '@/types/ranking'
+import { Record } from '@/types/record'
 
 interface RankingPageProps {
-  ranking: Ranking[]
+  ranking: (Ranking & { record?: Record })[]
 }
 const RankingPage = ({ ranking }: RankingPageProps) => {
   return (
@@ -22,7 +23,22 @@ const RankingPage = ({ ranking }: RankingPageProps) => {
 
       <div className="mt-4 mb-4 space-y-2">
         {ranking.map((player, index) => (
-          <PlayerCard player={player} chara={player.chara} ranking={player.rank} key={index} />
+          <PlayerCard player={player} chara={player.chara} key={index}>
+            <div className="flex">
+              <div className="text-sm text-gray-600">{player.rank}位</div>
+              <div className="text-sm text-gray-600 ml-1 truncate">
+                {`| ${player.points}P`}
+                <span className="min-w-0 mx-2 border border-1 border-gray p-[1] px-2 m-1 rounded text-[10px] truncate">
+                  <span
+                    className="truncate"
+                    dangerouslySetInnerHTML={{
+                      __html: player.achievement.markup || player.achievement.title,
+                    }}
+                  />
+                </span>
+              </div>
+            </div>
+          </PlayerCard>
         ))}
       </div>
     </>
