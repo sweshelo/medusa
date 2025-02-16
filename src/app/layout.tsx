@@ -2,6 +2,7 @@
 
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { ToastContainer } from 'react-toastify'
 
 import { Drawer } from '@/components/drawer'
 import { Header } from '@/components/header'
@@ -61,6 +62,7 @@ export default async function RootLayout({
           </div>
           <Analytics />
           <SpeedInsights />
+          <ToastContainer />
         </DrawerProvider>
       </body>
     </html>
