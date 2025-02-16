@@ -1,6 +1,8 @@
 'use cache'
 
 import { Metadata } from 'next'
+import { cacheLife } from 'next/dist/server/use-cache/cache-life'
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
 
 import { PlayerPage } from '@/features/player'
 import { fetchAchievement } from '@/service/supabase/achievement'
@@ -11,7 +13,11 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  'use cache'
+
   const name = decodeURI((await params).name)
+  cacheTag(name)
+  cacheLife('days')
 
   return {
     title: `${name}さんのページ`,
