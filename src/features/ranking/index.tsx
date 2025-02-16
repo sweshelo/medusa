@@ -32,7 +32,7 @@ const RankingPage = ({ ranking }: RankingPageProps) => {
                   <span
                     className="truncate"
                     dangerouslySetInnerHTML={{
-                      __html: player.achivement.markup || player.achivement.title,
+                      __html: player.achievement.markup || player.achievement.title,
                     }}
                   />
                 </span>

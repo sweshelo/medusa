@@ -78,7 +78,7 @@ export const fetchRankingTable = async () => {
               points,
               chara,
               name,
-              achivement: {
+              achievement: {
                 title: achievementTitle, // || achievementMarkup || '', // マークアップの構成が色付き/色無しで変わるため、色無しの場合は空文字列となる。
                 markup: achievementMarkup,
                 icon: {

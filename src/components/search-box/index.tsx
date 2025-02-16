@@ -48,8 +48,8 @@ export const SearchBox = () => {
       />
       <ul>
         {query.length > 0 &&
-          filteredItems.map((player, index) => (
-            <li key={index} className="my-2">
+          filteredItems.map(player => (
+            <li key={player} className="my-2">
               <PlayerCard player={{ name: player }} />
             </li>
           ))}
