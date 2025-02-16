@@ -7,7 +7,7 @@ import { PlayerCard } from '../player/card'
 
 export const SearchBox = () => {
   const [query, setQuery] = useState('')
-  const [players, setPlayers] = useState<string[]>([])
+  const [players, setPlayers] = useState<string[]>()
 
   useEffect(() => {
     action().then(players => setPlayers(players))
@@ -15,7 +15,7 @@ export const SearchBox = () => {
 
   const filteredItems = useMemo(
     () =>
-      players.filter(player => {
+      players?.filter(player => {
         if (query.length <= 3) {
           return player
             .toLowerCase()
@@ -45,15 +45,22 @@ export const SearchBox = () => {
         value={query}
         onChange={e => setQuery(e.target.value)}
         className="w-full p-2 border border-gray-300 rounded mb-2"
+        disabled={!players || players.length <= 0}
       />
-      <ul>
-        {query.length > 0 &&
-          filteredItems.map(player => (
-            <li key={player} className="my-2">
-              <PlayerCard player={{ name: player }} />
-            </li>
-          ))}
-      </ul>
+      {!players && <p>プレーヤー一覧を取得しています…</p>}
+      {players &&
+        (players?.length > 0 ? (
+          <ul>
+            {query.length > 0 &&
+              filteredItems?.map(player => (
+                <li key={player} className="my-2">
+                  <PlayerCard player={{ name: player }} />
+                </li>
+              ))}
+          </ul>
+        ) : (
+          <p>プレーヤー一覧の取得に失敗しました</p>
+        ))}
     </div>
   )
 }

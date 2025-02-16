@@ -54,15 +54,18 @@ export const fetchPlayer = async (playerName: string) => {
   }
 }
 
-export const fetchPlayerNames = async () => {
+export const fetchPlayerWithRecord = async (): Promise<string[]> => {
   'use cache'
   cacheLife('days')
-  const { data, error } = await supabase.from('player').select('name').order('name')
+  const { data: players, error: joinError } = await supabase
+    .from('player')
+    .select(`name`)
+    .order('name')
 
-  if (error) {
-    console.error('ユーザ取得でエラー: ', error)
+  if (joinError) {
+    console.error('ユーザ取得でエラー: ', joinError)
     return []
   } else {
-    return data.map(player => player.name)
+    return players.map(player => player.name)
   }
 }
