@@ -4,6 +4,7 @@ import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
 import { supabase } from './client'
 
 export const fetchPlayer = async (playerName: string) => {
+  'use cache'
   cacheTag(playerName)
   cacheLife('days')
 
