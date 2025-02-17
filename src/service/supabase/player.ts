@@ -9,7 +9,7 @@ export const fetchPlayer = async (playerName: string) => {
   cacheLife('days')
 
   // プレイヤー情報を取得
-  const { data: players, error: playerError } = await supabase
+  const { data: players, error: playerError } = await supabase([playerName])
     .from('player')
     .select('*')
     .eq('name', playerName)
@@ -22,7 +22,7 @@ export const fetchPlayer = async (playerName: string) => {
   const [player] = players
 
   // レコードを取得（新しい順に300件まで）
-  const { data: records, error: recordsError } = await supabase
+  const { data: records, error: recordsError } = await supabase([playerName])
     .from('record')
     .select('*')
     .eq('player_name', playerName)
@@ -34,7 +34,7 @@ export const fetchPlayer = async (playerName: string) => {
   }
 
   // 最高ランキング
-  const { data: rankings } = await supabase
+  const { data: rankings } = await supabase([playerName])
     .from('record')
     .select('ranking')
     .eq('player_name', playerName)
@@ -43,7 +43,7 @@ export const fetchPlayer = async (playerName: string) => {
   const ranking = rankings?.[0].ranking ?? null
 
   // 最高貢献度
-  const { data: max } = await supabase
+  const { data: max } = await supabase([playerName])
     .from('record')
     .select('diff')
     .eq('player_name', playerName)
@@ -62,7 +62,7 @@ export const fetchPlayer = async (playerName: string) => {
 export const fetchPlayerWithRecord = async (): Promise<string[]> => {
   'use cache'
   cacheLife('days')
-  const { data: players, error: joinError } = await supabase
+  const { data: players, error: joinError } = await supabase(['ranking'])
     .from('player')
     .select(`name`)
     .order('name')

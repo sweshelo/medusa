@@ -4,7 +4,7 @@ export const fetchLatestRecords = async (players: string[]) => {
   // 各プレイヤーに対して最新の record を取得する
   const records = await Promise.all(
     (players ?? []).map(async player => {
-      const { data: records, error: recordError } = await supabase
+      const { data: records, error: recordError } = await supabase(['ranking'])
         .from('record')
         .select('*')
         .eq('player_name', player)
