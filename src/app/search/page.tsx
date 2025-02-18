@@ -4,7 +4,7 @@ import { SearchBox } from '@/components/search-box'
 export default async function Page() {
   return (
     <>
-      <div className="text-center min-h-lvh">
+      <div className="text-center">
         <Headline title="プレーヤー検索" />
         <div className="w-full">
           <SearchBox />

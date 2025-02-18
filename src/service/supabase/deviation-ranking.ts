@@ -3,7 +3,7 @@
 import { supabase } from './client'
 
 export const fetchDeviationRanking = async () => {
-  const { data: players, error: playerError } = await supabase
+  const { data: players, error: playerError } = await supabase(['ranking'])
     .from('player')
     .select('*')
     .gt('deviation_value', 50)
@@ -16,7 +16,7 @@ export const fetchDeviationRanking = async () => {
   // 各プレイヤーに対して最新の record を取得する
   const playersWithRecord = await Promise.all(
     (players ?? []).map(async player => {
-      const { data: records, error: recordError } = await supabase
+      const { data: records, error: recordError } = await supabase(['ranking'])
         .from('record')
         .select('*')
         .eq('player_name', player.name)
