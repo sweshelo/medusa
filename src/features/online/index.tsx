@@ -1,0 +1,29 @@
+import { differenceInMinutes } from 'date-fns'
+
+import { Headline } from '@/components/common/headline'
+import { PlayerCard } from '@/components/player/card'
+
+interface Props {
+  players: {
+    player_name: string
+    chara: string
+    recorded_at: string | null
+  }[]
+}
+
+export const OnlinePlayers = ({ players }: Props) => {
+  return (
+    <>
+      <Headline title="オンラインのプレイヤー" />
+      <div className="mt-4 mb-4 space-y-2">
+        {players.map((player, index) => (
+          <PlayerCard player={{ name: player.player_name }} chara={player.chara} key={index}>
+            <div className="flex">
+              <div className="text-sm text-gray-600 ml-1">{`${differenceInMinutes(new Date(), new Date(player.recorded_at!))}分前`}</div>
+            </div>
+          </PlayerCard>
+        ))}
+      </div>
+    </>
+  )
+}
