@@ -15,9 +15,9 @@ const getShortenName = (name: string) => {
     case 'ウラオオサカ１':
       return 'サカ1'
     case 'ウラオオサカ２':
-      return 'サカ1'
+      return 'サカ2'
     case 'ウラオオサカ３':
-      return 'シブ1'
+      return 'サカ3'
     case 'ウラオキナワ１':
       return 'ナワ1'
     case 'ウラオキナワ２':
