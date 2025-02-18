@@ -9,6 +9,9 @@ import { SmallHeadline } from '@/components/common/small-headline'
 import { PlayerCard } from '@/components/player/card'
 import { RecordsTable } from '@/components/records-table'
 import { Revalidater } from '@/components/revalidater'
+import { AverageToolTipIcon } from '@/components/tooltip/average'
+import { DeviationToolTipIcon } from '@/components/tooltip/deviation'
+import { fetchPlayerCount, fetchPlayerDeviationRanking } from '@/service/supabase/player'
 import { Achievement } from '@/types/achievement'
 import { Database } from '@/types/database.types'
 
@@ -23,6 +26,18 @@ interface PlayerPageProps {
 export const PlayerPage = async ({ player, achievement }: PlayerPageProps) => {
   cacheTag(player.name)
   const [digest] = player.records
+
+  const count = await fetchPlayerCount()
+  const index = await fetchPlayerDeviationRanking(player.name)
+  console.log(count, index)
+  const getColor = () => {
+    if (!count || index === null) return 'shiny-white'
+    if (index === 0) return 'shiny-rainbow'
+    if (index / count < 0.01) return 'shiny-gold'
+    if (index / count < 0.05) return 'shiny-silver'
+    if (index / count < 0.1) return 'shiny-copper'
+    return 'shiny-white'
+  }
 
   return digest ? (
     <>
@@ -56,52 +71,22 @@ export const PlayerPage = async ({ player, achievement }: PlayerPageProps) => {
               </div>
             </div>
           </Shiny>
-          <Shiny
-            className="rounded-lg p-2 shadow"
-            color={(() => {
-              if (!player.average) return 'shiny-none'
-              if (player.average > 230) {
-                return 'shiny-rainbow'
-              } else if (player.average > 210) {
-                return 'shiny-gold'
-              } else if (player.average > 190) {
-                return 'shiny-silver'
-              } else if (player.average > 180) {
-                return 'shiny-copper'
-              } else {
-                return 'shiny-none'
-              }
-            })()}
-          >
+          <Shiny className="rounded-lg p-2 shadow" color={getColor()} data-tooltip-id="deviation">
             <div className="flex flex-col px-1">
-              <div className="">
+              <div className="flex justify-left gap-1">
                 <p className="text-left text-xs">平均貢献P</p>
+                <AverageToolTipIcon />
               </div>
               <div className="">
                 <p className="text-right text-lg">{player.average ?? '-'}</p>
               </div>
             </div>
           </Shiny>
-          <Shiny
-            className="rounded-lg p-2 shadow"
-            color={(() => {
-              if (!player.deviation_value) return 'shiny-none'
-              if (player.deviation_value > 70) {
-                return 'shiny-rainbow'
-              } else if (player.deviation_value > 65) {
-                return 'shiny-gold'
-              } else if (player.deviation_value > 60) {
-                return 'shiny-silver'
-              } else if (player.deviation_value > 55) {
-                return 'shiny-copper'
-              } else {
-                return 'shiny-none'
-              }
-            })()}
-          >
+          <Shiny className="rounded-lg p-2 shadow" color={getColor()} data-tooltip-id="deviation">
             <div className="flex flex-col px-1">
-              <div className="">
+              <div className="flex justify-left gap-1">
                 <p className="text-left text-xs">全国偏差値</p>
+                <DeviationToolTipIcon />
               </div>
               <div className="">
                 <p className="text-right text-lg">{player.deviation_value ?? '-'}</p>
@@ -119,6 +104,7 @@ export const PlayerPage = async ({ player, achievement }: PlayerPageProps) => {
         />
       </div>
       <Revalidater player={player.name} />
+      <Revalidater player={'stats'} />
       <div className="my-4">
         <RecordsTable records={player.records} />
       </div>
