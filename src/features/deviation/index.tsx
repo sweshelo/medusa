@@ -6,6 +6,7 @@ import { PlayerCard } from '@/components/player/card'
 import { fetchPlayerCount } from '@/service/supabase/player'
 import { Player } from '@/types/player'
 import { Record } from '@/types/record'
+import { getPlayerRankColor } from '@/utils/colors'
 
 interface RankingPageProps {
   ranking: (Player & {
@@ -15,14 +16,7 @@ interface RankingPageProps {
 
 const DeviationRankingPage = async ({ ranking }: RankingPageProps) => {
   const count = await fetchPlayerCount()
-  const getColor = (index: number) => {
-    if (!count) return 'shiny-white'
-    if (index === 0) return 'shiny-rainbow'
-    if (index / count < 0.01) return 'shiny-gold'
-    if (index / count < 0.05) return 'shiny-silver'
-    if (index / count < 0.1) return 'shiny-copper'
-    return 'shiny-white'
-  }
+  const getColor = (index: number) => getPlayerRankColor(index, count ?? null)
 
   return (
     <>

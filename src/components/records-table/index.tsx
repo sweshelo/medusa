@@ -14,12 +14,12 @@ export const RecordsTable = async ({ records }: RecordsTableProps) => {
   const schedule = await fetchSchedule()
   const getStage = (date: Date) => {
     const term = schedule.find(s => {
-      const start = new Date(s.started_at!)
-      const end = new Date(s.ended_at!)
+      const start = new TZDate(s.started_at!, 'Asia/Tokyo')
+      const end = new TZDate(s.ended_at!, 'Asia/Tokyo')
       return isWithinInterval(date, { start, end })
     })
 
-    return date.getHours() % 2 ? term?.even_time : term?.odd_time
+    return (date.getUTCHours() + 9) % 2 ? term?.even_time : term?.odd_time
   }
 
   return (

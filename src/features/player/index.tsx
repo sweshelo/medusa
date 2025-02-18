@@ -14,6 +14,7 @@ import { DeviationToolTipIcon } from '@/components/tooltip/deviation'
 import { fetchPlayerCount, fetchPlayerDeviationRanking } from '@/service/supabase/player'
 import { Achievement } from '@/types/achievement'
 import { Database } from '@/types/database.types'
+import { getPlayerRankColor } from '@/utils/colors'
 
 interface PlayerPageProps {
   player: Database['public']['Tables']['player']['Row'] & {
@@ -29,15 +30,7 @@ export const PlayerPage = async ({ player, achievement }: PlayerPageProps) => {
 
   const count = await fetchPlayerCount()
   const index = await fetchPlayerDeviationRanking(player.name)
-  console.log(count, index)
-  const getColor = () => {
-    if (!count || index === null) return 'shiny-white'
-    if (index === 0) return 'shiny-rainbow'
-    if (index / count < 0.01) return 'shiny-gold'
-    if (index / count < 0.05) return 'shiny-silver'
-    if (index / count < 0.1) return 'shiny-copper'
-    return 'shiny-white'
-  }
+  const getColor = () => getPlayerRankColor(index, count ?? null)
 
   return digest ? (
     <>
