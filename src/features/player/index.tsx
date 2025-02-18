@@ -103,8 +103,7 @@ export const PlayerPage = async ({ player, achievement }: PlayerPageProps) => {
           )}
         />
       </div>
-      <Revalidater player={player.name} />
-      <Revalidater player={'stats'} />
+      <Revalidater tags={[player.name, 'stats']} />
       <div className="my-4">
         <RecordsTable records={player.records} />
       </div>
