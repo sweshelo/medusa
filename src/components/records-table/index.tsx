@@ -1,14 +1,27 @@
 import { tz, TZDate } from '@date-fns/tz'
 import classNames from 'classnames'
-import { format } from 'date-fns'
+import { format, isWithinInterval } from 'date-fns'
 
+import { Stage } from '@/components/stage-icon'
+import { fetchSchedule } from '@/service/supabase/schedule'
 import { Record } from '@/types/record'
 
 interface RecordsTableProps {
   records: Record[]
 }
 
-export const RecordsTable = ({ records }: RecordsTableProps) => {
+export const RecordsTable = async ({ records }: RecordsTableProps) => {
+  const schedule = await fetchSchedule()
+  const getStage = (date: Date) => {
+    const term = schedule.find(s => {
+      const start = new TZDate(s.started_at!, 'Asia/Tokyo')
+      const end = new TZDate(s.ended_at!, 'Asia/Tokyo')
+      return isWithinInterval(date, { start, end })
+    })
+
+    return (date.getUTCHours() + 9) % 2 ? term?.even_time : term?.odd_time
+  }
+
   return (
     <div className="overflow-x-auto rounded-lg shadow">
       <table className="min-w-full divide-y divide-gray-200">
@@ -27,6 +40,10 @@ export const RecordsTable = ({ records }: RecordsTableProps) => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {records.slice(0, 100).map((record, index) => {
+            const date = new TZDate(
+              `${record.recorded_at ?? record.created_at.replace(/\+00:00$/, '-09:00')}+09:00`
+            )
+            const stage = getStage(date)
             return (
               <tr
                 key={index}
@@ -35,13 +52,11 @@ export const RecordsTable = ({ records }: RecordsTableProps) => {
                 })}
               >
                 <td className="text-center py-2 flex items-center gap-2 justify-center">
-                  {format(
-                    new TZDate(
-                      `${record.recorded_at ?? record.created_at.replace(/\+00:00$/, '-09:00')}+09:00`
-                    ),
-                    'yy/MM/dd HH:mm',
-                    { in: tz('Asia/Tokyo') }
-                  )}
+                  <span>{format(date, 'yy/MM/dd', { in: tz('Asia/Tokyo') })}</span>
+                  <span className="hidden md:inline">
+                    {format(date, 'HH:mm', { in: tz('Asia/Tokyo') })}
+                  </span>
+                  {stage && <Stage name={stage} />}
                 </td>
                 <td className="text-center">{record.point}P</td>
                 <td className="text-center">{record.diff}P</td>
