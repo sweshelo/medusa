@@ -19,7 +19,12 @@ export const OnlinePlayers = ({ players }: Props) => {
         {players.map((player, index) => (
           <PlayerCard player={{ name: player.player_name }} chara={player.chara} key={index}>
             <div className="flex">
-              <div className="text-sm text-gray-600 ml-1">{`${differenceInMinutes(new Date(), new Date(player.recorded_at!))}分前`}</div>
+              <div className="text-sm text-gray-600 ml-1">
+                {player.recorded_at 
+                  ? `${differenceInMinutes(new Date(), new Date(player.recorded_at))}分前`
+                  : '時刻不明'
+                }
+              </div>
             </div>
           </PlayerCard>
         ))}
