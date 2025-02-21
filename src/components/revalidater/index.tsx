@@ -6,14 +6,14 @@ import { toast } from 'react-toastify'
 import { revalidateUserData } from './action'
 
 interface Props {
-  player: string
+  tags: string | string[]
 }
 
-export const Revalidater = ({ player }: Props) => {
+export const Revalidater = ({ tags }: Props) => {
   const onClick = useCallback(async () => {
-    await revalidateUserData(player)
+    await revalidateUserData(tags)
     toast.success('データベースと同期しました')
-  }, [player])
+  }, [tags])
 
   return (
     <div className="p-[3px] rounded-lg bg-green-300 shadow mt-4 outline outline-1 outline-green-500">

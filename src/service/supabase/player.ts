@@ -74,3 +74,50 @@ export const fetchPlayerWithRecord = async (): Promise<string[]> => {
     return players.map(player => player.name)
   }
 }
+
+export const fetchPlayerCount = async () => {
+  'use cache'
+  cacheTag('stats')
+  cacheLife('days')
+
+  // プレイヤー情報を取得
+  const result = await supabase(['stats'])
+    .from('player')
+    .select('deviation_value', { count: 'exact', head: true })
+    .not('deviation_value', 'is', null)
+
+  if (result) {
+    return result?.count
+  }
+}
+
+export const fetchPlayerDeviationRanking = async (player: string) => {
+  // ① 指定されたユーザーの deviation_value を取得する
+  const { data: userData, error: userError } = await supabase([player])
+    .from('player') // 対象のテーブル名（必要に応じて変更してください）
+    .select('deviation_value')
+    .eq('name', player)
+    .single()
+
+  if (userError || !userData) {
+    console.error('ユーザー情報の取得でエラー:', userError)
+    return null
+  }
+
+  const userDeviation = userData.deviation_value
+  if (userDeviation === null) return null
+
+  // ② ユーザーよりも高い deviation_value を持つプレイヤーの件数をカウントする
+  const { count, error: countError } = await supabase([player])
+    .from('player')
+    .select('deviation_value', { count: 'exact', head: true })
+    .neq('name', player)
+    .gt('deviation_value', userDeviation)
+
+  if (countError) {
+    console.error('順位計算中のエラー:', countError)
+    return null
+  }
+
+  return count
+}
