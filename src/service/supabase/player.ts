@@ -37,18 +37,8 @@ export const fetchPlayer = async (playerName: string) => {
     .limit(1)
   const ranking = rankings?.[0]?.ranking ?? null
 
-  // 最高貢献度
-  const { data: max } = await supabase([playerName])
-    .from('record')
-    .select('diff')
-    .eq('player_name', playerName)
-    .order('diff', { ascending: false })
-    .limit(1)
-  const maxPoint = max?.[0]?.diff
-
   return {
     ...player,
-    maxPoint,
     ranking,
     records,
   }
