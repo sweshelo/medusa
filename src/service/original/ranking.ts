@@ -1,6 +1,5 @@
 import * as cheerio from 'cheerio'
 import { format } from 'date-fns'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 import { Ranking } from '@/types/ranking'
 
@@ -10,9 +9,6 @@ const originalPageURL = (index: number) => {
 }
 
 export const fetchRankingTable = async () => {
-  'use cache'
-  cacheLife('hours')
-
   const ranking: Ranking[] = []
 
   await Promise.all(

@@ -1,5 +1,3 @@
-'use cache'
-
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ToastContainer } from 'react-toastify'

@@ -1,7 +1,3 @@
-'use cache'
-
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-
 import { AchievementView } from '@/components/achievement'
 import { PointsLineChart } from '@/components/charts/line-chart'
 import { Shiny } from '@/components/common/shiny'
@@ -25,7 +21,6 @@ interface PlayerPageProps {
 }
 
 export const PlayerPage = async ({ player, achievement }: PlayerPageProps) => {
-  cacheTag(player.name)
   const [digest] = player.records
 
   const count = await fetchPlayerCount()
@@ -96,7 +91,7 @@ export const PlayerPage = async ({ player, achievement }: PlayerPageProps) => {
           )}
         />
       </div>
-      <Revalidater tags={[player.name, 'stats']} />
+      <Revalidater />
       <div className="my-4">
         <RecordsTable records={player.records} />
       </div>
