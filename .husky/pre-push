@@ -1,1 +1,2 @@
-npm run build:verify
+npm run check:deps
+npm run check:types
