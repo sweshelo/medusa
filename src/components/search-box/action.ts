@@ -1,3 +1,5 @@
+'use server'
+
 import { fetchAllPlayersName } from '@/service/supabase/player'
 
 const action = async () => {
