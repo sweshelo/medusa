@@ -1,25 +1,81 @@
 'use client'
 
-import { useCallback } from 'react'
+import classNames from 'classnames'
+import { addSeconds, differenceInMinutes, format } from 'date-fns'
+import { usePathname } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import { Tooltip } from 'react-tooltip'
 
-import { revalidateUserData } from './action'
+import { revalidatePage } from './action'
 
-interface Props {
-  tags: string | string[]
+interface RevalidateLog {
+  [key: string]: {
+    timestamp: string
+  }
 }
 
-export const Revalidater = ({ tags }: Props) => {
-  const onClick = useCallback(async () => {
-    await revalidateUserData(tags)
+const getRevalidateLog = (): RevalidateLog => {
+  return JSON.parse(localStorage.getItem('revalidate') ?? '{}')
+}
+
+const RefreshSpan = 300
+
+export const Revalidater = () => {
+  const pathname = usePathname()
+  const handleButtonClick = useCallback(async () => {
+    await revalidatePage(pathname)
     toast.success('データベースと同期しました')
-  }, [tags])
+    localStorage.setItem(
+      'revalidate',
+      JSON.stringify({
+        ...getRevalidateLog(),
+        [pathname]: {
+          timestamp: new Date().toISOString(),
+        },
+      })
+    )
+    setEnabled(false)
+    setStoredDate(new Date())
+  }, [pathname])
+
+  const [isEnabled, setEnabled] = useState<boolean>(false)
+  const [storedDate, setStoredDate] = useState<Date | null>(null)
+  useEffect(() => {
+    setEnabled(storedDate ? differenceInMinutes(new Date(), storedDate) >= RefreshSpan : true)
+  }, [pathname, storedDate])
+
+  useEffect(() => {
+    const timestamp = getRevalidateLog()[pathname]?.timestamp
+    if (timestamp) setStoredDate(new Date(timestamp))
+  }, [pathname])
 
   return (
-    <div className="p-[3px] rounded-lg bg-green-300 shadow mt-4 outline outline-1 outline-green-500">
-      <button className="w-full text-center" onClick={onClick}>
-        最新の状態に更新する
-      </button>
-    </div>
+    <>
+      <div
+        className={classNames('p-[3px] rounded-lg shadow mt-4 outline outline-1', {
+          'bg-green-300': isEnabled,
+          'outline-green-500': isEnabled,
+          'text-black': isEnabled,
+          'bg-gray-300': !isEnabled,
+          'outline-gray-400': !isEnabled,
+          'text-gray-500': !isEnabled,
+        })}
+        data-tooltip-id={'revalidate'}
+      >
+        <button className="w-full text-center" onClick={handleButtonClick} disabled={!isEnabled}>
+          最新の状態に更新する
+        </button>
+      </div>
+      {!isEnabled && (
+        <Tooltip id="revalidate">
+          <p>
+            このページは
+            {format(storedDate ? addSeconds(storedDate, RefreshSpan) : new Date(), 'HH時mm分ss秒')}
+            に再度更新が可能です。
+          </p>
+        </Tooltip>
+      )}
+    </>
   )
 }

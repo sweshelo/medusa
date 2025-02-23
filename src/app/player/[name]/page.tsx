@@ -1,15 +1,18 @@
-'use cache'
-
 import { Metadata } from 'next'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
 
 import { PlayerPage } from '@/features/player'
 import { fetchAchievement } from '@/service/supabase/achievement'
-import { fetchPlayer } from '@/service/supabase/player'
+import { fetchAllPlayersName, fetchPlayer } from '@/service/supabase/player'
 
 interface PageProps {
   params: Promise<{ name: string }>
+}
+
+export const revalidate = 86400 // 丸一日キャッシュする
+export const dynamicParams = true
+
+export async function generateStaticParams() {
+  return (await fetchAllPlayersName()).map(name => ({ name }))
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -23,8 +26,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function Page({ params }: PageProps) {
   const name = decodeURI((await params).name)
-  cacheLife('days')
-  cacheTag(name)
 
   const player = await fetchPlayer(name)
   const achievement = (await fetchAchievement(player.records[0].achievement)) ?? undefined

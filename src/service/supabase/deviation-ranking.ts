@@ -1,5 +1,3 @@
-'use cache'
-
 import { supabase } from './client'
 
 export const fetchDeviationRanking = async () => {

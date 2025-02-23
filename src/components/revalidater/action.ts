@@ -1,6 +1,6 @@
 'use server'
 
-import { revalidateTag } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 
 export const revalidateUserData = async (tags: string | string[]) => {
   if (Array.isArray(tags)) {
@@ -8,4 +8,8 @@ export const revalidateUserData = async (tags: string | string[]) => {
   } else {
     revalidateTag(tags)
   }
+}
+
+export const revalidatePage = async (path: string) => {
+  revalidatePath(path)
 }
