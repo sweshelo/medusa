@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 import { PlayerPage } from '@/features/player'
 import { fetchAchievement } from '@/service/supabase/achievement'
-import { fetchAllPlayersName, fetchPlayer } from '@/service/supabase/player'
+import { fetchPlayer, fetchRecentPlayedPlayersName } from '@/service/supabase/player'
 
 interface PageProps {
   params: Promise<{ name: string }>
@@ -12,7 +12,8 @@ export const revalidate = 86400 // 丸一日キャッシュする
 export const dynamicParams = true
 
 export async function generateStaticParams() {
-  return (await fetchAllPlayersName()).map(name => ({ name }))
+  const players = await fetchRecentPlayedPlayersName()
+  return players.map(name => ({ name }))
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
