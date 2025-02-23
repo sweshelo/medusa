@@ -1,7 +1,7 @@
-import { fetchPlayerWithRecord } from '@/service/supabase/player'
+import { fetchAllPlayersName } from '@/service/supabase/player'
 
 const action = async () => {
-  return await fetchPlayerWithRecord()
+  return await fetchAllPlayersName()
 }
 
 export default action

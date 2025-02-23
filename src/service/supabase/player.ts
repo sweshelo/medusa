@@ -52,7 +52,7 @@ export const fetchPlayer = async (playerName: string) => {
   }
 }
 
-export const fetchPlayerWithRecord = async (): Promise<string[]> => {
+export const fetchAllPlayersName = async (): Promise<string[]> => {
   const { data: players, error: joinError } = await supabase(['ranking'])
     .from('player')
     .select(`name`)
