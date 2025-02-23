@@ -1,3 +1,5 @@
+import { subDays } from 'date-fns'
+
 import { supabase } from './client'
 
 export const fetchPlayer = async (playerName: string) => {
@@ -56,6 +58,21 @@ export const fetchAllPlayersName = async (): Promise<string[]> => {
   const { data: players, error: joinError } = await supabase(['ranking'])
     .from('player')
     .select(`name`)
+    .order('name')
+
+  if (joinError) {
+    console.error('ユーザ取得でエラー: ', joinError)
+    return []
+  } else {
+    return players.map(player => player.name)
+  }
+}
+
+export const fetchRecentPlayedPlayersName = async (): Promise<string[]> => {
+  const { data: players, error: joinError } = await supabase(['ranking'])
+    .from('player')
+    .select(`name`)
+    .gte('updated_at', subDays(new Date(), 30).toISOString())
     .order('name')
 
   if (joinError) {
