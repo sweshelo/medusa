@@ -28,6 +28,17 @@ export const metadata: Metadata = {
     images: '/image/banner.png',
   },
   icons: '/image/icon.png',
+  keywords: [
+    'CCJ',
+    'チェイス',
+    'チェイスチェイス',
+    'チェイスチェイスジョーカーズ',
+    '閻魔帳',
+    '閻魔',
+    'プレイ履歴',
+    '履歴',
+    '分析',
+  ],
 }
 
 export default async function RootLayout({
