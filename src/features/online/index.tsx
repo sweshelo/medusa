@@ -1,4 +1,3 @@
-import { TZDate } from '@date-fns/tz'
 import { differenceInMinutes } from 'date-fns'
 
 import { Headline } from '@/components/common/headline'
@@ -24,7 +23,7 @@ export const OnlinePlayers = ({ players }: Props) => {
             <div className="flex">
               <div className="text-sm text-gray-600 ml-1">
                 {player.recorded_at
-                  ? `${differenceInMinutes(new Date(), new TZDate(player.recorded_at, 'Asia/Tokyo'))}分前`
+                  ? `${differenceInMinutes(new Date(), new Date(`${player.recorded_at}+09:00`))}分前`
                   : '時刻不明'}
               </div>
             </div>
