@@ -25,9 +25,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    useCache: true,
-  },
+  experimental: {},
 }
 
 export default nextConfig

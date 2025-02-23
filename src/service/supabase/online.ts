@@ -1,12 +1,9 @@
 import { tz } from '@date-fns/tz'
 import { sub } from 'date-fns'
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
 
 import { supabase } from './client'
 
 export const fetchOnlinePlayers = async () => {
-  'use cache'
-  cacheLife('minutes')
   const { data, error } = await supabase(['online'])
     .from('record')
     .select('player_name, chara, recorded_at')

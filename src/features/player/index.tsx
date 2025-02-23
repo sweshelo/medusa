@@ -1,5 +1,3 @@
-'use cache'
-
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
 
 import { AchievementView } from '@/components/achievement'

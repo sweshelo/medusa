@@ -1,13 +1,6 @@
-import { cacheLife } from 'next/dist/server/use-cache/cache-life'
-import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
-
 import { supabase } from './client'
 
 export const fetchPlayer = async (playerName: string) => {
-  'use cache'
-  cacheTag(playerName)
-  cacheLife('days')
-
   // プレイヤー情報を取得
   const { data: players, error: playerError } = await supabase([playerName])
     .from('player')
@@ -60,8 +53,6 @@ export const fetchPlayer = async (playerName: string) => {
 }
 
 export const fetchPlayerWithRecord = async (): Promise<string[]> => {
-  'use cache'
-  cacheLife('days')
   const { data: players, error: joinError } = await supabase(['ranking'])
     .from('player')
     .select(`name`)
@@ -76,10 +67,6 @@ export const fetchPlayerWithRecord = async (): Promise<string[]> => {
 }
 
 export const fetchPlayerCount = async () => {
-  'use cache'
-  cacheTag('stats')
-  cacheLife('days')
-
   // プレイヤー情報を取得
   const result = await supabase(['stats'])
     .from('player')
