@@ -57,7 +57,7 @@
     "typescript": "^5"
   },
   "volta": {
-    "node": "23.8.0"
+    "node": "23.9.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
