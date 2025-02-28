@@ -5,14 +5,16 @@ interface StageProps {
 const getShortenName = (name: string) => {
   switch (name) {
     case 'ウラシブヤ１':
+    case 'ウラシブヤ':
       return 'シブ1'
     case 'ウラシブヤ２':
       return 'シブ2'
     case 'ウラシブヤ３':
       return 'シブ3'
     case 'ウラシブヤ1.2':
-      return 'ハロシブ'
+      return 'シブ1.2'
     case 'ウラオオサカ１':
+    case 'ウラオオサカ':
       return 'サカ1'
     case 'ウラオオサカ２':
       return 'サカ2'
