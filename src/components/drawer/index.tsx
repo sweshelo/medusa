@@ -48,6 +48,11 @@ export const Drawer = () => {
               プレイヤー検索
             </Link>
           </li>
+          <li>
+            <Link href="/online" className="block p-2 hover:bg-gray-100">
+              オンライン
+            </Link>
+          </li>
         </ul>
       </div>
     </div>
