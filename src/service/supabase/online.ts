@@ -4,7 +4,7 @@ import { sub } from 'date-fns'
 import { supabase } from './client'
 
 export const fetchOnlinePlayers = async () => {
-  const { data, error } = await supabase(['online'])
+  const { data, error } = await supabase
     .from('record')
     .select('player_name, chara, recorded_at')
     .order('recorded_at', { ascending: false })
