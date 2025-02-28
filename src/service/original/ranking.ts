@@ -3,18 +3,18 @@ import { format } from 'date-fns'
 
 import { Ranking } from '@/types/ranking'
 
-const originalPageURL = (index: number) => {
-  const month = format(new Date(), 'yyyyMM')
+const originalPageURL = (index: number, date: Date | undefined) => {
+  const month = format(date ?? new Date(), 'yyyyMM')
   return `https://p.eagate.573.jp/game/chase2jokers/ccj/ranking/index.html?page=${index}&rid=${month}`
 }
 
-export const fetchRankingTable = async () => {
+export const fetchRankingTable = async (date?: Date) => {
   const ranking: Ranking[] = []
 
   await Promise.all(
     [0, 1, 2, 3].map(async index => {
       try {
-        const html = await (await fetch(originalPageURL(index))).text()
+        const html = await (await fetch(originalPageURL(index, date))).text()
         const $ = cheerio.load(html)
 
         $('#ranking_data')
@@ -90,5 +90,5 @@ export const fetchRankingTable = async () => {
     })
   )
 
-  return ranking
+  return ranking.length > 0 ? ranking : undefined
 }

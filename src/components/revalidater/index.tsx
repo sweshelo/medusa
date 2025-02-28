@@ -1,8 +1,8 @@
 'use client'
 
 import classNames from 'classnames'
-import { addSeconds, differenceInMinutes, format } from 'date-fns'
-import { usePathname } from 'next/navigation'
+import { addSeconds, differenceInSeconds, format } from 'date-fns'
+import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { Tooltip } from 'react-tooltip'
@@ -23,6 +23,7 @@ const RefreshSpan = 300
 
 export const Revalidater = () => {
   const pathname = usePathname()
+  const router = useRouter()
   const handleButtonClick = useCallback(async () => {
     await revalidatePage(pathname)
     toast.success('データベースと同期しました')
@@ -37,12 +38,13 @@ export const Revalidater = () => {
     )
     setEnabled(false)
     setStoredDate(new Date())
-  }, [pathname])
+    router.refresh()
+  }, [pathname, router])
 
   const [isEnabled, setEnabled] = useState<boolean>(false)
   const [storedDate, setStoredDate] = useState<Date | null>(null)
   useEffect(() => {
-    setEnabled(storedDate ? differenceInMinutes(new Date(), storedDate) >= RefreshSpan : true)
+    setEnabled(storedDate ? differenceInSeconds(new Date(), storedDate) >= RefreshSpan : true)
   }, [pathname, storedDate])
 
   useEffect(() => {
