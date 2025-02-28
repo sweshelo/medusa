@@ -11,5 +11,5 @@ export const revalidateUserData = async (tags: string | string[]) => {
 }
 
 export const revalidatePage = async (path: string) => {
-  revalidatePath(encodeURIComponent(path))
+  revalidatePath(path)
 }
