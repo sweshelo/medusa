@@ -2,12 +2,28 @@ import { subDays } from 'date-fns'
 
 import { supabase } from './client'
 
-export const fetchPlayer = async (playerName: string) => {
+export const getPlayerIdByName = async (playerName: string) => {
+  const { data: players, error } = await supabase([playerName])
+    .from('player')
+    .select('id')
+    .eq('name', playerName)
+    .limit(1)
+
+  if (error) {
+    throw new Error(`Error fetching player: ${error.message}`)
+  }
+
+  const [player] = players
+  return player.id
+}
+
+export const fetchPlayer = async (playerId: number) => {
   // プレイヤー情報を取得
-  const { data: players, error: playerError } = await supabase([playerName])
+  const tag = [`${playerId}`]
+  const { data: players, error: playerError } = await supabase(tag)
     .from('player')
     .select('*')
-    .eq('name', playerName)
+    .eq('id', playerId)
     .limit(1)
 
   if (playerError) {
@@ -17,10 +33,10 @@ export const fetchPlayer = async (playerName: string) => {
   const [player] = players
 
   // レコードを取得（新しい順に300件まで）
-  const { data: records, error: recordsError } = await supabase([playerName])
+  const { data: records, error: recordsError } = await supabase(tag)
     .from('record')
     .select('*')
-    .eq('player_name', playerName)
+    .eq('player_name', player.name)
     .order('created_at', { ascending: false })
     .limit(300)
 
@@ -29,19 +45,19 @@ export const fetchPlayer = async (playerName: string) => {
   }
 
   // 最高ランキング
-  const { data: rankings } = await supabase([playerName])
+  const { data: rankings } = await supabase(tag)
     .from('record')
     .select('ranking')
-    .eq('player_name', playerName)
+    .eq('player_name', player.name)
     .order('ranking', { ascending: true })
     .limit(1)
   const ranking = rankings?.[0].ranking ?? null
 
   // 最高貢献度
-  const { data: max } = await supabase([playerName])
+  const { data: max } = await supabase(tag)
     .from('record')
     .select('diff')
-    .eq('player_name', playerName)
+    .eq('player_name', player.name)
     .order('diff', { ascending: false })
     .limit(1)
   const maxPoint = max?.[0].diff
@@ -68,10 +84,10 @@ export const fetchAllPlayersName = async (): Promise<string[]> => {
   }
 }
 
-export const fetchRecentPlayedPlayersName = async (): Promise<string[]> => {
+export const fetchRecentPlayedPlayersId = async (): Promise<number[]> => {
   const { data: players, error: joinError } = await supabase(['ranking'])
     .from('player')
-    .select(`name`)
+    .select(`id`)
     .gte('updated_at', subDays(new Date(), 30).toISOString())
     .order('name')
 
@@ -79,7 +95,7 @@ export const fetchRecentPlayedPlayersName = async (): Promise<string[]> => {
     console.error('ユーザ取得でエラー: ', joinError)
     return []
   } else {
-    return players.map(player => player.name)
+    return players.map(player => player.id)
   }
 }
 
