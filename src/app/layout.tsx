@@ -10,6 +10,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://放課後天地創造.club'),
   title: {
     template: '%s | 閻魔帳',
     default: '閻魔帳',
