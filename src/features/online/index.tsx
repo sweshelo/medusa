@@ -4,6 +4,8 @@ import { Headline } from '@/components/common/headline'
 import { PlayerCard } from '@/components/player/card'
 import { Revalidater } from '@/components/revalidater'
 
+import { ScheduleTable } from '../schedule'
+
 interface Props {
   players: {
     player_name: string
@@ -17,6 +19,9 @@ export const OnlinePlayers = ({ players }: Props) => {
     <>
       <Headline title="オンラインのプレイヤー" />
       <Revalidater />
+      <div className="overflow-x-auto rounded-lg shadow my-4">
+        <ScheduleTable />
+      </div>
       <div className="mt-4 mb-4 space-y-2">
         {players.map((player, index) => (
           <PlayerCard player={{ name: player.player_name }} chara={player.chara} key={index}>
