@@ -2,7 +2,7 @@ interface StageProps {
   name: string
 }
 
-const getShortenName = (name: string) => {
+export const getShortenName = (name: string) => {
   switch (name) {
     case 'ウラシブヤ１':
     case 'ウラシブヤ':
