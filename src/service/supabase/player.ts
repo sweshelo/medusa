@@ -19,8 +19,7 @@ export const getPlayerIdByName = async (playerName: string) => {
 
 export const fetchPlayer = async (playerId: number) => {
   // プレイヤー情報を取得
-  const tag = [`${playerId}`]
-  const { data: players, error: playerError } = await supabase(tag)
+  const { data: players, error: playerError } = await supabase
     .from('player')
     .select('*')
     .eq('id', playerId)
@@ -33,7 +32,7 @@ export const fetchPlayer = async (playerId: number) => {
   const [player] = players
 
   // レコードを取得（新しい順に300件まで）
-  const { data: records, error: recordsError } = await supabase(tag)
+  const { data: records, error: recordsError } = await supabase
     .from('record')
     .select('*')
     .eq('player_name', player.name)
@@ -45,7 +44,7 @@ export const fetchPlayer = async (playerId: number) => {
   }
 
   // 最高ランキング
-  const { data: rankings } = await supabase(tag)
+  const { data: rankings } = await supabase
     .from('record')
     .select('ranking')
     .eq('player_name', player.name)
