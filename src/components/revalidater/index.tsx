@@ -1,7 +1,7 @@
 'use client'
 
 import classNames from 'classnames'
-import { addSeconds, differenceInMinutes, format } from 'date-fns'
+import { addSeconds, differenceInSeconds, format } from 'date-fns'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -44,7 +44,7 @@ export const Revalidater = () => {
   const [isEnabled, setEnabled] = useState<boolean>(false)
   const [storedDate, setStoredDate] = useState<Date | null>(null)
   useEffect(() => {
-    setEnabled(storedDate ? differenceInMinutes(new Date(), storedDate) >= RefreshSpan : true)
+    setEnabled(storedDate ? differenceInSeconds(new Date(), storedDate) >= RefreshSpan : true)
   }, [pathname, storedDate])
 
   useEffect(() => {
