@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   title: 'ランキング',
 }
 
+export const revalidate = 43200
+
 export default async function Page() {
   const ranking =
     (await fetchRankingTable()) ??
