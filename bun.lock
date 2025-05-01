@@ -11,7 +11,7 @@
         "cheerio": "^1.0.0",
         "classnames": "^2.5.1",
         "date-fns": "^4.1.0",
-        "highcharts": "^11.4.8",
+        "highcharts": "^12.0.0",
         "highcharts-react-official": "^3.2.1",
         "next": "^15.3.1",
         "react": "^19.1.0",
@@ -607,7 +607,7 @@
 
     "hasown": ["hasown@2.0.2", "", { "dependencies": { "function-bind": "^1.1.2" } }, "sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ=="],
 
-    "highcharts": ["highcharts@11.4.8", "", {}, "sha512-5Tke9LuzZszC4osaFisxLIcw7xgNGz4Sy3Jc9pRMV+ydm6sYqsPYdU8ELOgpzGNrbrRNDRBtveoR5xS3SzneEA=="],
+    "highcharts": ["highcharts@12.2.0", "", {}, "sha512-UUN+osTP3aeGc4KmoMuWAjzpKif8GYHFozzYI4O8h1ILGof25M/ZGBpXLvgqf1z0LVh7N9eG7i0HnzMfjcR4nA=="],
 
     "highcharts-react-official": ["highcharts-react-official@3.2.1", "", { "peerDependencies": { "highcharts": ">=6.0.0", "react": ">=16.8.0" } }, "sha512-hyQTX7ezCxl7JqumaWiGsroGWalzh24GedQIgO3vJbkGOZ6ySRAltIYjfxhrq4HszJOySZegotEF7v+haQ75UA=="],
 
