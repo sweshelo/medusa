@@ -52,7 +52,7 @@ export const PointsLineChart = ({ records }: PointsLineChartProps) => {
         title: { text: '日付' },
       },
       yAxis: {
-        title: { text: null, margin: 0 },
+        title: { text: undefined, margin: 0 },
         labels: { reserveSpace: true },
       },
       chart: {
