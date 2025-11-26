@@ -63,6 +63,7 @@ export const AchievementView = ({ achievement }: AchievementProps) => {
             alt=""
             width={22}
             height={22}
+            unoptimized
           />
         )}
         <span
@@ -80,6 +81,7 @@ export const AchievementView = ({ achievement }: AchievementProps) => {
             alt=""
             width={22}
             height={22}
+            unoptimized
           />
         )}
       </div>

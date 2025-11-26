@@ -27,6 +27,7 @@ export const PlayerCard = ({ player, chara, children }: PlayerCardProps) => {
         width={80}
         height={60}
         className="w-[80px] h-[60px] rounded-l-lg"
+        unoptimized
       />
       <div className="ml-3 grow min-w-0 pr-1">
         {children}
