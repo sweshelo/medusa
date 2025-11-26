@@ -27,8 +27,12 @@ export default async function Page() {
   return (
     <>
       <Headline title="称号一覧" />
-      <div className="bg-white text-center py-4 mb-2">
-        <p>閻魔帳に記録された称号一覧</p>
+      <div className="bg-white text-center py-2 mb-2 rounded-lg">
+        <span className="text-sm text-gray-600">
+          閻魔帳に記録された称号一覧です
+          <br />
+          クリックすると詳細を開きます
+        </span>
       </div>
       {achievements
         ?.sort((a, b) => {
