@@ -69,7 +69,11 @@ export const Revalidater = ({ timestamp }: RevalidaterProps) => {
         })}
         data-tooltip-id={'revalidate'}
       >
-        <button className="w-full text-center" onClick={handleButtonClick} disabled={!isEnabled}>
+        <button
+          className={`w-full text-center ${isEnabled ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+          onClick={handleButtonClick}
+          disabled={!isEnabled}
+        >
           <p>最新のデータをリクエストする</p>
           {timestamp && (
             <p className="text-gray-500 text-[10px]">

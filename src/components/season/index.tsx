@@ -19,16 +19,16 @@ export const Season = async () => {
       <table className="min-w-full divide-y divide-gray-200 rounded-lg">
         <thead className="bg-orange-300">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-center">
+            <th className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-center">
               シーズン
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-center">
+            <th className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-center">
               開始日
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-center">
+            <th className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-center">
               終了日
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-center">
+            <th className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-center">
               日数
             </th>
           </tr>

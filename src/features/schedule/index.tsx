@@ -31,13 +31,13 @@ export const ScheduleTable = async () => {
       <table className="min-w-full divide-y divide-gray-200 rounded-lg">
         <thead className="bg-orange-300">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-center">
+            <th className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-center">
               日付
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-center">
+            <th className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-center">
               偶数
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-center">
+            <th className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-center">
               奇数
             </th>
           </tr>

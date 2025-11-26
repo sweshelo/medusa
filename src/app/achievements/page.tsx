@@ -49,7 +49,7 @@ export default async function Page() {
         })
         .map(achievement => (
           <details className="my-2 bg-white rounded-sm" key={achievement.id} open>
-            <summary className="list-none">
+            <summary className="list-none cursor-pointer">
               <AchievementView achievement={achievement} />
             </summary>
             <p className="p-1 text-center">
