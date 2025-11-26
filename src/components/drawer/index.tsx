@@ -44,8 +44,18 @@ export const Drawer = () => {
             </Link>
           </li>
           <li>
+            <Link href="/play" className="block p-2 hover:bg-gray-100">
+              プレイ数ランキング
+            </Link>
+          </li>
+          <li>
             <Link href="/search" className="block p-2 hover:bg-gray-100">
               プレイヤー検索
+            </Link>
+          </li>
+          <li>
+            <Link href="/achievements" className="block p-2 hover:bg-gray-100">
+              称号一覧
             </Link>
           </li>
           <li>

@@ -12,3 +12,12 @@ export const fetchAchievement = async (name: string) => {
 
   return achievement
 }
+
+export const fetchAllAchievements = async () => {
+  const { data: achievements, error } = await supabase.from('achievement').select('*')
+  if (error) {
+    console.error('称号一覧取得でエラー: ', error)
+  }
+
+  return achievements
+}
