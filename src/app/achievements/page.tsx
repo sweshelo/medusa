@@ -21,7 +21,7 @@ export default async function Page() {
   ): number => {
     if (achievement.icon_last) return 4
     if (achievement.icon_first) return 3
-    if (achievement.markup !== achievement.title) return 2
+    if (achievement.markup && achievement.markup !== achievement.title) return 2
     return 1
   }
 
