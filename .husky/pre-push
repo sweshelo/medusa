@@ -1,2 +1,2 @@
-npm run check:deps
-npm run check:types
+bun run check:deps
+bun run check:types
