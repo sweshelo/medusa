@@ -1,4 +1,4 @@
-import { differenceInMinutes } from 'date-fns'
+import { differenceInMinutes, format } from 'date-fns'
 
 import { Headline } from '@/components/common/headline'
 import { PlayerCard } from '@/components/player/card'
@@ -27,7 +27,7 @@ export const OnlinePlayers = ({ players, timestamp }: Props) => {
             <div className="flex">
               <div className="text-sm text-gray-600 ml-1">
                 {player.recorded_at
-                  ? `${differenceInMinutes(new Date(), new Date(`${player.recorded_at}+09:00`))}分前`
+                  ? `最終プレイ: ${differenceInMinutes(new Date(), new Date(`${player.recorded_at}+09:00`))}分前 (${format(new Date(player.recorded_at), 'HH:mm')})`
                   : '時刻不明'}
               </div>
             </div>
