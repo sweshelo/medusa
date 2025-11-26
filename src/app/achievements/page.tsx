@@ -1,5 +1,6 @@
 import { format } from 'date-fns'
 import { Metadata } from 'next'
+import Link from 'next/link'
 
 import { AchievementView } from '@/components/achievement'
 import { Headline } from '@/components/common/headline'
@@ -31,7 +32,7 @@ export default async function Page() {
         <span className="text-sm text-gray-600">
           閻魔帳に記録された称号一覧です
           <br />
-          クリックすると詳細を開きます
+          クリックすると詳細を開閉します
         </span>
       </div>
       {achievements
@@ -47,12 +48,19 @@ export default async function Page() {
           return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         })
         .map(achievement => (
-          <details className="my-2 bg-white rounded" key={achievement.id}>
+          <details className="my-2 bg-white rounded" key={achievement.id} open>
             <summary className="list-none">
               <AchievementView achievement={achievement} />
             </summary>
             <p className="p-1 text-center">
-              {achievement.discoverer && `${achievement.discoverer}によって`}
+              {achievement.discoverer && (
+                <>
+                  <span className="text-blue-600 hover:text-blue-800 hover:underline font-medium mr-1">
+                    <Link href={`/player/${achievement.discoverer}`}>{achievement.discoverer}</Link>
+                  </span>
+                  によって
+                </>
+              )}
               {`${format(achievement.created_at, 'yyyy/MM/dd')}に発見`}
             </p>
           </details>
