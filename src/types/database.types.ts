@@ -202,6 +202,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_play_count_ranking: {
+        Args: never
+        Returns: {
+          achievement: string
+          chara: string
+          play_count: number
+          player_name: string
+        }[]
+      }
       get_player_record: {
         Args: { player_name: string }
         Returns: {
