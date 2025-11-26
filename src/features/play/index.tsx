@@ -1,9 +1,11 @@
 import React from 'react'
 
 import { Headline } from '@/components/common/headline'
+import { Shiny } from '@/components/common/shiny'
 import { PlayerCard } from '@/components/player/card'
 import { PlayCountRanking } from '@/service/supabase/play-count'
 import { Season } from '@/service/supabase/season'
+import { getPlayerRankColor } from '@/utils/colors'
 
 interface PlayCountRankingPageProps {
   ranking: PlayCountRanking[]
@@ -32,13 +34,15 @@ const PlayCountRankingPage = ({ ranking, season, timestamp }: PlayCountRankingPa
             chara={player.chara}
             key={player.player_name}
           >
-            <div className="flex">
-              <div className="text-sm text-gray-600">{index + 1}位</div>
+            <div className="flex items-center">
+              <Shiny
+                color={getPlayerRankColor(index, 50)}
+                className="rounded-lg border border-1 px-3"
+              >
+                <div className="text-xs text-gray-600">{index + 1}位</div>
+              </Shiny>
               <div className="text-sm text-gray-600 ml-1 truncate">
                 {`| ${player.play_count}プレイ`}
-                <span className="min-w-0 mx-2 border border-1 border-gray p-[1] px-2 m-1 rounded text-[10px] truncate">
-                  <span className="truncate">{player.achievement}</span>
-                </span>
               </div>
             </div>
           </PlayerCard>

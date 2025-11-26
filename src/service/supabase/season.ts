@@ -14,3 +14,17 @@ export const fetchCurrentSeason = async (): Promise<Season | null> => {
 
   return data
 }
+
+export const fetchAllSeasons = async (): Promise<Season[]> => {
+  const { data, error } = await supabase
+    .from('season')
+    .select('*')
+    .order('number', { ascending: false })
+
+  if (error) {
+    console.error('シーズン一覧取得でエラー: ', error)
+    return []
+  }
+
+  return data || []
+}
