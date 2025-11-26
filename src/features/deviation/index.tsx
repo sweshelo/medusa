@@ -25,11 +25,7 @@ const DeviationRankingPage = async ({ ranking }: RankingPageProps) => {
         {ranking.map((player, index) => (
           <PlayerCard player={player} chara={player.record.chara} key={index}>
             <div className="flex">
-              <Shiny
-                color={getColor(index)}
-                className="rounded-lg border border px-3"
-                key={player.name}
-              >
+              <Shiny color={getColor(index)} className="rounded-lg border px-3" key={player.name}>
                 <div className="text-xs text-gray-600">{index + 1}位</div>
               </Shiny>
               <div className="text-xs text-gray-600 ml-1">{`| ${player.deviation_value} (${player.average}P)`}</div>
