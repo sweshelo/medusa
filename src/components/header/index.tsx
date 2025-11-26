@@ -14,7 +14,7 @@ export const Header = () => {
           className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center bg-[url('/image/icon.png')] bg-contain z-1"
           onClick={openDrawer}
         />
-        <Link className="flex-grow" href={'/'}>
+        <Link className="grow" href={'/'}>
           <h1 className="text-white text-2xl font-bold">閻魔帳</h1>
           <p className="text-gray-300 text-xs">v2 &quot;medusa&quot; - @sweshelo</p>
         </Link>

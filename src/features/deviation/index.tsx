@@ -27,7 +27,7 @@ const DeviationRankingPage = async ({ ranking }: RankingPageProps) => {
             <div className="flex">
               <Shiny
                 color={getColor(index)}
-                className="rounded-lg border border-1 px-3"
+                className="rounded-lg border border px-3"
                 key={player.name}
               >
                 <div className="text-xs text-gray-600">{index + 1}位</div>

@@ -27,7 +27,7 @@ export const ScheduleTable = async () => {
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg shadow my-4">
+    <div className="overflow-x-auto rounded-lg shadow-sm my-4">
       <table className="min-w-full divide-y divide-gray-200 rounded-lg">
         <thead className="bg-orange-300">
           <tr>

@@ -59,7 +59,7 @@ export const Revalidater = ({ timestamp }: RevalidaterProps) => {
   return (
     <>
       <div
-        className={classNames('p-[3px] rounded-lg shadow mt-4 outline outline-1', {
+        className={classNames('p-[3px] rounded-lg shadow-sm mt-4 outline-solid outline-1', {
           'bg-green-300': isEnabled,
           'outline-green-500': isEnabled,
           'text-black': isEnabled,

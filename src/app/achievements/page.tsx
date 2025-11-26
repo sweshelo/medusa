@@ -48,7 +48,7 @@ export default async function Page() {
           return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         })
         .map(achievement => (
-          <details className="my-2 bg-white rounded" key={achievement.id} open>
+          <details className="my-2 bg-white rounded-sm" key={achievement.id} open>
             <summary className="list-none">
               <AchievementView achievement={achievement} />
             </summary>

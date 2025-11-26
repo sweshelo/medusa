@@ -8,14 +8,14 @@ export const Season = async () => {
 
   if (!seasons || seasons.length === 0) {
     return (
-      <div className="rounded-lg shadow p-6 bg-white my-4">
+      <div className="rounded-lg shadow-sm p-6 bg-white my-4">
         <p className="text-gray-500 text-center">シーズン情報を取得できませんでした</p>
       </div>
     )
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg shadow my-4">
+    <div className="overflow-x-auto rounded-lg shadow-sm my-4">
       <table className="min-w-full divide-y divide-gray-200 rounded-lg">
         <thead className="bg-orange-300">
           <tr>

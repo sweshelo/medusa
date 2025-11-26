@@ -37,7 +37,7 @@ const PlayCountRankingPage = ({ ranking, season, timestamp }: PlayCountRankingPa
             <div className="flex items-center">
               <Shiny
                 color={getPlayerRankColor(index, 50)}
-                className="rounded-lg border border-1 px-3"
+                className="rounded-lg border border px-3"
               >
                 <div className="text-xs text-gray-600">{index + 1}位</div>
               </Shiny>

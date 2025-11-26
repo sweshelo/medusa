@@ -37,7 +37,7 @@ export const PlayerPage = async ({ player, achievement, timestamp }: PlayerPageP
       <div className="relative">
         <div className="grid grid-cols-3 grid-rows-1 gap-2">
           <Shiny
-            className="rounded-lg p-2 shadow"
+            className="rounded-lg p-2 shadow-sm"
             color={(() => {
               switch (player.ranking) {
                 case 1:
@@ -60,7 +60,11 @@ export const PlayerPage = async ({ player, achievement, timestamp }: PlayerPageP
               </div>
             </div>
           </Shiny>
-          <Shiny className="rounded-lg p-2 shadow" color={getColor()} data-tooltip-id="deviation">
+          <Shiny
+            className="rounded-lg p-2 shadow-sm"
+            color={getColor()}
+            data-tooltip-id="deviation"
+          >
             <div className="flex flex-col px-1">
               <div className="flex justify-left gap-1">
                 <p className="text-left text-xs">平均貢献P</p>
@@ -71,7 +75,11 @@ export const PlayerPage = async ({ player, achievement, timestamp }: PlayerPageP
               </div>
             </div>
           </Shiny>
-          <Shiny className="rounded-lg p-2 shadow" color={getColor()} data-tooltip-id="deviation">
+          <Shiny
+            className="rounded-lg p-2 shadow-sm"
+            color={getColor()}
+            data-tooltip-id="deviation"
+          >
             <div className="flex flex-col px-1">
               <div className="flex justify-left gap-1">
                 <p className="text-left text-xs">全国偏差値</p>
@@ -100,11 +108,11 @@ export const PlayerPage = async ({ player, achievement, timestamp }: PlayerPageP
   ) : (
     <>
       <div className="py-3">
-        <div className="bg-white rounded-lg flex items-center shadow">
+        <div className="bg-white rounded-lg flex items-center shadow-sm">
           <div className="w-[80px] h-[60px] rounded-l-lg bg-gray-300 flex items-center justify-center">
             <div className="text-center text-bold text-3xl">？</div>
           </div>
-          <div className="ml-3 flex-grow">
+          <div className="ml-3 grow">
             <div className="text-3xl font-bold">{player.name}</div>
           </div>
         </div>

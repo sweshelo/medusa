@@ -11,7 +11,7 @@ export const Drawer = () => {
     <div>
       {/* オーバーレイ */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity z-[1000] ${
+        className={`fixed inset-0 bg-black/50 transition-opacity z-1000 ${
           isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
         onClick={closeDrawer}
@@ -19,7 +19,7 @@ export const Drawer = () => {
 
       {/* ドロワー本体 */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform transition-transform z-[2000] ${
+        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform transition-transform z-2000 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
