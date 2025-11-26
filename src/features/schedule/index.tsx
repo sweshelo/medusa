@@ -44,10 +44,13 @@ export const ScheduleTable = async () => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {displaySchedule.map(table => {
-            const isActiveTerm = isWithinInterval(new Date(), {
-              start: parseISO(table.started_at!),
-              end: parseISO(table.ended_at!),
-            })
+            const isActiveTerm =
+              table.started_at &&
+              table.ended_at &&
+              isWithinInterval(new Date(), {
+                start: parseISO(table.started_at),
+                end: parseISO(table.ended_at),
+              })
             return (
               <tr
                 key={table.id}
@@ -56,7 +59,8 @@ export const ScheduleTable = async () => {
                 })}
               >
                 <td className="text-center py-2 items-center gap-2 justify-center">
-                  {format(table.started_at!, 'MM/dd')} ~ {format(table.ended_at!, 'MM/dd')}
+                  {table.started_at ? format(table.started_at, 'MM/dd') : ''} ~{' '}
+                  {table.ended_at ? format(table.ended_at, 'MM/dd') : ''}
                 </td>
                 <td className="text-center py-2 items-center gap-2 justify-center">
                   {table.even_time}
