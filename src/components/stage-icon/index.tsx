@@ -12,15 +12,15 @@ export const getShortenName = (name: string) => {
     case 'ウラシブヤ３':
       return 'シブ3'
     case 'ウラシブヤ1.2':
+    case 'ウラシブヤ（ハロウィンver.）':
       return 'シブ1.2'
-    case 'ウラオオサカ１':
     case 'ウラオオサカ':
       return 'サカ1'
     case 'ウラオオサカ２':
       return 'サカ2'
     case 'ウラオオサカ３':
       return 'サカ3'
-    case 'ウラオキナワ１':
+    case 'ウラオキナワ':
       return 'ナワ1'
     case 'ウラオキナワ２':
       return 'ナワ2'
@@ -33,6 +33,8 @@ export const getShortenName = (name: string) => {
 
 export const Stage = ({ name }: StageProps) => {
   return (
-    <span className="border text-[8px] p-1 rounded border-orange-400">{getShortenName(name)}</span>
+    <span className="border text-[8px] p-1 rounded-sm border-orange-400">
+      {getShortenName(name)}
+    </span>
   )
 }

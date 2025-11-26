@@ -41,14 +41,14 @@ export const SearchBox = () => {
         placeholder="プレーヤー名を入力…"
         value={query}
         onChange={e => setQuery(e.target.value)}
-        className="w-full p-2 border border-gray-300 rounded mb-2"
+        className="w-full p-2 border border-gray-300 rounded-sm mb-2"
         disabled={!players || players.length <= 0}
       />
       {!players && (
         <div className="animate-pulse space-y-2">
-          <div className="h-12 bg-gray-200 rounded"></div>
-          <div className="h-12 bg-gray-200 rounded"></div>
-          <div className="h-12 bg-gray-200 rounded"></div>
+          <div className="h-12 bg-gray-200 rounded-sm"></div>
+          <div className="h-12 bg-gray-200 rounded-sm"></div>
+          <div className="h-12 bg-gray-200 rounded-sm"></div>
         </div>
       )}
       {players &&

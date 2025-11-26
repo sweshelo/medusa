@@ -23,7 +23,7 @@ export const RecordsTable = async ({ records }: RecordsTableProps) => {
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg shadow">
+    <div className="overflow-x-auto rounded-lg shadow-sm">
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-orange-300">
           <tr>

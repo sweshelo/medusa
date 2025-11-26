@@ -10,5 +10,6 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const players = await fetchOnlinePlayers()
-  return <OnlinePlayers players={players} />
+  const date = new Date()
+  return <OnlinePlayers players={players} timestamp={date} />
 }

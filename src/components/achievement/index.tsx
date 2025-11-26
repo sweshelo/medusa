@@ -55,7 +55,7 @@ export const AchievementView = ({ achievement }: AchievementProps) => {
   })()
 
   return (
-    <Shiny color={color} className="p-1 rounded shadow">
+    <Shiny color={color} className="p-1 rounded-sm shadow-sm">
       <div className="flex justify-center items-center">
         {achievement.icon_first && (
           <Image
