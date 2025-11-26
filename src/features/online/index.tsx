@@ -12,13 +12,14 @@ interface Props {
     chara: string
     recorded_at: string | null
   }[]
+  timestamp: Date
 }
 
-export const OnlinePlayers = ({ players }: Props) => {
+export const OnlinePlayers = ({ players, timestamp }: Props) => {
   return (
     <>
       <Headline title="オンラインのプレイヤー" />
-      <Revalidater />
+      <Revalidater timestamp={timestamp} />
       <ScheduleTable />
       <div className="mt-4 mb-4 space-y-2">
         {players.map((player, index) => (

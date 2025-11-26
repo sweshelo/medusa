@@ -1,7 +1,7 @@
 'use client'
 
 import classNames from 'classnames'
-import { addSeconds, differenceInSeconds, format } from 'date-fns'
+import { addSeconds, differenceInSeconds, format, formatDate } from 'date-fns'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -21,7 +21,11 @@ const getRevalidateLog = (): RevalidateLog => {
 
 const RefreshSpan = 300
 
-export const Revalidater = () => {
+interface RevalidaterProps {
+  timestamp?: Date
+}
+
+export const Revalidater = ({ timestamp }: RevalidaterProps) => {
   const pathname = usePathname()
   const router = useRouter()
   const handleButtonClick = useCallback(async () => {
@@ -42,7 +46,7 @@ export const Revalidater = () => {
   }, [pathname, router])
 
   const [isEnabled, setEnabled] = useState<boolean>(false)
-  const [storedDate, setStoredDate] = useState<Date | null>(null)
+  const [storedDate, setStoredDate] = useState<Date | undefined>(timestamp)
   useEffect(() => {
     setEnabled(storedDate ? differenceInSeconds(new Date(), storedDate) >= RefreshSpan : true)
   }, [pathname, storedDate])
@@ -66,7 +70,12 @@ export const Revalidater = () => {
         data-tooltip-id={'revalidate'}
       >
         <button className="w-full text-center" onClick={handleButtonClick} disabled={!isEnabled}>
-          最新のデータをリクエストする
+          <p>最新のデータをリクエストする</p>
+          {timestamp && (
+            <p className="text-gray-500 text-[10px]">
+              このページは {formatDate(timestamp, 'MM/dd HH:mm')} に更新されました
+            </p>
+          )}
         </button>
       </div>
       {!isEnabled ? (
