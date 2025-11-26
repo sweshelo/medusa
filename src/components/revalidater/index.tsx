@@ -26,7 +26,7 @@ export const Revalidater = () => {
   const router = useRouter()
   const handleButtonClick = useCallback(async () => {
     await revalidatePage(pathname)
-    toast.success('データベースと同期しました')
+    toast.success('データベースへの問い合わせをリクエストしました')
     localStorage.setItem(
       'revalidate',
       JSON.stringify({
@@ -66,15 +66,23 @@ export const Revalidater = () => {
         data-tooltip-id={'revalidate'}
       >
         <button className="w-full text-center" onClick={handleButtonClick} disabled={!isEnabled}>
-          最新の状態に更新する
+          最新のデータをリクエストする
         </button>
       </div>
-      {!isEnabled && (
+      {!isEnabled ? (
         <Tooltip id="revalidate">
           <p>
             このページは
             {format(storedDate ? addSeconds(storedDate, RefreshSpan) : new Date(), 'HH時mm分ss秒')}
             に再度更新が可能です。
+          </p>
+        </Tooltip>
+      ) : (
+        <Tooltip id="revalidate">
+          <p>
+            データベースへ最新のデータを問い合わせます
+            <br />
+            このボタンを押さずとも 1日1回は更新されます
           </p>
         </Tooltip>
       )}

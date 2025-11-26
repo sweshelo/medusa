@@ -7,6 +7,8 @@ import { PlayerCard } from '@/components/player/card'
 import { Ranking } from '@/types/ranking'
 import { Record } from '@/types/record'
 
+import { ScheduleTable } from '../schedule'
+
 interface RankingPageProps {
   ranking: (Ranking & { record?: Record })[]
 }
@@ -19,6 +21,7 @@ const RankingPage = ({ ranking }: RankingPageProps) => {
         <div className="flex justify-center bg-white my-2 rounded-lg">
           <RankingPieChart ranking={ranking} />
         </div>
+        <ScheduleTable />
       </div>
 
       <div className="mt-4 mb-4 space-y-2">
