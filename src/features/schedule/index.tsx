@@ -6,7 +6,7 @@ import { fetchSchedule } from '@/service/supabase/schedule'
 export const ScheduleTable = async () => {
   const schedule = await fetchSchedule()
   return (
-    <>
+    <div className="overflow-x-auto rounded-lg shadow my-4">
       <table className="min-w-full divide-y divide-gray-200 rounded-lg">
         <thead className="bg-orange-300">
           <tr>
@@ -48,6 +48,6 @@ export const ScheduleTable = async () => {
           })}
         </tbody>
       </table>
-    </>
+    </div>
   )
 }

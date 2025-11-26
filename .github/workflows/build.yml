@@ -12,17 +12,19 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
-      - name: setup-node
-        uses: actions/setup-node@v3
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: 20
-          cache: npm
+          bun-version: latest
 
       - name: Create .env file
         run: echo "${{ secrets.DOTENV }}" > .env
 
-      - name: npm-install
-        run: npm i --legacy-peer-deps
+      - name: bun-install
+        run: bun i
 
-      - name: npm-build
-        run: npm run build
+      - name: ESLint
+        run: bun run lint
+
+      - name: bun-build
+        run: bun run build

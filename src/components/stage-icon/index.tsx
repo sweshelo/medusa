@@ -12,15 +12,15 @@ export const getShortenName = (name: string) => {
     case 'ウラシブヤ３':
       return 'シブ3'
     case 'ウラシブヤ1.2':
+    case 'ウラシブヤ（ハロウィンver.）':
       return 'シブ1.2'
-    case 'ウラオオサカ１':
     case 'ウラオオサカ':
       return 'サカ1'
     case 'ウラオオサカ２':
       return 'サカ2'
     case 'ウラオオサカ３':
       return 'サカ3'
-    case 'ウラオキナワ１':
+    case 'ウラオキナワ':
       return 'ナワ1'
     case 'ウラオキナワ２':
       return 'ナワ2'

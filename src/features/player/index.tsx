@@ -18,9 +18,10 @@ interface PlayerPageProps {
     maxPoints?: number
   }
   achievement?: Achievement
+  timestamp: Date
 }
 
-export const PlayerPage = async ({ player, achievement }: PlayerPageProps) => {
+export const PlayerPage = async ({ player, achievement, timestamp }: PlayerPageProps) => {
   const [digest] = player.records
 
   const count = await fetchPlayerCount()
@@ -91,7 +92,7 @@ export const PlayerPage = async ({ player, achievement }: PlayerPageProps) => {
           )}
         />
       </div>
-      <Revalidater />
+      <Revalidater timestamp={timestamp} />
       <div className="my-4">
         <RecordsTable records={player.records} />
       </div>
