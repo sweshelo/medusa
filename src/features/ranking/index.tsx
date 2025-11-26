@@ -25,15 +25,12 @@ const RankingPage = ({ ranking }: RankingPageProps) => {
         {ranking.map((player, index) => (
           <PlayerCard player={player} chara={player.chara} key={index}>
             <div className="flex items-center">
-              <Shiny
-                color={getPlayerRankColor(index, 100)}
-                className="rounded-lg border border-1 px-3"
-              >
+              <Shiny color={getPlayerRankColor(index, 100)} className="rounded-lg border px-3">
                 <div className="text-xs text-gray-600">{index + 1}位</div>
               </Shiny>
               <div className="text-sm text-gray-600 ml-1 truncate">
                 {`| ${player.points}P`}
-                <span className="min-w-0 mx-2 border border-1 border-gray p-[1] px-2 m-1 rounded text-[10px] truncate">
+                <span className="min-w-0 mx-2 border border-gray p-[1] px-2 m-1 rounded-sm text-[10px] truncate">
                   <span
                     className="truncate"
                     dangerouslySetInnerHTML={{

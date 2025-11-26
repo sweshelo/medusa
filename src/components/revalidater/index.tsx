@@ -59,7 +59,7 @@ export const Revalidater = ({ timestamp }: RevalidaterProps) => {
   return (
     <>
       <div
-        className={classNames('p-[3px] rounded-lg shadow mt-4 outline outline-1', {
+        className={classNames('p-[3px] rounded-lg shadow-sm mt-4 outline-solid outline-1', {
           'bg-green-300': isEnabled,
           'outline-green-500': isEnabled,
           'text-black': isEnabled,
@@ -69,7 +69,11 @@ export const Revalidater = ({ timestamp }: RevalidaterProps) => {
         })}
         data-tooltip-id={'revalidate'}
       >
-        <button className="w-full text-center" onClick={handleButtonClick} disabled={!isEnabled}>
+        <button
+          className={`w-full text-center ${isEnabled ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+          onClick={handleButtonClick}
+          disabled={!isEnabled}
+        >
           <p>最新のデータをリクエストする</p>
           {timestamp && (
             <p className="text-gray-500 text-[10px]">

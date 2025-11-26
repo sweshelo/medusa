@@ -1,6 +1,55 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --background-image-rainbow: linear-gradient(
+    45deg,
+    #fad,
+    #ffa,
+    #afa,
+    #aaf,
+    #caf
+  );
+  --background-image-silver-gradient: linear-gradient(
+    to right,
+    rgb(180, 180, 180),
+    rgb(240, 240, 240),
+    rgb(180, 180, 180)
+  );
+
+  --font-mplus: 'M PLUS 1p', sans-serif;
+
+  --animate-shine: shine 2s ease-in-out infinite;
+
+  @keyframes shine {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 :root {
   --background: #ffffff;
@@ -19,5 +68,5 @@
 body {
   color: #0a0a0a; /* var(--foreground);*/
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:'M PLUS 1p', sans-serif;
 }
