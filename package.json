@@ -1,6 +1,6 @@
 {
   "name": "medusa",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
@@ -22,6 +22,7 @@
     "@vercel/speed-insights": "^1.2.0",
     "cheerio": "^1.1.2",
     "classnames": "^2.5.1",
+    "d3": "^5.15.0",
     "date-fns": "^4.1.0",
     "highcharts": "^12.4.0",
     "highcharts-react-official": "^3.2.3",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@eslint/compat": "^1.4.1",
+    "@types/d3": "^7.4.3",
     "@types/node": "^22.19.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",

@@ -7,6 +7,7 @@ import { RecordsTable } from '@/components/records-table'
 import { Revalidater } from '@/components/revalidater'
 import { AverageToolTipIcon } from '@/components/tooltip/average'
 import { DeviationToolTipIcon } from '@/components/tooltip/deviation'
+import { PlayedPrefectureMap } from '@/features/prefecture-map'
 import { fetchPlayerCount, fetchPlayerDeviationRanking } from '@/service/supabase/player'
 import { Achievement } from '@/types/achievement'
 import { Database } from '@/types/database.types'
@@ -99,6 +100,9 @@ export const PlayerPage = async ({ player, achievement, timestamp }: PlayerPageP
             record => record.diff && record.diff >= 50 && record.diff <= 500
           )}
         />
+      </div>
+      <div className="my-4">
+        <PlayedPrefectureMap playerName={player.name} />
       </div>
       <Revalidater timestamp={timestamp} />
       <div className="my-4">

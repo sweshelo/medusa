@@ -49,6 +49,11 @@ export const Drawer = () => {
             </Link>
           </li>
           <li>
+            <Link href="/prefecture" className="block p-2 hover:bg-gray-100">
+              制県度ランキング
+            </Link>
+          </li>
+          <li>
             <Link href="/search" className="block p-2 hover:bg-gray-100">
               プレイヤー検索
             </Link>

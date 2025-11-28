@@ -28,22 +28,26 @@ const PlayCountRankingPage = ({ ranking, season, timestamp }: PlayCountRankingPa
         </div>
       )}
       <div className="mt-4 mb-4 space-y-2">
-        {ranking.map((player, index) => (
-          <PlayerCard
-            player={{ name: player.player_name }}
-            chara={player.chara}
-            key={player.player_name}
-          >
-            <div className="flex items-center">
-              <Shiny color={getPlayerRankColor(index, 50)} className="rounded-lg border px-3">
-                <div className="text-xs text-gray-600">{index + 1}位</div>
-              </Shiny>
-              <div className="text-sm text-gray-600 ml-1 truncate">
-                {`| ${player.play_count}プレイ`}
+        {ranking.length > 0 ? (
+          ranking.map((player, index) => (
+            <PlayerCard
+              player={{ name: player.player_name }}
+              chara={player.chara}
+              key={player.player_name}
+            >
+              <div className="flex items-center">
+                <Shiny color={getPlayerRankColor(index, 50)} className="rounded-lg border px-3">
+                  <div className="text-xs text-gray-600">{index + 1}位</div>
+                </Shiny>
+                <div className="text-sm text-gray-600 ml-1 truncate">
+                  {`| ${player.play_count}プレイ`}
+                </div>
               </div>
-            </div>
-          </PlayerCard>
-        ))}
+            </PlayerCard>
+          ))
+        ) : (
+          <p>ランキング情報の取得に失敗しました</p>
+        )}
       </div>
     </>
   )

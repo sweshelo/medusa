@@ -27,13 +27,13 @@ export const RecordsTable = async ({ records }: RecordsTableProps) => {
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-orange-300">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-center">
+            <th className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-center">
               日時
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-center">
+            <th className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-center">
               累計
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-center">
+            <th className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-center">
               推定
             </th>
           </tr>
