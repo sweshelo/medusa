@@ -26,6 +26,7 @@ export const MockPlayerResponse: PlayerDetail = {
       elapsed: 120,
       recorded_at: '2024-11-17T11:18:00.000Z',
       created_at: '2024-11-17T11:18:00.000Z',
+      version: null,
     },
   ],
   average: 210,
