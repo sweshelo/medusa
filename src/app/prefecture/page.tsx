@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: 'プレイヤーの都道府県制覇状況をランキング形式で表示します',
 }
 
-export const revalidate = 86400 * 7 // 1週間キャッシュ
+export const revalidate = 604800 // 1週間キャッシュ
 
 export default async function Page() {
   const ranking = await fetchPrefectureConquestRanking()
