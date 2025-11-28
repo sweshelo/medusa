@@ -205,6 +205,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_all_player_achievements: {
+        Args: never
+        Returns: {
+          achievement: string
+          player_name: string
+        }[]
+      }
       get_distinct_achievements: {
         Args: { player_name_param: string }
         Returns: {
