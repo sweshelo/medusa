@@ -30,6 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function Page({ params }: PageProps) {
   const player = await fetchPlayer(parseInt((await params).id))
   const achievement = (await fetchAchievement(player.records[0].achievement)) ?? undefined
+  const date = new Date()
 
-  return player ? <PlayerPage player={player} achievement={achievement} /> : <></>
+  return player ? <PlayerPage player={player} achievement={achievement} timestamp={date} /> : <></>
 }

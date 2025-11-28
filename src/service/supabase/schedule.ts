@@ -1,7 +1,7 @@
 import { supabase } from './client'
 
 export const fetchSchedule = async () => {
-  const { data, error } = await supabase(['schedule']).from('schedule').select('*')
+  const { data, error } = await supabase.from('schedule').select('*')
   if (error) {
     console.error('スケジュール取得でエラー: ', error)
     return []

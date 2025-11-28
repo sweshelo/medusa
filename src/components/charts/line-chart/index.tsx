@@ -52,7 +52,7 @@ export const PointsLineChart = ({ records }: PointsLineChartProps) => {
         title: { text: '日付' },
       },
       yAxis: {
-        title: { text: null, margin: 0 },
+        title: { text: undefined, margin: 0 },
         labels: { reserveSpace: true },
       },
       chart: {
@@ -89,7 +89,7 @@ export const PointsLineChart = ({ records }: PointsLineChartProps) => {
   }, [records])
 
   return chartOptions ? (
-    <div className="bg-white my-2 sm:p-4 p-2 rounded-lg w-full max-w-6xl mx-auto shadow">
+    <div className="bg-white my-2 sm:p-4 p-2 rounded-lg w-full max-w-6xl mx-auto shadow-sm">
       <HighchartsReact highcharts={Highcharts} options={chartOptions} />
     </div>
   ) : null

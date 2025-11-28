@@ -3,7 +3,7 @@ import { subDays } from 'date-fns'
 import { supabase } from './client'
 
 export const getPlayerIdByName = async (playerName: string) => {
-  const { data: players, error } = await supabase([playerName])
+  const { data: players, error } = await supabase
     .from('player')
     .select('id')
     .eq('name', playerName)
@@ -19,8 +19,7 @@ export const getPlayerIdByName = async (playerName: string) => {
 
 export const fetchPlayer = async (playerId: number) => {
   // プレイヤー情報を取得
-  const tag = [`${playerId}`]
-  const { data: players, error: playerError } = await supabase(tag)
+  const { data: players, error: playerError } = await supabase
     .from('player')
     .select('*')
     .eq('id', playerId)
@@ -33,7 +32,7 @@ export const fetchPlayer = async (playerId: number) => {
   const [player] = players
 
   // レコードを取得（新しい順に300件まで）
-  const { data: records, error: recordsError } = await supabase(tag)
+  const { data: records, error: recordsError } = await supabase
     .from('record')
     .select('*')
     .eq('player_name', player.name)
@@ -45,7 +44,7 @@ export const fetchPlayer = async (playerId: number) => {
   }
 
   // 最高ランキング
-  const { data: rankings } = await supabase(tag)
+  const { data: rankings } = await supabase
     .from('record')
     .select('ranking')
     .eq('player_name', player.name)
@@ -61,7 +60,7 @@ export const fetchPlayer = async (playerId: number) => {
 }
 
 export const fetchAllPlayersName = async (): Promise<string[]> => {
-  const { data: players, error: joinError } = await supabase(['ranking'])
+  const { data: players, error: joinError } = await supabase
     .from('player')
     .select(`name`)
     .order('name')
@@ -75,7 +74,7 @@ export const fetchAllPlayersName = async (): Promise<string[]> => {
 }
 
 export const fetchRecentPlayedPlayersId = async (): Promise<number[]> => {
-  const { data: players, error: joinError } = await supabase(['ranking'])
+  const { data: players, error: joinError } = await supabase
     .from('player')
     .select(`id`)
     .gte('updated_at', subDays(new Date(), 30).toISOString())
@@ -91,7 +90,7 @@ export const fetchRecentPlayedPlayersId = async (): Promise<number[]> => {
 
 export const fetchPlayerCount = async () => {
   // プレイヤー情報を取得
-  const result = await supabase(['stats'])
+  const result = await supabase
     .from('player')
     .select('deviation_value', { count: 'exact', head: true })
     .not('deviation_value', 'is', null)
@@ -103,7 +102,7 @@ export const fetchPlayerCount = async () => {
 
 export const fetchPlayerDeviationRanking = async (player: string) => {
   // ① 指定されたユーザーの deviation_value を取得する
-  const { data: userData, error: userError } = await supabase([player])
+  const { data: userData, error: userError } = await supabase
     .from('player') // 対象のテーブル名（必要に応じて変更してください）
     .select('deviation_value')
     .eq('name', player)
@@ -118,7 +117,7 @@ export const fetchPlayerDeviationRanking = async (player: string) => {
   if (userDeviation === null) return null
 
   // ② ユーザーよりも高い deviation_value を持つプレイヤーの件数をカウントする
-  const { count, error: countError } = await supabase([player])
+  const { count, error: countError } = await supabase
     .from('player')
     .select('deviation_value', { count: 'exact', head: true })
     .neq('name', player)
