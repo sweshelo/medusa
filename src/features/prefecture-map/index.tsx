@@ -36,13 +36,16 @@ export const PlayedPrefectureMap = async ({ playerName }: PlayedPrefectureMapPro
   return (
     <div>
       <SmallHeadline title="プレイエリアマップ" />
-      {conquestData && (
-        <ConquestBar
-          played={conquestData.played}
-          total={conquestData.total}
-          rate={conquestData.rate}
-        />
-      )}
+      <div className="bg-white text-center text-sm p-1 my-1 rounded-lg">
+        合計 {playedPrefectures.length} 都道府県でプレイ
+        {conquestData && (
+          <ConquestBar
+            played={conquestData.played}
+            total={conquestData.total}
+            rate={conquestData.rate}
+          />
+        )}
+      </div>
       <div className="bg-white rounded-lg shadow-sm mt-2">
         <PrefectureMap playedPrefectures={playedPrefectures} />
       </div>
