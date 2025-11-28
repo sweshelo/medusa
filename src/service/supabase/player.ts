@@ -78,7 +78,8 @@ export const fetchRecentPlayedPlayersId = async (): Promise<number[]> => {
     .from('player')
     .select(`id`)
     .gte('updated_at', subDays(new Date(), 30).toISOString())
-    .order('name')
+    .order('updated_at', { ascending: false })
+    .limit(50)
 
   if (joinError) {
     console.error('ユーザ取得でエラー: ', joinError)
