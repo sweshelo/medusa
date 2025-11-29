@@ -35,6 +35,7 @@ export type Database = {
     Tables: {
       achievement: {
         Row: {
+          category: Json[] | null
           created_at: string
           discoverer: string | null
           icon_first: string | null
@@ -44,6 +45,7 @@ export type Database = {
           title: string
         }
         Insert: {
+          category?: Json[] | null
           created_at?: string
           discoverer?: string | null
           icon_first?: string | null
@@ -53,6 +55,7 @@ export type Database = {
           title: string
         }
         Update: {
+          category?: Json[] | null
           created_at?: string
           discoverer?: string | null
           icon_first?: string | null
