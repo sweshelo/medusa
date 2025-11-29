@@ -16,7 +16,7 @@ export const AchievementPanel = ({ achievement, infomations }: AchievementPanelP
     infomations.find(info => info.title === toHalfWidth(achievement.title)) ?? {}
 
   return (
-    <details className="my-2 bg-white rounded-sm" key={achievement.id} open>
+    <details className="my-2 bg-white rounded-sm">
       <summary className="list-none cursor-pointer">
         <AchievementView achievement={achievement} />
       </summary>

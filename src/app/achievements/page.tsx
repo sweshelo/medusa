@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import { Suspense } from 'react'
 
 import { Headline } from '@/components/common/headline'
 import { AchievementList } from '@/features/achievement-list'
@@ -42,9 +41,7 @@ export default async function Page() {
   return (
     <>
       <Headline title="称号一覧" />
-      <Suspense fallback={<div className="text-center py-8">読み込み中...</div>}>
-        <AchievementList achievements={sortedAchievements} infomations={infomations} />
-      </Suspense>
+      <AchievementList achievements={sortedAchievements} infomations={infomations} />
     </>
   )
 }
