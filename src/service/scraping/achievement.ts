@@ -14,7 +14,6 @@ export const fetchAchievementInfomation = async (): Promise<AchievementInfo[]> =
   const $ = cheerio.load(html)
 
   // 各種テーブル取得
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [
     common,
     action,
@@ -22,27 +21,28 @@ export const fetchAchievementInfomation = async (): Promise<AchievementInfo[]> =
     shop,
     tower,
     event,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _ranking_year,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _ranking_char,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _ranking_icon_jan,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _ranking_icon_jun,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _unknown,
     prefecure,
   ] = [...$('.uk-table')]
 
-  const normal = [common, action, stage, shop, tower, event]
-    .map(table => {
-      return [...$(table).find('tbody > tr')]
-        .map(tr => {
-          const [titleElm, descriptionElm] = [...$(tr).find('td')]
-          return {
-            title: $(titleElm).text().trim(),
-            description: $(descriptionElm).text().trim(),
-          }
-        })
-        .flat()
+  const normal = [common, action, stage, shop, tower, event].flatMap(table => {
+    return [...$(table).find('tbody > tr')].flatMap(tr => {
+      const [titleElm, descriptionElm] = [...$(tr).find('td')]
+      return {
+        title: $(titleElm).text().trim(),
+        description: $(descriptionElm).text().trim(),
+      }
     })
-    .flat()
+  })
 
   const prefecual = [...$(prefecure).find('tbody > tr')].map(tr => {
     const [prefectureElm, titleElm] = [...$(tr).find('td:not([rowspan])')]
@@ -62,8 +62,6 @@ export const fetchAchievementInfomation = async (): Promise<AchievementInfo[]> =
       })
     })
   })
-
-  console.info(ranking)
 
   return [...normal, ...prefecual, ...ranking]
 }
