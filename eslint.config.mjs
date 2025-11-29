@@ -1,3 +1,5 @@
+import nextTypescript from "eslint-config-next/typescript";
+import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
 import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import _import from "eslint-plugin-import";
@@ -14,7 +16,7 @@ const compat = new FlatCompat({
     allConfig: js.configs.all
 });
 
-export default [...fixupConfigRules(compat.extends(
+export default [...nextTypescript, ...fixupConfigRules(compat.extends(
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/recommended",
@@ -49,4 +51,6 @@ export default [...fixupConfigRules(compat.extends(
         "@typescript-eslint/no-unused-vars": "error",
         "@typescript-eslint/no-explicit-any": "error",
     },
+}, {
+    ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts"]
 }];

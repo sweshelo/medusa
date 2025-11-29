@@ -7,7 +7,7 @@
     "build": "next build",
     "build:verify": "rimraf .next-verify && cross-env NEXT_BUILD_DIR=.next-verify next build && rimraf .next-verify",
     "start": "next start",
-    "lint": "next lint --fix",
+    "lint": "eslint --fix .",
     "format": "prettier --write .",
     "prepare": "husky",
     "check:deps": "depcruise src",
