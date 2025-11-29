@@ -1,7 +1,8 @@
 import { Metadata } from 'next'
+import { Suspense } from 'react'
 
 import { Headline } from '@/components/common/headline'
-import { AchievementPanel } from '@/features/achievement-panel'
+import { AchievementList } from '@/features/achievement-list'
 import { fetchAchievementInfomation } from '@/service/scraping/achievement'
 import { fetchAllAchievements } from '@/service/supabase/achievement'
 import { Database } from '@/types/database.types'
@@ -25,35 +26,25 @@ export default async function Page() {
     return 1
   }
 
+  const sortedAchievements =
+    achievements?.sort((a, b) => {
+      const priorityDiff = getAchievementPriority(b) - getAchievementPriority(a)
+
+      // 優先度が異なる場合は優先度でソート
+      if (priorityDiff !== 0) {
+        return priorityDiff
+      }
+
+      // 優先度が同じ場合はcreated_atでソート（新しい順）
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    }) || []
+
   return (
     <>
       <Headline title="称号一覧" />
-      <div className="bg-white text-center py-2 mb-2 rounded-lg">
-        <span className="text-sm text-gray-600">
-          閻魔帳に記録された称号一覧です
-          <br />
-          クリックすると詳細を開閉します
-        </span>
-      </div>
-      {achievements
-        ?.sort((a, b) => {
-          const priorityDiff = getAchievementPriority(b) - getAchievementPriority(a)
-
-          // 優先度が異なる場合は優先度でソート
-          if (priorityDiff !== 0) {
-            return priorityDiff
-          }
-
-          // 優先度が同じ場合はcreated_atでソート（新しい順）
-          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        })
-        .map(achievement => (
-          <AchievementPanel
-            achievement={achievement}
-            infomations={infomations}
-            key={achievement.id}
-          />
-        ))}
+      <Suspense fallback={<div className="text-center py-8">読み込み中...</div>}>
+        <AchievementList achievements={sortedAchievements} infomations={infomations} />
+      </Suspense>
     </>
   )
 }
