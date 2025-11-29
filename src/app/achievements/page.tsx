@@ -1,9 +1,8 @@
-import { format } from 'date-fns'
 import { Metadata } from 'next'
-import Link from 'next/link'
 
-import { AchievementView } from '@/components/achievement'
 import { Headline } from '@/components/common/headline'
+import { AchievementPanel } from '@/features/achievement-panel'
+import { fetchAchievementInfomation } from '@/service/scraping/achievement'
 import { fetchAllAchievements } from '@/service/supabase/achievement'
 import { Database } from '@/types/database.types'
 
@@ -15,6 +14,7 @@ export const revalidate = 43200
 
 export default async function Page() {
   const achievements = await fetchAllAchievements()
+  const infomations = await fetchAchievementInfomation()
 
   const getAchievementPriority = (
     achievement: Database['public']['Tables']['achievement']['Row']
@@ -48,22 +48,11 @@ export default async function Page() {
           return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         })
         .map(achievement => (
-          <details className="my-2 bg-white rounded-sm" key={achievement.id} open>
-            <summary className="list-none cursor-pointer">
-              <AchievementView achievement={achievement} />
-            </summary>
-            <p className="p-1 text-center">
-              {achievement.discoverer && (
-                <>
-                  <span className="text-blue-600 hover:text-blue-800 hover:underline font-medium mr-1">
-                    <Link href={`/player/${achievement.discoverer}`}>{achievement.discoverer}</Link>
-                  </span>
-                  によって
-                </>
-              )}
-              {`${format(achievement.created_at, 'yyyy/MM/dd')}に発見`}
-            </p>
-          </details>
+          <AchievementPanel
+            achievement={achievement}
+            infomations={infomations}
+            key={achievement.id}
+          />
         ))}
     </>
   )
