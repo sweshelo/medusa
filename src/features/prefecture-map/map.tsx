@@ -55,7 +55,9 @@ export const PrefectureMap = ({ playedPrefectures }: PrefectureMapProps) => {
       .attr('fill', (feature: any) => {
         // プレイ済みの都道府県は赤色、未プレイは灰色
         const prefectureName = feature.properties.name_ja
-        return playedPrefectures.includes(prefectureName) ? '#CC4C39' : '#A0A0A0'
+        return playedPrefectures.includes(prefectureName)
+          ? '#CC4C39'
+          : '#A0A0A0'
       })
       .attr('fill-opacity', 0.8)
   }, [playedPrefectures])

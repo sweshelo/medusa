@@ -2,7 +2,10 @@ import type { Metadata } from 'next'
 
 import { PlayerPage } from '@/features/player'
 import { fetchAchievement } from '@/service/supabase/achievement'
-import { fetchPlayer, fetchRecentPlayedPlayersId } from '@/service/supabase/player'
+import {
+  fetchPlayer,
+  fetchRecentPlayedPlayersId,
+} from '@/service/supabase/player'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -13,10 +16,12 @@ export const dynamicParams = true
 
 export async function generateStaticParams() {
   const players = await fetchRecentPlayedPlayersId()
-  return players.map(id => ({ id: `${id}` }))
+  return players.map((id) => ({ id: `${id}` }))
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { name } = await fetchPlayer(parseInt((await params).id, 10))
   return {
     title: `${name}さんのページ`,
@@ -29,8 +34,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function Page({ params }: PageProps) {
   const player = await fetchPlayer(parseInt((await params).id, 10))
-  const achievement = (await fetchAchievement(player.records[0].achievement)) ?? undefined
+  const achievement =
+    (await fetchAchievement(player.records[0].achievement)) ?? undefined
   const date = new Date()
 
-  return player ? <PlayerPage player={player} achievement={achievement} timestamp={date} /> : null
+  return player ? (
+    <PlayerPage player={player} achievement={achievement} timestamp={date} />
+  ) : null
 }

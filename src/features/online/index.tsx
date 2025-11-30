@@ -23,7 +23,11 @@ export const OnlinePlayers = ({ players, timestamp }: Props) => {
       <ScheduleTable />
       <div className="mt-4 mb-4 space-y-2">
         {players.map((player, index) => (
-          <PlayerCard player={{ name: player.player_name }} chara={player.chara} key={index}>
+          <PlayerCard
+            player={{ name: player.player_name }}
+            chara={player.chara}
+            key={index}
+          >
             <div className="flex">
               <div className="text-sm text-gray-600 ml-1">
                 {player.recorded_at

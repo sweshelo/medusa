@@ -8,7 +8,10 @@ import { Revalidater } from '@/components/revalidater'
 import { AverageToolTipIcon } from '@/components/tooltip/average'
 import { DeviationToolTipIcon } from '@/components/tooltip/deviation'
 import { PlayedPrefectureMap } from '@/features/prefecture-map'
-import { fetchPlayerCount, fetchPlayerDeviationRanking } from '@/service/supabase/player'
+import {
+  fetchPlayerCount,
+  fetchPlayerDeviationRanking,
+} from '@/service/supabase/player'
 import type { Achievement } from '@/types/achievement'
 import type { Database } from '@/types/database.types'
 import { getPlayerRankColor } from '@/utils/colors'
@@ -22,7 +25,11 @@ interface PlayerPageProps {
   timestamp: Date
 }
 
-export const PlayerPage = async ({ player, achievement, timestamp }: PlayerPageProps) => {
+export const PlayerPage = async ({
+  player,
+  achievement,
+  timestamp,
+}: PlayerPageProps) => {
   const [digest] = player.records
 
   const count = await fetchPlayerCount()
@@ -57,7 +64,9 @@ export const PlayerPage = async ({ player, achievement, timestamp }: PlayerPageP
                 <p className="text-left text-xs">最高ランキング</p>
               </div>
               <div className="">
-                <p className="text-right text-lg">{player.ranking && `${player.ranking}位`}</p>
+                <p className="text-right text-lg">
+                  {player.ranking && `${player.ranking}位`}
+                </p>
               </div>
             </div>
           </Shiny>
@@ -87,7 +96,9 @@ export const PlayerPage = async ({ player, achievement, timestamp }: PlayerPageP
                 <DeviationToolTipIcon />
               </div>
               <div className="">
-                <p className="text-right text-lg">{player.deviation_value ?? '-'}</p>
+                <p className="text-right text-lg">
+                  {player.deviation_value ?? '-'}
+                </p>
               </div>
             </div>
           </Shiny>
@@ -97,7 +108,7 @@ export const PlayerPage = async ({ player, achievement, timestamp }: PlayerPageP
         <SmallHeadline title="貢献度の推移" />
         <PointsLineChart
           records={player.records.filter(
-            record => record.diff && record.diff >= 50 && record.diff <= 500
+            (record) => record.diff && record.diff >= 50 && record.diff <= 500,
           )}
         />
       </div>

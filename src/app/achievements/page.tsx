@@ -17,7 +17,7 @@ export default async function Page() {
   const infomations = await fetchAchievementInfomation()
 
   const getAchievementPriority = (
-    achievement: Database['public']['Tables']['achievement']['Row']
+    achievement: Database['public']['Tables']['achievement']['Row'],
   ): number => {
     if (achievement.icon_last) return 4
     if (achievement.icon_first) return 3
@@ -41,7 +41,10 @@ export default async function Page() {
   return (
     <>
       <Headline title="称号一覧" />
-      <AchievementList achievements={sortedAchievements} infomations={infomations} />
+      <AchievementList
+        achievements={sortedAchievements}
+        infomations={infomations}
+      />
     </>
   )
 }

@@ -11,9 +11,13 @@ interface AchievementPanelProps {
   infomations: AchievementInfo[]
 }
 
-export const AchievementPanel = ({ achievement, infomations }: AchievementPanelProps) => {
+export const AchievementPanel = ({
+  achievement,
+  infomations,
+}: AchievementPanelProps) => {
   const { description } =
-    infomations.find(info => info.title === toHalfWidth(achievement.title)) ?? {}
+    infomations.find((info) => info.title === toHalfWidth(achievement.title)) ??
+    {}
 
   return (
     <details className="my-2 bg-white rounded-sm">
@@ -29,7 +33,9 @@ export const AchievementPanel = ({ achievement, infomations }: AchievementPanelP
         {achievement.discoverer && (
           <>
             <span className="text-blue-600 hover:text-blue-800 hover:underline font-medium mr-1">
-              <Link href={`/player/${achievement.discoverer}`}>{achievement.discoverer}</Link>
+              <Link href={`/player/${achievement.discoverer}`}>
+                {achievement.discoverer}
+              </Link>
             </span>
             によって
           </>

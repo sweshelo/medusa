@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Headline } from '@/components/common/headline'
 import { Shiny } from '@/components/common/shiny'
 import { SmallHeadline } from '@/components/common/small-headline'
@@ -25,7 +23,10 @@ const RankingPage = ({ ranking }: RankingPageProps) => {
         {ranking.map((player, index) => (
           <PlayerCard player={player} chara={player.chara} key={index}>
             <div className="flex items-center">
-              <Shiny color={getPlayerRankColor(index, 100)} className="rounded-lg border px-3">
+              <Shiny
+                color={getPlayerRankColor(index, 100)}
+                className="rounded-lg border px-3"
+              >
                 <div className="text-xs text-gray-600">{index + 1}位</div>
               </Shiny>
               <div className="text-sm text-gray-600 ml-1 truncate">
@@ -34,7 +35,8 @@ const RankingPage = ({ ranking }: RankingPageProps) => {
                   <span
                     className="truncate"
                     dangerouslySetInnerHTML={{
-                      __html: player.achievement.markup || player.achievement.title,
+                      __html:
+                        player.achievement.markup || player.achievement.title,
                     }}
                   />
                 </span>

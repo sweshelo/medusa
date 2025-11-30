@@ -4,7 +4,8 @@ import type { Achievement } from '@/types/achievement'
 
 import { Shiny } from '../common/shiny'
 
-const BaseURL = 'https://eacache.s.konaminet.jp/game/chase2jokers/ccj/images/ranking/title_icon/'
+const BaseURL =
+  'https://eacache.s.konaminet.jp/game/chase2jokers/ccj/images/ranking/title_icon/'
 const Icons = [
   '01jan.png',
   '02feb.png',

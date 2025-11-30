@@ -1,6 +1,8 @@
 import { supabase } from './client'
 
-export const fetchPlayerAchievements = async (playerName: string): Promise<string[]> => {
+export const fetchPlayerAchievements = async (
+  playerName: string,
+): Promise<string[]> => {
   const { data, error } = await supabase.rpc('get_distinct_achievements', {
     player_name_param: playerName,
   })
@@ -10,5 +12,5 @@ export const fetchPlayerAchievements = async (playerName: string): Promise<strin
     return []
   }
 
-  return data?.map(row => row.achievement) ?? []
+  return data?.map((row) => row.achievement) ?? []
 }

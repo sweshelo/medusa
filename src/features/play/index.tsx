@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Headline } from '@/components/common/headline'
 import { Shiny } from '@/components/common/shiny'
 import { PlayerCard } from '@/components/player/card'
@@ -13,14 +11,19 @@ interface PlayCountRankingPageProps {
   timestamp: Date
 }
 
-const PlayCountRankingPage = ({ ranking, season, timestamp }: PlayCountRankingPageProps) => {
+const PlayCountRankingPage = ({
+  ranking,
+  season,
+  timestamp,
+}: PlayCountRankingPageProps) => {
   return (
     <>
       <Headline title="プレイ数ランキング" />
       {season && (
         <div className="bg-white text-center py-2 mb-2 rounded-lg">
           <span className="text-sm text-gray-600">
-            シーズン{season.number}（{new Date(season.started_at).toLocaleDateString('ja-JP')}
+            シーズン{season.number}（
+            {new Date(season.started_at).toLocaleDateString('ja-JP')}
             〜）のプレイ数ランキングです
             <br />
             最終更新: {timestamp.toLocaleString('ja-JP')}
@@ -36,7 +39,10 @@ const PlayCountRankingPage = ({ ranking, season, timestamp }: PlayCountRankingPa
               key={player.player_name}
             >
               <div className="flex items-center">
-                <Shiny color={getPlayerRankColor(index, 50)} className="rounded-lg border px-3">
+                <Shiny
+                  color={getPlayerRankColor(index, 50)}
+                  className="rounded-lg border px-3"
+                >
                   <div className="text-xs text-gray-600">{index + 1}位</div>
                 </Shiny>
                 <div className="text-sm text-gray-600 ml-1 truncate">

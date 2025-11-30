@@ -14,9 +14,13 @@ interface PlayerAchievement {
  * 1. RPCで全プレイヤーの(player_name, achievement)を取得（ページネーション対応）
  * 2. TypeScript側で都道府県の称号のみフィルタして集計
  */
-export const fetchPrefectureConquestRanking = async (): Promise<PrefectureRanking[]> => {
+export const fetchPrefectureConquestRanking = async (): Promise<
+  PrefectureRanking[]
+> => {
   // 都道府県の称号リスト（半角）
-  const prefectureAchievements = new Set(PrefectureAchievements.map(p => p.achievement))
+  const prefectureAchievements = new Set(
+    PrefectureAchievements.map((p) => p.achievement),
+  )
 
   // RPC: 全プレイヤーの称号をDISTINCTで取得（ページネーション）
   const allPlayerAchievements: PlayerAchievement[] = []
@@ -97,7 +101,7 @@ export const fetchPrefectureConquestRanking = async (): Promise<PrefectureRankin
   }
 
   // キャラ情報を追加
-  const ranking: PrefectureRanking[] = preliminaryRanking.map(player => ({
+  const ranking: PrefectureRanking[] = preliminaryRanking.map((player) => ({
     ...player,
     chara: playerCharaMap.get(player.player_name) || null,
   }))

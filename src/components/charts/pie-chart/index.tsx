@@ -36,7 +36,7 @@ export const RankingPieChart = ({ ranking }: RankingPieChartProps) => {
             count: counts.get(id),
           }
         })
-        .filter(r => r.count && r.count > 0)
+        .filter((r) => r.count && r.count > 0),
     )
   }, [ranking])
 

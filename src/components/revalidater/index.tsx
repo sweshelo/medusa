@@ -38,7 +38,7 @@ export const Revalidater = ({ timestamp }: RevalidaterProps) => {
         [pathname]: {
           timestamp: new Date().toISOString(),
         },
-      })
+      }),
     )
     setEnabled(false)
     setStoredDate(new Date())
@@ -48,8 +48,12 @@ export const Revalidater = ({ timestamp }: RevalidaterProps) => {
   const [isEnabled, setEnabled] = useState<boolean>(false)
   const [storedDate, setStoredDate] = useState<Date | undefined>(timestamp)
   useEffect(() => {
-    setEnabled(storedDate ? differenceInSeconds(new Date(), storedDate) >= RefreshSpan : true)
-  }, [pathname, storedDate])
+    setEnabled(
+      storedDate
+        ? differenceInSeconds(new Date(), storedDate) >= RefreshSpan
+        : true,
+    )
+  }, [storedDate])
 
   useEffect(() => {
     const timestamp = getRevalidateLog()[pathname]?.timestamp
@@ -59,14 +63,17 @@ export const Revalidater = ({ timestamp }: RevalidaterProps) => {
   return (
     <>
       <div
-        className={classNames('p-[3px] rounded-lg shadow-sm mt-4 outline-solid outline-1', {
-          'bg-green-300': isEnabled,
-          'outline-green-500': isEnabled,
-          'text-black': isEnabled,
-          'bg-gray-300': !isEnabled,
-          'outline-gray-400': !isEnabled,
-          'text-gray-500': !isEnabled,
-        })}
+        className={classNames(
+          'p-[3px] rounded-lg shadow-sm mt-4 outline-solid outline-1',
+          {
+            'bg-green-300': isEnabled,
+            'outline-green-500': isEnabled,
+            'text-black': isEnabled,
+            'bg-gray-300': !isEnabled,
+            'outline-gray-400': !isEnabled,
+            'text-gray-500': !isEnabled,
+          },
+        )}
         data-tooltip-id={'revalidate'}
       >
         <button
@@ -77,7 +84,8 @@ export const Revalidater = ({ timestamp }: RevalidaterProps) => {
           <p>最新のデータをリクエストする</p>
           {timestamp && (
             <p className="text-gray-500 text-[10px]">
-              このページは {formatDate(timestamp, 'MM/dd HH:mm')} に更新されました
+              このページは {formatDate(timestamp, 'MM/dd HH:mm')}{' '}
+              に更新されました
             </p>
           )}
         </button>
@@ -86,7 +94,10 @@ export const Revalidater = ({ timestamp }: RevalidaterProps) => {
         <Tooltip id="revalidate">
           <p>
             このページは
-            {format(storedDate ? addSeconds(storedDate, RefreshSpan) : new Date(), 'HH時mm分ss秒')}
+            {format(
+              storedDate ? addSeconds(storedDate, RefreshSpan) : new Date(),
+              'HH時mm分ss秒',
+            )}
             に再度更新が可能です。
           </p>
         </Tooltip>

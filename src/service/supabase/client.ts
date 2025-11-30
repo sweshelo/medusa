@@ -4,5 +4,5 @@ import type { Database } from '@/types/database.types'
 
 export const supabase = createClient<Database>(
   process.env.SUPABASE_URL!,
-  process.env.SUPABASE_API_KEY!
+  process.env.SUPABASE_API_KEY!,
 )
