@@ -9,10 +9,12 @@ export const ScheduleTable = async () => {
 
   // 現在アクティブな期間を見つける
   const currentIndex = schedule.findIndex((table) =>
-    isWithinInterval(new Date(), {
-      start: parseISO(table.started_at!),
-      end: parseISO(table.ended_at!),
-    }),
+    table.started_at && table.ended_at
+      ? isWithinInterval(new Date(), {
+          start: parseISO(table.started_at),
+          end: parseISO(table.ended_at),
+        })
+      : false,
   )
 
   // 表示する範囲を決定（現在の期間の前後1件ずつ）

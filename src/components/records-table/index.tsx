@@ -14,8 +14,9 @@ export const RecordsTable = async ({ records }: RecordsTableProps) => {
   const schedule = await fetchSchedule()
   const getStage = (date: Date) => {
     const term = schedule.find((s) => {
-      const start = new TZDate(s.started_at!, 'Asia/Tokyo')
-      const end = new TZDate(s.ended_at!, 'Asia/Tokyo')
+      if (!s.started_at) return false
+      const start = new TZDate(s.started_at, 'Asia/Tokyo')
+      const end = s.ended_at ? new TZDate(s.ended_at, 'Asia/Tokyo') : new Date()
       return isWithinInterval(date, { start, end })
     })
 

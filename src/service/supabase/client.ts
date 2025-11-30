@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/style/noNonNullAssertion: 環境変数はある前提とする */
 import { createClient } from '@supabase/supabase-js'
 
 import type { Database } from '@/types/database.types'

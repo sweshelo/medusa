@@ -47,11 +47,11 @@ export const PrefectureMap = ({ playedPrefectures }: PrefectureMapProps) => {
       .data(geoJson.features)
       .enter()
       .append('path')
-      // eslint-disable-next-line
+      // biome-ignore lint/suspicious/noExplicitAny: 型定義がないので許容
       .attr('d', path as any)
       .attr('stroke', '#666')
       .attr('stroke-width', 0.25)
-      // eslint-disable-next-line
+      // biome-ignore lint/suspicious/noExplicitAny: 型定義がないので許容
       .attr('fill', (feature: any) => {
         // プレイ済みの都道府県は赤色、未プレイは灰色
         const prefectureName = feature.properties.name_ja
