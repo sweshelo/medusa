@@ -1,10 +1,10 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 import { Headline } from '@/components/common/headline'
 import { AchievementList } from '@/features/achievement-list'
 import { fetchAchievementInfomation } from '@/service/scraping/achievement'
 import { fetchAllAchievements } from '@/service/supabase/achievement'
-import { Database } from '@/types/database.types'
+import type { Database } from '@/types/database.types'
 
 export const metadata: Metadata = {
   title: '称号',

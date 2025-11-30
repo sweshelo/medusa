@@ -4,8 +4,8 @@ import { Headline } from '@/components/common/headline'
 import { Shiny } from '@/components/common/shiny'
 import { PlayerCard } from '@/components/player/card'
 import { fetchPlayerCount } from '@/service/supabase/player'
-import { Player } from '@/types/player'
-import { Record } from '@/types/record'
+import type { Player } from '@/types/player'
+import type { Record } from '@/types/record'
 import { getPlayerRankColor } from '@/utils/colors'
 
 interface RankingPageProps {

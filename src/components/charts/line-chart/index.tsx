@@ -5,7 +5,7 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import { useEffect, useState } from 'react'
 
-import { Record as CCJRecord } from '@/types/record'
+import type { Record as CCJRecord } from '@/types/record'
 
 interface PointsLineChartProps {
   records: CCJRecord[]

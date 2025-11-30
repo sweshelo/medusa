@@ -2,8 +2,8 @@ import { format } from 'date-fns'
 import Link from 'next/link'
 
 import { AchievementView } from '@/components/achievement'
-import { AchievementInfo } from '@/service/scraping/achievement'
-import { Database } from '@/types/database.types'
+import type { AchievementInfo } from '@/service/scraping/achievement'
+import type { Database } from '@/types/database.types'
 import { toHalfWidth } from '@/utils/text'
 
 interface AchievementPanelProps {

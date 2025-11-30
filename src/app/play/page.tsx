@@ -1,4 +1,4 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 import PlayCountRankingPage from '@/features/play'
 import { fetchPlayCountRanking } from '@/service/supabase/play-count'

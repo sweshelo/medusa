@@ -1,7 +1,7 @@
 import { Headline } from '@/components/common/headline'
 import { Shiny } from '@/components/common/shiny'
 import { PlayerCard } from '@/components/player/card'
-import { PrefectureRanking } from '@/types/prefecture-ranking'
+import type { PrefectureRanking } from '@/types/prefecture-ranking'
 
 interface PrefectureRankingPageProps {
   ranking: PrefectureRanking[]

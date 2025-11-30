@@ -12,6 +12,7 @@ export const Header = () => {
       <div className="max-w-[800px] mx-auto p-4 flex items-center space-x-4">
         <button
           className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center bg-[url('/image/icon.png')] bg-contain z-1 cursor-pointer"
+          type='button'
           onClick={openDrawer}
         />
         <Link className="grow" href={'/'}>

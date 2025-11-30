@@ -5,8 +5,8 @@ import { useSearchParams } from 'next/navigation'
 import { useMemo, useState } from 'react'
 
 import { AchievementPanel } from '@/features/achievement-panel'
-import { AchievementInfo } from '@/service/scraping/achievement'
-import { Database } from '@/types/database.types'
+import type { AchievementInfo } from '@/service/scraping/achievement'
+import type { Database } from '@/types/database.types'
 import { toHalfWidth } from '@/utils/text'
 
 interface AchievementListProps {

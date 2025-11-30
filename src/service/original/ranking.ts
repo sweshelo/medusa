@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio'
 import { format } from 'date-fns'
 
-import { Ranking } from '@/types/ranking'
+import type { Ranking } from '@/types/ranking'
 
 const originalPageURL = (index: number, date: Date | undefined) => {
   const month = format(date ?? new Date(), 'yyyyMM')

@@ -3,8 +3,8 @@ import React from 'react'
 import { Headline } from '@/components/common/headline'
 import { Shiny } from '@/components/common/shiny'
 import { PlayerCard } from '@/components/player/card'
-import { PlayCountRanking } from '@/service/supabase/play-count'
-import { Season } from '@/service/supabase/season'
+import type { PlayCountRanking } from '@/service/supabase/play-count'
+import type { Season } from '@/service/supabase/season'
 import { getPlayerRankColor } from '@/utils/colors'
 
 interface PlayCountRankingPageProps {

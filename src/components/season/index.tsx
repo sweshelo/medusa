@@ -44,7 +44,7 @@ export const Season = async () => {
               <tr
                 key={season.id}
                 className={classNames({
-                  ['bg-amber-200']: isCurrentSeason,
+                  'bg-amber-200': isCurrentSeason,
                 })}
               >
                 <td className="text-center py-2 items-center gap-2 justify-center">

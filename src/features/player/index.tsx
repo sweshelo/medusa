@@ -9,8 +9,8 @@ import { AverageToolTipIcon } from '@/components/tooltip/average'
 import { DeviationToolTipIcon } from '@/components/tooltip/deviation'
 import { PlayedPrefectureMap } from '@/features/prefecture-map'
 import { fetchPlayerCount, fetchPlayerDeviationRanking } from '@/service/supabase/player'
-import { Achievement } from '@/types/achievement'
-import { Database } from '@/types/database.types'
+import type { Achievement } from '@/types/achievement'
+import type { Database } from '@/types/database.types'
 import { getPlayerRankColor } from '@/utils/colors'
 
 interface PlayerPageProps {

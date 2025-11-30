@@ -4,7 +4,7 @@ import { format, isWithinInterval } from 'date-fns'
 
 import { Stage } from '@/components/stage-icon'
 import { fetchSchedule } from '@/service/supabase/schedule'
-import { Record } from '@/types/record'
+import type { Record } from '@/types/record'
 
 interface RecordsTableProps {
   records: Record[]
@@ -39,16 +39,16 @@ export const RecordsTable = async ({ records }: RecordsTableProps) => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {records.slice(0, 100).map((record, index) => {
+          {records.slice(0, 100).map((record) => {
             const date = new TZDate(
               `${record.recorded_at ?? record.created_at.replace(/\+00:00$/, '-09:00')}+09:00`
             )
             const stage = getStage(date)
             return (
               <tr
-                key={index}
+                key={record.id}
                 className={classNames({
-                  ['bg-gray-200']: !record.elapsed || record.elapsed! >= 600,
+                  'bg-gray-200': !record.elapsed || record.elapsed >= 600,
                 })}
               >
                 <td className="text-center py-2 flex items-center gap-2 justify-center">

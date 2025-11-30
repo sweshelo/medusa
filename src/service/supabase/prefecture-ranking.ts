@@ -1,5 +1,5 @@
 import { PrefectureAchievements } from '@/constants/prefecture'
-import { PrefectureRanking } from '@/types/prefecture-ranking'
+import type { PrefectureRanking } from '@/types/prefecture-ranking'
 import { toHalfWidth } from '@/utils/text'
 
 import { supabase } from './client'
