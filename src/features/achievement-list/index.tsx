@@ -41,12 +41,7 @@ export const AchievementList = ({
     if (selectedTag !== 'all') {
       result = result.filter((achievement) => {
         const info = infomations.find((info) => {
-          // 半角に変換したタイトルと比較
-          const normalizedTitle = achievement.title.replace(
-            /[Ａ-Ｚａ-ｚ０-９]/g,
-            (s) => String.fromCharCode(s.charCodeAt(0) - 0xfee0),
-          )
-          return info.title === normalizedTitle
+          return info.title === toHalfWidth(achievement.title)
         })
         return info?.tag === selectedTag
       })
