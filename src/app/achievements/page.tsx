@@ -1,9 +1,9 @@
-import { format } from 'date-fns'
 import { Metadata } from 'next'
-import Link from 'next/link'
+import { Suspense } from 'react'
 
-import { AchievementView } from '@/components/achievement'
 import { Headline } from '@/components/common/headline'
+import { AchievementList } from '@/features/achievement-list'
+import { fetchAchievementInfomation } from '@/service/scraping/achievement'
 import { fetchAllAchievements } from '@/service/supabase/achievement'
 import { Database } from '@/types/database.types'
 
@@ -15,6 +15,7 @@ export const revalidate = 43200
 
 export default async function Page() {
   const achievements = await fetchAllAchievements()
+  const infomations = await fetchAchievementInfomation()
 
   const getAchievementPriority = (
     achievement: Database['public']['Tables']['achievement']['Row']
@@ -25,46 +26,25 @@ export default async function Page() {
     return 1
   }
 
+  const sortedAchievements =
+    achievements?.sort((a, b) => {
+      const priorityDiff = getAchievementPriority(b) - getAchievementPriority(a)
+
+      // 優先度が異なる場合は優先度でソート
+      if (priorityDiff !== 0) {
+        return priorityDiff
+      }
+
+      // 優先度が同じ場合はcreated_atでソート（新しい順）
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    }) || []
+
   return (
     <>
       <Headline title="称号一覧" />
-      <div className="bg-white text-center py-2 mb-2 rounded-lg">
-        <span className="text-sm text-gray-600">
-          閻魔帳に記録された称号一覧です
-          <br />
-          クリックすると詳細を開閉します
-        </span>
-      </div>
-      {achievements
-        ?.sort((a, b) => {
-          const priorityDiff = getAchievementPriority(b) - getAchievementPriority(a)
-
-          // 優先度が異なる場合は優先度でソート
-          if (priorityDiff !== 0) {
-            return priorityDiff
-          }
-
-          // 優先度が同じ場合はcreated_atでソート（新しい順）
-          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        })
-        .map(achievement => (
-          <details className="my-2 bg-white rounded-sm" key={achievement.id} open>
-            <summary className="list-none cursor-pointer">
-              <AchievementView achievement={achievement} />
-            </summary>
-            <p className="p-1 text-center">
-              {achievement.discoverer && (
-                <>
-                  <span className="text-blue-600 hover:text-blue-800 hover:underline font-medium mr-1">
-                    <Link href={`/player/${achievement.discoverer}`}>{achievement.discoverer}</Link>
-                  </span>
-                  によって
-                </>
-              )}
-              {`${format(achievement.created_at, 'yyyy/MM/dd')}に発見`}
-            </p>
-          </details>
-        ))}
+      <Suspense fallback={<div className="text-center py-8">読み込み中...</div>}>
+        <AchievementList achievements={sortedAchievements} infomations={infomations} />
+      </Suspense>
     </>
   )
 }
