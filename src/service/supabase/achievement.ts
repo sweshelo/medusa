@@ -5,6 +5,7 @@ export const fetchAchievement = async (name: string) => {
     .from('achievement')
     .select('*')
     .eq('title', name)
+    .limit(1)
     .single()
   if (error) {
     console.error('称号詳細取得でエラー: ', error)
