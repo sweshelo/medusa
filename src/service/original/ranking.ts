@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio'
 import { format } from 'date-fns'
+import sanitizeHtml from 'sanitize-html'
 
 import type { Ranking } from '@/types/ranking'
 
@@ -10,24 +11,16 @@ const sanitizeHTMLServer = (
 ): string | undefined => {
   if (!html) return undefined
 
-  // スクリプトタグとイベントハンドラを削除
-  let sanitized = html
-  let previous
-  do {
-    previous = sanitized
-    sanitized = sanitized
-      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-      .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
-      .replace(/javascript:/gi, '')
-  } while (sanitized !== previous)
-
-  // 許可されたタグとスタイル属性のみを保持
   const allowedTags = ['b', 'span', 'strong', 'em', 'i']
-  const tagPattern = new RegExp(
-    `<(?!/?(${allowedTags.join('|')})(?:\\s|>))[^>]*>`,
-    'gi',
-  )
-  sanitized = sanitized.replace(tagPattern, '')
+  // Optionally allow style attribute only as previously referenced in comment; here for safety, no attributes:
+  const sanitized = sanitizeHtml(html, {
+    allowedTags,
+    allowedAttributes: {
+      // Set allowed attributes per tag, e.g. "span": ["style"] if you want to allow inline styles
+      // For now, no attributes allowed
+    },
+    allowedSchemes: ['http', 'https'],
+  })
 
   return sanitized || undefined
 }
