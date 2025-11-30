@@ -21,7 +21,11 @@ const DeviationRankingPage = async ({ ranking }: RankingPageProps) => {
       <Headline title="偏差値ランキング" />
       <div className="mt-4 mb-4 space-y-2">
         {ranking.map((player, index) => (
-          <PlayerCard player={player} chara={player.record.chara} key={index}>
+          <PlayerCard
+            player={player}
+            chara={player.record.chara}
+            key={player.id}
+          >
             <div className="flex">
               <Shiny
                 color={getColor(index)}

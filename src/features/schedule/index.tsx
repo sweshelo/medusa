@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import { format, isWithinInterval, parseISO } from 'date-fns'
 
 import { fetchSchedule } from '@/service/supabase/schedule'
+import type { Schedule } from '@/types/schedule'
 
 export const ScheduleTable = async () => {
   const schedule = await fetchSchedule()
@@ -15,7 +16,7 @@ export const ScheduleTable = async () => {
   )
 
   // 表示する範囲を決定（現在の期間の前後1件ずつ）
-  let displaySchedule
+  let displaySchedule: Schedule[]
   if (currentIndex !== -1) {
     // 現在の期間が見つかった場合
     const startIndex = Math.max(0, currentIndex - 1)

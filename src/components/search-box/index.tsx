@@ -1,9 +1,8 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-
-import action from './action'
 import { PlayerCard } from '../player/card'
+import action from './action'
 
 export const SearchBox = () => {
   const [query, setQuery] = useState('')

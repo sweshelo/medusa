@@ -78,7 +78,7 @@ export const AchievementList = ({
       </div>
 
       {/* 絞り込みUI */}
-      <details className="bg-white rounded-lg mb-4" open>
+      <details className="bg-white rounded-lg mb-4">
         <summary className="cursor-pointer p-3 hover:bg-gray-50 rounded-lg list-none">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-gray-700">
@@ -99,10 +99,14 @@ export const AchievementList = ({
         <div className="p-3 pt-0 space-y-4">
           {/* 検索ボックス */}
           <div>
-            <label className="block text-xs text-gray-600 mb-2">
+            <label
+              className="block text-xs text-gray-600 mb-2"
+              htmlFor="achievement-search-box"
+            >
               称号名またはプレイヤー名で検索
             </label>
             <input
+              id="achievement-search-box"
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -113,9 +117,9 @@ export const AchievementList = ({
 
           {/* カテゴリ選択 */}
           <div>
-            <label className="block text-xs text-gray-600 mb-2">
+            <span className="block text-xs text-gray-600 mb-2">
               カテゴリで絞り込み
-            </label>
+            </span>
             <div className="flex flex-wrap gap-2 justify-center">
               {CATEGORIES.map((category) => (
                 <Link

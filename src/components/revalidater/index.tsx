@@ -78,6 +78,7 @@ export const Revalidater = ({ timestamp }: RevalidaterProps) => {
       >
         <button
           className={`w-full text-center ${isEnabled ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+          type="button"
           onClick={handleButtonClick}
           disabled={!isEnabled}
         >
