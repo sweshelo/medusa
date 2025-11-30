@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useMemo } from 'react'
+import { useEffect, useState } from 'react'
 
 import type { Achievement } from '@/types/achievement'
 import { sanitizeHTML } from '@/utils/sanitize'
@@ -37,12 +37,15 @@ interface AchievementProps {
 }
 
 export const AchievementView = ({ achievement }: AchievementProps) => {
-  // レンダリング時にもサニタイズを実施
-  const sanitizedMarkup = useMemo(
-    () =>
-      typeof achievement === 'string' ? null : sanitizeHTML(achievement.markup),
-    [achievement],
-  )
+  // クライアントサイドでのみサニタイズを実施してハイドレーションエラーを回避
+  const [sanitizedMarkup, setSanitizedMarkup] = useState<string>('')
+
+  useEffect(() => {
+    if (typeof achievement !== 'string' && achievement.markup) {
+      const sanitized = sanitizeHTML(achievement.markup)
+      setSanitizedMarkup(sanitized || '')
+    }
+  }, [achievement])
 
   if (typeof achievement === 'string') {
     return (
