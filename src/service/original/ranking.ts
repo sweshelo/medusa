@@ -2,7 +2,30 @@ import * as cheerio from 'cheerio'
 import { format } from 'date-fns'
 
 import type { Ranking } from '@/types/ranking'
-import { sanitizeHTML } from '@/utils/sanitize'
+
+// サーバーサイド用の軽量HTMLサニタイゼーション
+// クライアントサイドでも再度サニタイズされるため、基本的な安全性チェックのみ
+const sanitizeHTMLServer = (
+  html: string | null | undefined,
+): string | undefined => {
+  if (!html) return undefined
+
+  // スクリプトタグとイベントハンドラを削除
+  let sanitized = html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+    .replace(/javascript:/gi, '')
+
+  // 許可されたタグとスタイル属性のみを保持
+  const allowedTags = ['b', 'span', 'strong', 'em', 'i']
+  const tagPattern = new RegExp(
+    `<(?!/?(${allowedTags.join('|')})(?:\\s|>))[^>]*>`,
+    'gi',
+  )
+  sanitized = sanitized.replace(tagPattern, '')
+
+  return sanitized || undefined
+}
 
 const originalPageURL = (index: number, date: Date | undefined) => {
   const month = format(date ?? new Date(), 'yyyyMM')
@@ -74,7 +97,7 @@ export const fetchRankingTable = async (date?: Date) => {
               .find((className) => className.startsWith('icon_'))
               ?.replace('icon_', '')
             achievementElement.find('span.icon').remove()
-            const achievementMarkup = sanitizeHTML(
+            const achievementMarkup = sanitizeHTMLServer(
               achievementElement.html()?.trim(),
             )
 

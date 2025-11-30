@@ -1,4 +1,6 @@
-import DOMPurify from 'isomorphic-dompurify'
+'use client'
+
+import DOMPurify from 'dompurify'
 
 // HTMLサニタイゼーション設定: XSS攻撃を防ぐため、特定のタグとスタイル属性のみを許可
 const sanitizeConfig = {
@@ -13,7 +15,7 @@ const sanitizeConfig = {
 }
 
 /**
- * HTMLを安全にサニタイズする関数
+ * HTMLを安全にサニタイズする関数（クライアントサイド専用）
  * @param html - サニタイズ対象のHTML文字列
  * @returns サニタイズされたHTML文字列、入力がnull/undefinedの場合はundefined
  */
@@ -21,6 +23,12 @@ export const sanitizeHTML = (
   html: string | null | undefined,
 ): string | undefined => {
   if (!html) return undefined
-  const sanitized = DOMPurify.sanitize(html, sanitizeConfig)
-  return sanitized || undefined
+
+  try {
+    const sanitized = DOMPurify.sanitize(html, sanitizeConfig)
+    return sanitized || undefined
+  } catch (error) {
+    console.error('HTMLサニタイゼーションに失敗しました:', error)
+    return undefined
+  }
 }
