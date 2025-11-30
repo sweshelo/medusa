@@ -7,8 +7,8 @@
     "build": "next build",
     "build:verify": "rimraf .next-verify && cross-env NEXT_BUILD_DIR=.next-verify next build && rimraf .next-verify",
     "start": "next start",
-    "lint": "eslint --fix .",
-    "format": "prettier --write .",
+    "lint": "biome lint --write .",
+    "format": "biome format --write .",
     "prepare": "husky",
     "check:deps": "depcruise src",
     "check:types": "tsc --noEmit",
@@ -46,11 +46,6 @@
     "@typescript-eslint/parser": "^8.48.0",
     "cross-env": "^7.0.3",
     "dependency-cruiser": "^16.10.4",
-    "eslint": "^9.39.1",
-    "eslint-config-next": "16.0.5",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-prettier": "^5.5.4",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "prettier": "^3.6.2",
@@ -61,12 +56,8 @@
     "typescript": "^5.9.3"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md}": [
-      "prettier --write"
+    "*.{js,jsx,ts,tsx,json,md}": [
+      "biome check --write ."
     ]
   },
   "overrides": {
