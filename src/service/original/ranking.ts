@@ -12,9 +12,14 @@ const sanitizeHTMLServer = (
 
   // スクリプトタグとイベントハンドラを削除
   let sanitized = html
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-    .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
-    .replace(/javascript:/gi, '')
+  let previous
+  do {
+    previous = sanitized
+    sanitized = sanitized
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+      .replace(/javascript:/gi, '')
+  } while (sanitized !== previous)
 
   // 許可されたタグとスタイル属性のみを保持
   const allowedTags = ['b', 'span', 'strong', 'em', 'i']
