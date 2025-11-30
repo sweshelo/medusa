@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { differenceInDays, format } from 'date-fns'
+import { differenceInDays, format, isWithinInterval } from 'date-fns'
 
 import { fetchAllSeasons } from '@/service/supabase/season'
 
@@ -37,13 +37,15 @@ export const Season = async () => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {seasons.map((season) => {
-            const isCurrentSeason = !season.ended_at
-            const days = isCurrentSeason
-              ? differenceInDays(new Date(), new Date(season.started_at))
-              : differenceInDays(
-                  new Date(season.ended_at!),
-                  new Date(season.started_at),
-                )
+            const current = new Date()
+            const endedAt = season.ended_at
+              ? new Date(season.ended_at)
+              : current
+            const days = differenceInDays(endedAt, new Date(season.started_at))
+            const isCurrentSeason = isWithinInterval(current, {
+              start: season.started_at,
+              end: endedAt,
+            })
 
             return (
               <tr
