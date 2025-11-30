@@ -5,7 +5,7 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import { useEffect, useState } from 'react'
 
-import { Record as CCJRecord } from '@/types/record'
+import type { Record as CCJRecord } from '@/types/record'
 
 interface PointsLineChartProps {
   records: CCJRecord[]
@@ -17,31 +17,34 @@ export const PointsLineChart = ({ records }: PointsLineChartProps) => {
   useEffect(() => {
     // 日毎に分ける
     const grouped = records
-      .filter(record => record.elapsed && record.elapsed <= 600)
-      .reduce<Record<string, { total: number; counts: number; records: number[] }>>(
-        (acc, record) => {
-          const date = format(new Date(record.recorded_at ?? ''), 'yy/MM/dd')
-          if (!acc[date]) acc[date] = { total: 0, counts: 0, records: [] }
-          acc[date].total += record.diff ?? 0
-          acc[date].counts += 1
-          acc[date].records.push(record.diff ?? 0)
-          return acc
-        },
-        {}
-      )
+      .filter((record) => record.elapsed && record.elapsed <= 600)
+      .reduce<
+        Record<string, { total: number; counts: number; records: number[] }>
+      >((acc, record) => {
+        const date = format(new Date(record.recorded_at ?? ''), 'yy/MM/dd')
+        if (!acc[date]) acc[date] = { total: 0, counts: 0, records: [] }
+        acc[date].total += record.diff ?? 0
+        acc[date].counts += 1
+        acc[date].records.push(record.diff ?? 0)
+        return acc
+      }, {})
 
     // 日毎の平均点を出す
-    const entries = Object.entries(grouped).map(([date, { total, counts, records }]) => ({
-      date,
-      avg: total / counts,
-      max: Math.max(...records),
-      min: Math.min(...records),
-    }))
+    const entries = Object.entries(grouped).map(
+      ([date, { total, counts, records }]) => ({
+        date,
+        avg: total / counts,
+        max: Math.max(...records),
+        min: Math.min(...records),
+      }),
+    )
 
-    const dates = entries.map(d => format(parse(d.date, 'yy/MM/dd', new Date()), 'MM/dd'))
-    const averages = entries.map(d => d.avg)
-    const maxes = entries.map(d => d.max)
-    const mines = entries.map(d => d.min)
+    const dates = entries.map((d) =>
+      format(parse(d.date, 'yy/MM/dd', new Date()), 'MM/dd'),
+    )
+    const averages = entries.map((d) => d.avg)
+    const maxes = entries.map((d) => d.max)
+    const mines = entries.map((d) => d.min)
 
     setChartOptions({
       title: {

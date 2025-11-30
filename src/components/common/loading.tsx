@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 interface LoadingProps {
   children?: ReactNode
@@ -6,7 +6,11 @@ interface LoadingProps {
   className?: string
 }
 
-export function Loading({ children, size = 'md', className = '' }: LoadingProps) {
+export function Loading({
+  children,
+  size = 'md',
+  className = '',
+}: LoadingProps) {
   const sizeClasses = {
     sm: 'w-12 h-12',
     md: 'w-16 h-16',
@@ -14,7 +18,9 @@ export function Loading({ children, size = 'md', className = '' }: LoadingProps)
   }
 
   return (
-    <div className={`flex flex-col items-center justify-center min-h-[400px] gap-4 ${className}`}>
+    <div
+      className={`flex flex-col items-center justify-center min-h-[400px] gap-4 ${className}`}
+    >
       <div className={`relative ${sizeClasses[size]}`}>
         <div className="absolute top-0 left-0 w-full h-full border-4 border-sky-200 rounded-full"></div>
         <div className="absolute top-0 left-0 w-full h-full border-4 border-sky-600 rounded-full border-t-transparent animate-spin"></div>

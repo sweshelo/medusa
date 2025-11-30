@@ -2,20 +2,23 @@ import classNames from 'classnames'
 import { format, isWithinInterval, parseISO } from 'date-fns'
 
 import { fetchSchedule } from '@/service/supabase/schedule'
+import type { Schedule } from '@/types/schedule'
 
 export const ScheduleTable = async () => {
   const schedule = await fetchSchedule()
 
   // 現在アクティブな期間を見つける
-  const currentIndex = schedule.findIndex(table =>
-    isWithinInterval(new Date(), {
-      start: parseISO(table.started_at!),
-      end: parseISO(table.ended_at!),
-    })
+  const currentIndex = schedule.findIndex((table) =>
+    table.started_at && table.ended_at
+      ? isWithinInterval(new Date(), {
+          start: parseISO(table.started_at),
+          end: parseISO(table.ended_at),
+        })
+      : false,
   )
 
   // 表示する範囲を決定（現在の期間の前後1件ずつ）
-  let displaySchedule
+  let displaySchedule: Schedule[]
   if (currentIndex !== -1) {
     // 現在の期間が見つかった場合
     const startIndex = Math.max(0, currentIndex - 1)
@@ -43,7 +46,7 @@ export const ScheduleTable = async () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {displaySchedule.map(table => {
+          {displaySchedule.map((table) => {
             const isActiveTerm =
               table.started_at &&
               table.ended_at &&
@@ -55,7 +58,7 @@ export const ScheduleTable = async () => {
               <tr
                 key={table.id}
                 className={classNames({
-                  ['bg-amber-200']: isActiveTerm,
+                  'bg-amber-200': isActiveTerm,
                 })}
               >
                 <td className="text-center py-2 items-center gap-2 justify-center">
