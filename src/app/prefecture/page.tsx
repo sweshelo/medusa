@@ -1,4 +1,4 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 import { PrefectureRankingPage } from '@/features/prefecture-ranking'
 import { fetchPrefectureConquestRanking } from '@/service/supabase/prefecture-ranking'

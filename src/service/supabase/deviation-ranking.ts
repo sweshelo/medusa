@@ -13,7 +13,7 @@ export const fetchDeviationRanking = async () => {
 
   // 各プレイヤーに対して最新の record を取得する
   const playersWithRecord = await Promise.all(
-    (players ?? []).map(async player => {
+    (players ?? []).map(async (player) => {
       const { data: records, error: recordError } = await supabase
         .from('record')
         .select('*')
@@ -23,7 +23,9 @@ export const fetchDeviationRanking = async () => {
         .limit(1)
 
       if (recordError) {
-        console.error(`Error fetching record for player ${player.name}: ${recordError.message}`)
+        console.error(
+          `Error fetching record for player ${player.name}: ${recordError.message}`,
+        )
       }
 
       const [record] = records ?? []
@@ -32,7 +34,7 @@ export const fetchDeviationRanking = async () => {
         ...player,
         record,
       }
-    })
+    }),
   )
 
   return playersWithRecord

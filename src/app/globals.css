@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   --color-background: var(--background);
@@ -19,7 +19,7 @@
     rgb(180, 180, 180)
   );
 
-  --font-mplus: 'M PLUS 1p', sans-serif;
+  --font-mplus: "M PLUS 1p", sans-serif;
 
   --animate-shine: shine 2s ease-in-out infinite;
 
@@ -68,5 +68,5 @@
 body {
   color: #0a0a0a; /* var(--foreground);*/
   background: var(--background);
-  font-family:'M PLUS 1p', sans-serif;
+  font-family: "M PLUS 1p", sans-serif;
 }

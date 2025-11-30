@@ -3,7 +3,7 @@
  */
 export const toHalfWidth = (str: string): string => {
   return str
-    .replace(/[Ａ-Ｚａ-ｚ０-９]/g, s => {
+    .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) => {
       return String.fromCharCode(s.charCodeAt(0) - 0xfee0)
     })
     .replace(/　/g, ' ') // 全角スペースを半角スペースに

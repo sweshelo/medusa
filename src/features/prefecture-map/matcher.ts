@@ -9,7 +9,9 @@ export const getPlayedPrefectures = (achievements: string[]): string[] => {
   const playedPrefectures: string[] = []
 
   // DBの称号を半角に変換
-  const halfWidthAchievements = achievements.map(achievement => toHalfWidth(achievement))
+  const halfWidthAchievements = achievements.map((achievement) =>
+    toHalfWidth(achievement),
+  )
 
   // PrefectureAchievementsと照合
   for (const prefecture of PrefectureAchievements) {

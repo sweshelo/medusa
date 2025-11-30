@@ -1,4 +1,4 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 import { OnlinePlayers } from '@/features/online'
 import { fetchOnlinePlayers } from '@/service/supabase/online'

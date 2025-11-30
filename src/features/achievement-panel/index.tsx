@@ -2,8 +2,8 @@ import { format } from 'date-fns'
 import Link from 'next/link'
 
 import { AchievementView } from '@/components/achievement'
-import { AchievementInfo } from '@/service/scraping/achievement'
-import { Database } from '@/types/database.types'
+import type { AchievementInfo } from '@/service/scraping/achievement'
+import type { Database } from '@/types/database.types'
 import { toHalfWidth } from '@/utils/text'
 
 interface AchievementPanelProps {
@@ -11,12 +11,16 @@ interface AchievementPanelProps {
   infomations: AchievementInfo[]
 }
 
-export const AchievementPanel = ({ achievement, infomations }: AchievementPanelProps) => {
+export const AchievementPanel = ({
+  achievement,
+  infomations,
+}: AchievementPanelProps) => {
   const { description } =
-    infomations.find(info => info.title === toHalfWidth(achievement.title)) ?? {}
+    infomations.find((info) => info.title === toHalfWidth(achievement.title)) ??
+    {}
 
   return (
-    <details className="my-2 bg-white rounded-sm" key={achievement.id} open>
+    <details className="my-2 bg-white rounded-sm">
       <summary className="list-none cursor-pointer">
         <AchievementView achievement={achievement} />
       </summary>
@@ -29,7 +33,9 @@ export const AchievementPanel = ({ achievement, infomations }: AchievementPanelP
         {achievement.discoverer && (
           <>
             <span className="text-blue-600 hover:text-blue-800 hover:underline font-medium mr-1">
-              <Link href={`/player/${achievement.discoverer}`}>{achievement.discoverer}</Link>
+              <Link href={`/player/${achievement.discoverer}`}>
+                {achievement.discoverer}
+              </Link>
             </span>
             によって
           </>

@@ -1,5 +1,5 @@
 import { endOfMonth, subMonths } from 'date-fns'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 import RankingPage from '@/features/ranking'
 import { fetchRankingTable } from '@/service/original/ranking'

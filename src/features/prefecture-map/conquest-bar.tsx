@@ -43,7 +43,10 @@ export const ConquestBar = ({ played, total, rate }: ConquestBarProps) => {
           <span className="text-md font-bold text-gray-800 leading-none inline-flex items-center">
             <small className="text-[12px] text-gray-600">現在稼働中の </small>
             <span className="px-1">{played}</span>
-            <small className="text-[12px] text-gray-600"> / {total} 都道府県 でプレイ済み</small>
+            <small className="text-[12px] text-gray-600">
+              {' '}
+              / {total} 都道府県 でプレイ済み
+            </small>
           </span>
         </div>
       </div>

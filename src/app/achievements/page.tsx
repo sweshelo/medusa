@@ -1,11 +1,10 @@
-import { Metadata } from 'next'
-import { Suspense } from 'react'
+import type { Metadata } from 'next'
 
 import { Headline } from '@/components/common/headline'
 import { AchievementList } from '@/features/achievement-list'
 import { fetchAchievementInfomation } from '@/service/scraping/achievement'
 import { fetchAllAchievements } from '@/service/supabase/achievement'
-import { Database } from '@/types/database.types'
+import type { Database } from '@/types/database.types'
 
 export const metadata: Metadata = {
   title: '称号',
@@ -18,7 +17,7 @@ export default async function Page() {
   const infomations = await fetchAchievementInfomation()
 
   const getAchievementPriority = (
-    achievement: Database['public']['Tables']['achievement']['Row']
+    achievement: Database['public']['Tables']['achievement']['Row'],
   ): number => {
     if (achievement.icon_last) return 4
     if (achievement.icon_first) return 3
@@ -42,9 +41,10 @@ export default async function Page() {
   return (
     <>
       <Headline title="称号一覧" />
-      <Suspense fallback={<div className="text-center py-8">読み込み中...</div>}>
-        <AchievementList achievements={sortedAchievements} infomations={infomations} />
-      </Suspense>
+      <AchievementList
+        achievements={sortedAchievements}
+        infomations={infomations}
+      />
     </>
   )
 }

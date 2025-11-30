@@ -69,7 +69,7 @@ export const fetchAllPlayersName = async (): Promise<string[]> => {
     console.error('ユーザ取得でエラー: ', joinError)
     return []
   } else {
-    return players.map(player => player.name)
+    return players.map((player) => player.name)
   }
 }
 
@@ -85,7 +85,7 @@ export const fetchRecentPlayedPlayersId = async (): Promise<number[]> => {
     console.error('ユーザ取得でエラー: ', joinError)
     return []
   } else {
-    return players.map(player => player.id)
+    return players.map((player) => player.id)
   }
 }
 

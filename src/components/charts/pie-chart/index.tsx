@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { Cell, Pie, PieChart } from 'recharts'
 
 import { Chara } from '@/constants/chara'
-import { Ranking } from '@/types/ranking'
+import type { Ranking } from '@/types/ranking'
 
 interface RankingPieChartProps {
   ranking: Ranking[]
@@ -36,9 +36,9 @@ export const RankingPieChart = ({ ranking }: RankingPieChartProps) => {
             count: counts.get(id),
           }
         })
-        .filter(r => r.count && r.count > 0)
+        .filter((r) => r.count && r.count > 0),
     )
-  }, [setData, ranking])
+  }, [ranking])
 
   return data.length > 0 ? (
     <PieChart width={350} height={210}>
@@ -52,8 +52,8 @@ export const RankingPieChart = ({ ranking }: RankingPieChartProps) => {
         paddingAngle={5}
         dataKey="count"
       >
-        {data.map((entry, index) => (
-          <Cell key={index} fill={entry.color} />
+        {data.map((entry) => (
+          <Cell key={entry.id} fill={entry.color} />
         ))}
       </Pie>
     </PieChart>

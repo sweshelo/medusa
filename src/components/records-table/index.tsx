@@ -1,10 +1,10 @@
-import { tz, TZDate } from '@date-fns/tz'
+import { TZDate, tz } from '@date-fns/tz'
 import classNames from 'classnames'
 import { format, isWithinInterval } from 'date-fns'
 
 import { Stage } from '@/components/stage-icon'
 import { fetchSchedule } from '@/service/supabase/schedule'
-import { Record } from '@/types/record'
+import type { Record } from '@/types/record'
 
 interface RecordsTableProps {
   records: Record[]
@@ -13,9 +13,10 @@ interface RecordsTableProps {
 export const RecordsTable = async ({ records }: RecordsTableProps) => {
   const schedule = await fetchSchedule()
   const getStage = (date: Date) => {
-    const term = schedule.find(s => {
-      const start = new TZDate(s.started_at!, 'Asia/Tokyo')
-      const end = new TZDate(s.ended_at!, 'Asia/Tokyo')
+    const term = schedule.find((s) => {
+      if (!s.started_at) return false
+      const start = new TZDate(s.started_at, 'Asia/Tokyo')
+      const end = s.ended_at ? new TZDate(s.ended_at, 'Asia/Tokyo') : new Date()
       return isWithinInterval(date, { start, end })
     })
 
@@ -39,20 +40,22 @@ export const RecordsTable = async ({ records }: RecordsTableProps) => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {records.slice(0, 100).map((record, index) => {
+          {records.slice(0, 100).map((record) => {
             const date = new TZDate(
-              `${record.recorded_at ?? record.created_at.replace(/\+00:00$/, '-09:00')}+09:00`
+              `${record.recorded_at ?? record.created_at.replace(/\+00:00$/, '-09:00')}+09:00`,
             )
             const stage = getStage(date)
             return (
               <tr
-                key={index}
+                key={record.id}
                 className={classNames({
-                  ['bg-gray-200']: !record.elapsed || record.elapsed! >= 600,
+                  'bg-gray-200': !record.elapsed || record.elapsed >= 600,
                 })}
               >
                 <td className="text-center py-2 flex items-center gap-2 justify-center">
-                  <span>{format(date, 'yy/MM/dd', { in: tz('Asia/Tokyo') })}</span>
+                  <span>
+                    {format(date, 'yy/MM/dd', { in: tz('Asia/Tokyo') })}
+                  </span>
                   <span className="hidden md:inline">
                     {format(date, 'HH:mm', { in: tz('Asia/Tokyo') })}
                   </span>

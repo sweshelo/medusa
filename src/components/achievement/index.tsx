@@ -1,10 +1,11 @@
 import Image from 'next/image'
 
-import { Achievement } from '@/types/achievement'
+import type { Achievement } from '@/types/achievement'
 
 import { Shiny } from '../common/shiny'
 
-const BaseURL = 'https://eacache.s.konaminet.jp/game/chase2jokers/ccj/images/ranking/title_icon/'
+const BaseURL =
+  'https://eacache.s.konaminet.jp/game/chase2jokers/ccj/images/ranking/title_icon/'
 const Icons = [
   '01jan.png',
   '02feb.png',
@@ -59,7 +60,7 @@ export const AchievementView = ({ achievement }: AchievementProps) => {
       <div className="flex justify-center items-center">
         {achievement.icon_first && (
           <Image
-            src={`${BaseURL}${Icons[parseInt(achievement.icon_first) - 1]}`}
+            src={`${BaseURL}${Icons[parseInt(achievement.icon_first, 10) - 1]}`}
             alt=""
             width={22}
             height={22}
@@ -67,6 +68,7 @@ export const AchievementView = ({ achievement }: AchievementProps) => {
           />
         )}
         <span
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: CCJ公式ランキングページに表示されたHTMLをレンダリングさせるため許容する 安全である前提
           dangerouslySetInnerHTML={{ __html: achievement.markup }}
           className="font-bold px-2"
           style={{
@@ -77,7 +79,7 @@ export const AchievementView = ({ achievement }: AchievementProps) => {
         />
         {achievement.icon_last && (
           <Image
-            src={`${BaseURL}${Icons[parseInt(achievement.icon_last) - 1]}`}
+            src={`${BaseURL}${Icons[parseInt(achievement.icon_last, 10) - 1]}`}
             alt=""
             width={22}
             height={22}

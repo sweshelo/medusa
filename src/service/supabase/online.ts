@@ -8,14 +8,17 @@ export const fetchOnlinePlayers = async () => {
     .from('record')
     .select('player_name, chara, recorded_at')
     .order('recorded_at', { ascending: false })
-    .gte('recorded_at', sub(new TZDate(new Date(), 'Asia/Tokyo'), { minutes: 30 }).toISOString())
+    .gte(
+      'recorded_at',
+      sub(new TZDate(new Date(), 'Asia/Tokyo'), { minutes: 30 }).toISOString(),
+    )
 
   if (error) {
     console.error('オンライン取得でエラー: ', error)
     return []
   } else {
     const seen = new Set()
-    const uniqueRecords = data.filter(record => {
+    const uniqueRecords = data.filter((record) => {
       if (seen.has(record.player_name)) {
         return false
       } else {

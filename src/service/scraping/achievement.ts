@@ -1,6 +1,10 @@
 import * as cheerio from 'cheerio'
 
-import { CharacterSuffix, MonthTable, YearSuffix } from '@/constants/achievement'
+import {
+  CharacterSuffix,
+  MonthTable,
+  YearSuffix,
+} from '@/constants/achievement'
 
 export interface AchievementInfo {
   title: string
@@ -8,7 +12,9 @@ export interface AchievementInfo {
   tag: string
 }
 
-export const fetchAchievementInfomation = async (): Promise<AchievementInfo[]> => {
+export const fetchAchievementInfomation = async (): Promise<
+  AchievementInfo[]
+> => {
   const response = await fetch('https://wiki3.jp/chase2jokers/page/31')
   const html = await response.text()
 
@@ -43,7 +49,7 @@ export const fetchAchievementInfomation = async (): Promise<AchievementInfo[]> =
     { table: tower, tag: 'tower' },
     { table: event, tag: 'event' },
   ].flatMap(({ table, tag }) => {
-    return [...$(table).find('tbody > tr')].flatMap(tr => {
+    return [...$(table).find('tbody > tr')].flatMap((tr) => {
       const [titleElm, descriptionElm] = [...$(tr).find('td')]
       return {
         title: $(titleElm).text().trim(),
@@ -53,7 +59,7 @@ export const fetchAchievementInfomation = async (): Promise<AchievementInfo[]> =
     })
   })
 
-  const prefecual = [...$(prefecure).find('tbody > tr')].map(tr => {
+  const prefecual = [...$(prefecure).find('tbody > tr')].map((tr) => {
     const [prefectureElm, titleElm] = [...$(tr).find('td:not([rowspan])')]
     return {
       title: $(titleElm).text().trim(),
@@ -62,9 +68,9 @@ export const fetchAchievementInfomation = async (): Promise<AchievementInfo[]> =
     }
   })
 
-  const ranking = YearSuffix.flatMap(year => {
+  const ranking = YearSuffix.flatMap((year) => {
     return MonthTable.flatMap((month, index) => {
-      return CharacterSuffix.flatMap(char => {
+      return CharacterSuffix.flatMap((char) => {
         return {
           title: `${month}${year.suffix}${char.suffix}`,
           description: `${year.year}年${index + 1}月のランキングで ${char.char}を使って ${year.isHigher ? '10' : '100'}位以内に ランクインした`,

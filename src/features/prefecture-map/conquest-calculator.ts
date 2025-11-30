@@ -6,13 +6,13 @@
  */
 export const calculateConquestRate = (
   playedPrefectures: string[],
-  activePrefectures: string[]
+  activePrefectures: string[],
 ): { played: number; total: number; rate: number } => {
   const total = activePrefectures.length
 
   // プレイ済み都道府県のうち、現在稼働中の都道府県の数をカウント
-  const played = playedPrefectures.filter(prefecture =>
-    activePrefectures.includes(prefecture)
+  const played = playedPrefectures.filter((prefecture) =>
+    activePrefectures.includes(prefecture),
   ).length
 
   // 制覇率を計算（稼働都道府県が0の場合は0%）
