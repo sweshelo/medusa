@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Record } from '@/types/record'
+import type { Record } from '@/types/record'
 
 interface PlayerCardProps {
   player: {

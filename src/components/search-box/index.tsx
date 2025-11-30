@@ -1,16 +1,15 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-
-import action from './action'
 import { PlayerCard } from '../player/card'
+import action from './action'
 
 export const SearchBox = () => {
   const [query, setQuery] = useState('')
   const [players, setPlayers] = useState<string[]>()
 
   useEffect(() => {
-    action().then(players => setPlayers(players))
+    action().then((players) => setPlayers(players))
   }, [])
 
   // 半角文字を全角に変換
@@ -18,20 +17,22 @@ export const SearchBox = () => {
     (query: string) =>
       query
         .toLowerCase()
-        .replace(/[A-Za-z0-9]/g, s => String.fromCharCode(s.charCodeAt(0) + 0xfee0)),
-    []
+        .replace(/[A-Za-z0-9]/g, (s) =>
+          String.fromCharCode(s.charCodeAt(0) + 0xfee0),
+        ),
+    [],
   )
 
   const filteredItems = useMemo(
     () =>
-      players?.filter(player => {
+      players?.filter((player) => {
         if (query.length <= 3) {
           return player.toLowerCase().includes(transform(query))
         } else {
           return player.toLowerCase().startsWith(transform(query))
         }
       }),
-    [players, query, transform]
+    [players, query, transform],
   )
 
   return (
@@ -40,7 +41,7 @@ export const SearchBox = () => {
         type="text"
         placeholder="プレーヤー名を入力…"
         value={query}
-        onChange={e => setQuery(e.target.value)}
+        onChange={(e) => setQuery(e.target.value)}
         className="w-full p-2 border border-gray-300 rounded-sm mb-2"
         disabled={!players || players.length <= 0}
       />
@@ -55,7 +56,7 @@ export const SearchBox = () => {
         (players?.length > 0 ? (
           <ul>
             {query.length > 0 &&
-              filteredItems?.map(player => (
+              filteredItems?.map((player) => (
                 <li key={player} className="my-2">
                   <PlayerCard player={{ name: player }} />
                 </li>

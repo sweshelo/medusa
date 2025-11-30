@@ -5,6 +5,7 @@ export const fetchAchievement = async (name: string) => {
     .from('achievement')
     .select('*')
     .eq('title', name)
+    .limit(1)
     .single()
   if (error) {
     console.error('称号詳細取得でエラー: ', error)
@@ -14,7 +15,9 @@ export const fetchAchievement = async (name: string) => {
 }
 
 export const fetchAllAchievements = async () => {
-  const { data: achievements, error } = await supabase.from('achievement').select('*')
+  const { data: achievements, error } = await supabase
+    .from('achievement')
+    .select('*')
   if (error) {
     console.error('称号一覧取得でエラー: ', error)
   }

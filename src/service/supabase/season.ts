@@ -1,11 +1,15 @@
-import { Tables } from '@/types/database.types'
+import type { Tables } from '@/types/database.types'
 
 import { supabase } from './client'
 
 export type Season = Tables<'season'>
 
 export const fetchCurrentSeason = async (): Promise<Season | null> => {
-  const { data, error } = await supabase.from('season').select('*').is('ended_at', null).single()
+  const { data, error } = await supabase
+    .from('season')
+    .select('*')
+    .is('ended_at', null)
+    .single()
 
   if (error) {
     console.error('現在のシーズン取得でエラー: ', error)
