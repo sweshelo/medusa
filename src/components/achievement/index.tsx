@@ -1,6 +1,8 @@
 import Image from 'next/image'
+import { useMemo } from 'react'
 
 import type { Achievement } from '@/types/achievement'
+import { sanitizeHTML } from '@/utils/sanitize'
 
 import { Shiny } from '../common/shiny'
 
@@ -33,6 +35,13 @@ interface AchievementProps {
 }
 
 export const AchievementView = ({ achievement }: AchievementProps) => {
+  // レンダリング時にもサニタイズを実施
+  const sanitizedMarkup = useMemo(
+    () =>
+      typeof achievement === 'string' ? null : sanitizeHTML(achievement.markup),
+    [achievement],
+  )
+
   if (typeof achievement === 'string') {
     return (
       <div className="bg-silver-gradient text-center">
@@ -68,8 +77,8 @@ export const AchievementView = ({ achievement }: AchievementProps) => {
           />
         )}
         <span
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: CCJ公式ランキングページに表示されたHTMLをレンダリングさせるため許容する 安全である前提
-          dangerouslySetInnerHTML={{ __html: achievement.markup }}
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: レンダリング時に厳格なサニタイゼーションを実施済み (sanitize.ts参照)
+          dangerouslySetInnerHTML={{ __html: sanitizedMarkup || '' }}
           className="font-bold px-2"
           style={{
             letterSpacing: '2px',

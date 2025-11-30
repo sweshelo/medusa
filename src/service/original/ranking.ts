@@ -2,6 +2,7 @@ import * as cheerio from 'cheerio'
 import { format } from 'date-fns'
 
 import type { Ranking } from '@/types/ranking'
+import { sanitizeHTML } from '@/utils/sanitize'
 
 const originalPageURL = (index: number, date: Date | undefined) => {
   const month = format(date ?? new Date(), 'yyyyMM')
@@ -73,7 +74,9 @@ export const fetchRankingTable = async (date?: Date) => {
               .find((className) => className.startsWith('icon_'))
               ?.replace('icon_', '')
             achievementElement.find('span.icon').remove()
-            const achievementMarkup = achievementElement.html()?.trim()
+            const achievementMarkup = sanitizeHTML(
+              achievementElement.html()?.trim(),
+            )
 
             ranking.push({
               rank,
