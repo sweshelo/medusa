@@ -2,6 +2,7 @@ import { AchievementView } from '@/components/achievement'
 import { PointsLineChart } from '@/components/charts/line-chart'
 import { Shiny } from '@/components/common/shiny'
 import { SmallHeadline } from '@/components/common/small-headline'
+import { GaugeTable } from '@/components/gauge-table'
 import { PlayerCard } from '@/components/player/card'
 import { RecordsTable } from '@/components/records-table'
 import { Revalidater } from '@/components/revalidater'
@@ -14,11 +15,13 @@ import {
 } from '@/service/supabase/player'
 import type { Achievement } from '@/types/achievement'
 import type { Database } from '@/types/database.types'
+import type { RankRecord } from '@/types/record'
 import { getPlayerRankColor } from '@/utils/colors'
 
 interface PlayerPageProps {
   player: Database['public']['Tables']['player']['Row'] & {
     records: Database['public']['Tables']['record']['Row'][]
+    rankRecords: RankRecord[] | null
     maxPoints?: number
   }
   achievement?: Achievement
@@ -104,6 +107,31 @@ export const PlayerPage = async ({
           </Shiny>
         </div>
       </div>
+      {player.rankRecords && player.rankRecords.length > 0 && (
+        <div className="my-4">
+          <SmallHeadline title="ランクゲージの推移" />
+          <div className="my-4">
+            <GaugeTable
+              records={player.rankRecords
+                .reverse()
+                .map((record, index, self) => {
+                  const prev = index > 0 ? self[index - 1] : null
+                  return record.version === '2024-01-01'
+                    ? {
+                        ...record,
+                        point: record.diff ?? 0,
+                        diff:
+                          prev?.diff && record.diff
+                            ? record.diff - prev.diff
+                            : null,
+                      }
+                    : record
+                })
+                .reverse()}
+            />
+          </div>
+        </div>
+      )}
       <div className="my-4">
         <SmallHeadline title="貢献度の推移" />
         <PointsLineChart
