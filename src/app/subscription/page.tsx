@@ -10,8 +10,6 @@ export const metadata: Metadata = {
   title: 'サブスクリプション',
 }
 
-export const revalidate = 3600 // 1時間ごとに再検証
-
 export default async function Page() {
   const plans = await getActiveSubscriptionPlans()
   const subscription = await getUserSubscription()
