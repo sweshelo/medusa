@@ -1,18 +1,17 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { use, useState } from 'react'
 import { LoginForm } from '@/features/auth/login-form'
 import { MagicLinkForm } from '@/features/auth/magic-link-form'
 import { login, sendMagicLink } from './actions'
 
 type LoginMethod = 'password' | 'magic-link'
 
-export default function LoginPage({
-  searchParams,
-}: {
-  searchParams: { registered?: string; reset?: string }
+export default function LoginPage(props: {
+  searchParams: Promise<{ registered?: string; reset?: string }>
 }) {
+  const searchParams = use(props.searchParams)
   const [activeTab, setActiveTab] = useState<LoginMethod>('password')
   const showRegisteredMessage = searchParams.registered === 'true'
   const showResetMessage = searchParams.reset === 'success'
