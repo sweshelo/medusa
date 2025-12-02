@@ -15,8 +15,7 @@ const getConquestColor = (rate: number): string => {
   if (rate >= 100) return 'shiny-rainbow' // 完全制覇（100%以上）
   if (rate >= 80) return 'shiny-gold' // 80%以上
   if (rate >= 60) return 'shiny-silver' // 60%以上
-  if (rate >= 40) return 'shiny-copper' // 40%以上
-  return 'shiny-none' // 60%未満
+  return 'shiny-copper' // 60%未満
 }
 
 /**
