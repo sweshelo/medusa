@@ -79,11 +79,21 @@ export const Drawer = ({ user }: DrawerProps) => {
             </Link>
           </li>
           {user ? (
-            <li>
-              <Link href="/settings" className="block p-2 hover:bg-gray-100">
-                設定
-              </Link>
-            </li>
+            <>
+              <li>
+                <Link href="/settings" className="block p-2 hover:bg-gray-100">
+                  設定
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/subscription"
+                  className="block p-2 hover:bg-gray-100"
+                >
+                  御布施
+                </Link>
+              </li>
+            </>
           ) : (
             <li>
               <Link href="/login" className="block p-2 hover:bg-gray-100">

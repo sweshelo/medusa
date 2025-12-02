@@ -1,9 +1,13 @@
+'use client'
+
+import { useState } from 'react'
+
 interface PlanCardProps {
   title: string
   price: string
   description?: string | null
   features?: string[]
-  stripeUrl: string
+  priceId: string
 }
 
 export const PlanCard = ({
@@ -11,8 +15,44 @@ export const PlanCard = ({
   price,
   description,
   features,
-  stripeUrl,
+  priceId,
 }: PlanCardProps) => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleCheckout = async () => {
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch('/api/checkout/session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ priceId }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          // 未ログインの場合はログインページへ
+          window.location.href = '/login'
+          return
+        }
+        throw new Error(data.error || '決済セッションの作成に失敗しました')
+      }
+
+      // Stripe Checkoutページへリダイレクト
+      if (data.url) {
+        window.location.href = data.url
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'エラーが発生しました')
+      setIsLoading(false)
+    }
+  }
   return (
     <div className="w-full p-6 bg-white rounded-lg shadow-lg border-2 border-gray-200">
       {/* プランタイトル */}
@@ -46,16 +86,23 @@ export const PlanCard = ({
         </div>
       )}
 
+      {/* エラーメッセージ */}
+      {error && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-sm text-red-600">{error}</p>
+        </div>
+      )}
+
       {/* 決済ボタン */}
       <div className="mt-6">
-        <a
-          href={stripeUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full py-3 px-6 text-center text-white font-bold bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors duration-200"
+        <button
+          type="button"
+          onClick={handleCheckout}
+          disabled={isLoading}
+          className="block w-full py-3 px-6 text-center text-white font-bold bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          購入する
-        </a>
+          {isLoading ? '処理中...' : '購入する'}
+        </button>
       </div>
     </div>
   )

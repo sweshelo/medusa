@@ -15,7 +15,7 @@ export interface SubscriptionPlan {
   price: number
   currency: string
   interval: 'month' | 'year' | 'week' | 'day'
-  checkoutUrl: string
+  priceId: string
   features: string[]
 }
 
@@ -58,16 +58,6 @@ export async function getActiveSubscriptionPlans(): Promise<
           })
           .filter((desc): desc is string => !!desc)
 
-        // Create a payment link for this price
-        const paymentLink = await stripe.paymentLinks.create({
-          line_items: [
-            {
-              price: price.id,
-              quantity: 1,
-            },
-          ],
-        })
-
         plans.push({
           id: product.id,
           name: product.name,
@@ -75,7 +65,7 @@ export async function getActiveSubscriptionPlans(): Promise<
           price: price.unit_amount || 0,
           currency: price.currency,
           interval: price.recurring?.interval || 'month',
-          checkoutUrl: paymentLink.url,
+          priceId: price.id,
           features: featureDescriptions,
         })
       }

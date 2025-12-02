@@ -12,7 +12,7 @@ npm install
 
 ```
 SUPABASE_URL=
-SUPABASE_API_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
 ```
 
 ## 開発環境の開始

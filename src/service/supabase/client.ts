@@ -7,7 +7,7 @@ import type { Database } from '@/types/database.types'
 // Legacy client for existing server-side code (non-auth)
 export const supabase = createSupabaseClient<Database>(
   process.env.SUPABASE_URL!,
-  process.env.SUPABASE_API_KEY!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 )
 
 // New browser client for authentication in Client Components

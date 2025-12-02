@@ -27,7 +27,7 @@ export function MagicLinkForm({ onSubmit }: MagicLinkFormProps) {
       } else if (result?.success) {
         setSuccess(true)
       }
-    } catch (err) {
+    } catch (_err) {
       setError('予期しないエラーが発生しました')
     } finally {
       setLoading(false)
