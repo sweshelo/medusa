@@ -1,21 +1,12 @@
 'use client'
 
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-interface LoginFormProps {
+interface ResetPasswordFormProps {
   onSubmit: (formData: FormData) => Promise<{ error?: string }>
-  redirectOnSuccess?: string
-  showSignupLink?: boolean
 }
 
-export function LoginForm({
-  onSubmit,
-  redirectOnSuccess = '/',
-  showSignupLink = true,
-}: LoginFormProps) {
-  const router = useRouter()
+export function ResetPasswordForm({ onSubmit }: ResetPasswordFormProps) {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -25,22 +16,23 @@ export function LoginForm({
     setLoading(true)
 
     const formData = new FormData(e.currentTarget)
+    const password = formData.get('password') as string
+    const confirmPassword = formData.get('confirmPassword') as string
+
+    if (password !== confirmPassword) {
+      setError('パスワードが一致しません')
+      setLoading(false)
+      return
+    }
 
     try {
       const result = await onSubmit(formData)
       if (result?.error) {
         setError(result.error)
         setLoading(false)
-      } else {
-        // Success - redirect will happen via server action
-        // or handle client-side redirect if needed
-        if (redirectOnSuccess) {
-          router.push(redirectOnSuccess)
-        }
       }
+      // Success case will be handled by redirect in the action
     } catch (err) {
-      // Server action redirect throws, which is expected behavior
-      // Only set error if it's not a redirect
       if (err instanceof Error && err.message.includes('NEXT_REDIRECT')) {
         // This is a successful redirect, do nothing
         return
@@ -58,33 +50,41 @@ export function LoginForm({
         </div>
       )}
 
-      <div className="rounded-md shadow-sm -space-y-px">
+      <div className="space-y-4">
         <div>
-          <label htmlFor="email-address" className="sr-only">
-            メールアドレス
-          </label>
-          <input
-            id="email-address"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-            placeholder="メールアドレス"
-          />
-        </div>
-        <div>
-          <label htmlFor="password" className="sr-only">
-            パスワード
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            新しいパスワード
           </label>
           <input
             id="password"
             name="password"
             type="password"
-            autoComplete="current-password"
+            autoComplete="new-password"
             required
-            className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-            placeholder="パスワード"
+            className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+            placeholder="新しいパスワード"
+            minLength={6}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="confirmPassword"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            新しいパスワード（確認）
+          </label>
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            autoComplete="new-password"
+            required
+            className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+            placeholder="新しいパスワード（確認）"
             minLength={6}
           />
         </div>
@@ -96,7 +96,7 @@ export function LoginForm({
           disabled={loading}
           className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? '処理中...' : 'ログイン'}
+          {loading ? '更新中...' : 'パスワードを更新'}
         </button>
       </div>
     </form>
