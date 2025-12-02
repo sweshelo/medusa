@@ -54,6 +54,10 @@ export function MagicLinkForm({ onSubmit }: MagicLinkFormProps) {
         </div>
       )}
 
+      <div className="text-xs text-gray-700 text-center">
+        メールに転送されたリンクをクリックするだけで ログインできます
+      </div>
+
       <div>
         <label htmlFor="email" className="sr-only">
           メールアドレス
