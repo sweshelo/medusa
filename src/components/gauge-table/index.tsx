@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { Stage } from '@/components/stage-icon'
 import { fetchSchedule } from '@/service/supabase/schedule'
 import type { RankRecord } from '@/types/record'
-import { getRank } from '@/utils/rank'
 
 interface RecordsTableProps {
   records: RankRecord[]
