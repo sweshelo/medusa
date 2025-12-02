@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { Headline } from '@/components/common/headline'
+import { CancelSubscriptionButton } from '@/components/subscription/cancel-button'
 import { PlanCard } from '@/components/subscription/purchase/plan-card'
 import { getActiveSubscriptionPlans } from '@/service/stripe/products'
 import { getUserSubscription } from '@/service/supabase/subscription'
@@ -78,6 +79,8 @@ export default async function Page() {
                   </p>
                 )}
               </div>
+              {/* 解約ボタン（解約予約済みでない場合のみ表示） */}
+              {!subscription.cancelAtPeriodEnd && <CancelSubscriptionButton />}
             </div>
           )}
           {/* アクティブなプラン */}
