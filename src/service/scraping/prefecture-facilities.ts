@@ -52,7 +52,7 @@ export const fetchActivePrefectures = unstable_cache(
             'User-Agent':
               'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
           },
-        }
+        },
       )
 
       if (!response.ok) {
@@ -64,8 +64,8 @@ export const fetchActivePrefectures = unstable_cache(
 
       // preflist.prefinfo から exist が "true" の都道府県名を抽出
       const prefectures = data.preflist.prefinfo
-        .filter(pref => pref.exist === 'true')
-        .map(pref => pref.name)
+        .filter((pref) => pref.exist === 'true')
+        .map((pref) => pref.name)
 
       console.log(`稼働中の都道府県を取得: ${prefectures.length}件`)
       return prefectures
@@ -77,5 +77,5 @@ export const fetchActivePrefectures = unstable_cache(
   ['active-prefectures'],
   {
     revalidate: 604800, // 1週間（秒）
-  }
+  },
 )

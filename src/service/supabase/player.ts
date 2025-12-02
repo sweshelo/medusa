@@ -36,11 +36,25 @@ export const fetchPlayer = async (playerId: number) => {
     .from('record')
     .select('*')
     .eq('player_name', player.name)
+    .or('version.eq.2023-04-05,version.is.null')
     .order('created_at', { ascending: false })
     .limit(300)
 
   if (recordsError) {
     throw new Error(`Error fetching records: ${recordsError.message}`)
+  }
+
+  // ランクゲージレコード
+  const { data: rankRecords, error: rankRecordsError } = await supabase
+    .from('record')
+    .select('id, chara, point, diff, recorded_at, elapsed, version')
+    .eq('player_name', player.name)
+    .in('version', ['2024-01-01', '2025-12-01'])
+    .order('created_at', { ascending: false })
+    .limit(100)
+
+  if (rankRecordsError) {
+    throw new Error(`Error fetching records: ${rankRecordsError.message}`)
   }
 
   // 最高ランキング
@@ -56,6 +70,7 @@ export const fetchPlayer = async (playerId: number) => {
     ...player,
     ranking,
     records,
+    rankRecords,
   }
 }
 
@@ -69,7 +84,7 @@ export const fetchAllPlayersName = async (): Promise<string[]> => {
     console.error('ユーザ取得でエラー: ', joinError)
     return []
   } else {
-    return players.map(player => player.name)
+    return players.map((player) => player.name)
   }
 }
 
@@ -85,7 +100,7 @@ export const fetchRecentPlayedPlayersId = async (): Promise<number[]> => {
     console.error('ユーザ取得でエラー: ', joinError)
     return []
   } else {
-    return players.map(player => player.id)
+    return players.map((player) => player.id)
   }
 }
 

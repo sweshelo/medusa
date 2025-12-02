@@ -10,10 +10,11 @@ export const Drawer = () => {
   return (
     <div>
       {/* オーバーレイ */}
-      <div
+      <button
         className={`fixed inset-0 bg-black/50 transition-opacity z-1000 ${
           isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
+        type="button"
         onClick={closeDrawer}
       />
 
@@ -25,10 +26,15 @@ export const Drawer = () => {
       >
         <div className="w-full bg-red-900">
           <div className="max-w-[800px] mx-auto p-4 flex items-center space-x-4">
-            <button className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center bg-[url('/image/icon.png')] bg-contain cursor-pointer" />
+            <button
+              className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center bg-[url('/image/icon.png')] bg-contain cursor-pointer"
+              type="button"
+            />
             <div>
               <h1 className="text-white text-2xl font-bold">閻魔帳</h1>
-              <p className="text-gray-300 text-xs">v2 &quot;medusa&quot; - @sweshelo</p>
+              <p className="text-gray-300 text-xs">
+                v2 &quot;medusa&quot; - @sweshelo
+              </p>
             </div>
           </div>
         </div>
