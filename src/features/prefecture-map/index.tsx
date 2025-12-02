@@ -11,7 +11,9 @@ interface PlayedPrefectureMapProps {
   playerName: string
 }
 
-export const PlayedPrefectureMap = async ({ playerName }: PlayedPrefectureMapProps) => {
+export const PlayedPrefectureMap = async ({
+  playerName,
+}: PlayedPrefectureMapProps) => {
   // プレイヤーの称号を取得
   const achievements = await fetchPlayerAchievements(playerName)
 
@@ -23,7 +25,8 @@ export const PlayedPrefectureMap = async ({ playerName }: PlayedPrefectureMapPro
   }
 
   // 稼働中の都道府県を取得（エラー時は制覇度バーを表示しない）
-  let conquestData: { played: number; total: number; rate: number } | null = null
+  let conquestData: { played: number; total: number; rate: number } | null =
+    null
   try {
     const activePrefectures = await fetchActivePrefectures()
     if (activePrefectures.length > 0) {

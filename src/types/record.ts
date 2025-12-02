@@ -1,3 +1,3 @@
-import { Database } from './database.types'
+import type { Database } from './database.types'
 
 export type Record = Database['public']['Tables']['record']['Row']

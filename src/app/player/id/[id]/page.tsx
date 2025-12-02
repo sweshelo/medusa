@@ -1,8 +1,11 @@
-import { Metadata } from 'next'
-
+import type { Metadata } from 'next'
+import { Revalidater } from '@/components/revalidater'
 import { PlayerPage } from '@/features/player'
 import { fetchAchievement } from '@/service/supabase/achievement'
-import { fetchPlayer, fetchRecentPlayedPlayersId } from '@/service/supabase/player'
+import {
+  fetchPlayer,
+  fetchRecentPlayedPlayersId,
+} from '@/service/supabase/player'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -13,11 +16,13 @@ export const dynamicParams = true
 
 export async function generateStaticParams() {
   const players = await fetchRecentPlayedPlayersId()
-  return players.map(id => ({ id: `${id}` }))
+  return players.map((id) => ({ id: `${id}` }))
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { name } = await fetchPlayer(parseInt((await params).id))
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { name } = await fetchPlayer(parseInt((await params).id, 10))
   return {
     title: `${name}さんのページ`,
     description: `${name}さんの記録を閲覧します`,
@@ -28,9 +33,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function Page({ params }: PageProps) {
-  const player = await fetchPlayer(parseInt((await params).id))
-  const achievement = (await fetchAchievement(player.records[0].achievement)) ?? undefined
-  const date = new Date()
+  try {
+    const player = await fetchPlayer(parseInt((await params).id, 10))
+    const achievement =
+      (await fetchAchievement(player.records[0].achievement)) ?? undefined
+    const date = new Date()
 
-  return player ? <PlayerPage player={player} achievement={achievement} timestamp={date} /> : <></>
+    return player ? (
+      <PlayerPage player={player} achievement={achievement} timestamp={date} />
+    ) : null
+  } catch {
+    return (
+      <div className="bg-white text-center p-2 rounded-lg">
+        プレイヤーデータの取得に失敗しました
+        <Revalidater />
+      </div>
+    )
+  }
 }

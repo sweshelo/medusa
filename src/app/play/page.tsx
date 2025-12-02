@@ -1,4 +1,4 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 import PlayCountRankingPage from '@/features/play'
 import { fetchPlayCountRanking } from '@/service/supabase/play-count'
@@ -15,5 +15,7 @@ export default async function Page() {
   const season = await fetchCurrentSeason()
   const date = new Date()
 
-  return <PlayCountRankingPage ranking={ranking} season={season} timestamp={date} />
+  return (
+    <PlayCountRankingPage ranking={ranking} season={season} timestamp={date} />
+  )
 }

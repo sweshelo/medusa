@@ -1,7 +1,29 @@
 import * as cheerio from 'cheerio'
 import { format } from 'date-fns'
+import sanitizeHtml from 'sanitize-html'
 
-import { Ranking } from '@/types/ranking'
+import type { Ranking } from '@/types/ranking'
+
+// サーバーサイド用の軽量HTMLサニタイゼーション
+// クライアントサイドでも再度サニタイズされるため、基本的な安全性チェックのみ
+const sanitizeHTMLServer = (
+  html: string | null | undefined,
+): string | undefined => {
+  if (!html) return undefined
+
+  const allowedTags = ['b', 'span', 'strong', 'em', 'i']
+  // Optionally allow style attribute only as previously referenced in comment; here for safety, no attributes:
+  const sanitized = sanitizeHtml(html, {
+    allowedTags,
+    allowedAttributes: {
+      // Set allowed attributes per tag, e.g. "span": ["style"] if you want to allow inline styles
+      // For now, no attributes allowed
+    },
+    allowedSchemes: ['http', 'https'],
+  })
+
+  return sanitized || undefined
+}
 
 const originalPageURL = (index: number, date: Date | undefined) => {
   const month = format(date ?? new Date(), 'yyyyMM')
@@ -12,7 +34,7 @@ export const fetchRankingTable = async (date?: Date) => {
   const ranking: Ranking[] = []
 
   await Promise.all(
-    [0, 1, 2, 3].map(async index => {
+    [0, 1, 2, 3].map(async (index) => {
       try {
         const html = await (await fetch(originalPageURL(index, date))).text()
         const $ = cheerio.load(html)
@@ -21,8 +43,14 @@ export const fetchRankingTable = async (date?: Date) => {
           .find('li')
           .each((i, element) => {
             if (i === 0) return
-            const rank = parseInt($(element).find('div').first().text().trim())
-            const points = parseInt($(element).find('div').eq(2).text().trim().replace('P', ''))
+            const rank = parseInt(
+              $(element).find('div').first().text().trim(),
+              10,
+            )
+            const points = parseInt(
+              $(element).find('div').eq(2).text().trim().replace('P', ''),
+              10,
+            )
             const charaMatch = $(element)
               .find('div')
               .eq(1)
@@ -57,17 +85,19 @@ export const fetchRankingTable = async (date?: Date) => {
               .first()
               .attr('class')
               ?.split(' ')
-              .find(className => className.startsWith('icon_'))
+              .find((className) => className.startsWith('icon_'))
               ?.replace('icon_', '')
             const icon2 = achievementElement
               .find('span')
               .last()
               .attr('class')
               ?.split(' ')
-              .find(className => className.startsWith('icon_'))
+              .find((className) => className.startsWith('icon_'))
               ?.replace('icon_', '')
             achievementElement.find('span.icon').remove()
-            const achievementMarkup = achievementElement.html()?.trim()
+            const achievementMarkup = sanitizeHTMLServer(
+              achievementElement.html()?.trim(),
+            )
 
             ranking.push({
               rank,
@@ -87,7 +117,7 @@ export const fetchRankingTable = async (date?: Date) => {
       } catch (e) {
         console.error(e)
       }
-    })
+    }),
   )
 
   return ranking.length > 0 ? ranking : undefined

@@ -5,8 +5,8 @@ import { useSearchParams } from 'next/navigation'
 import { useMemo, useState } from 'react'
 
 import { AchievementPanel } from '@/features/achievement-panel'
-import { AchievementInfo } from '@/service/scraping/achievement'
-import { Database } from '@/types/database.types'
+import type { AchievementInfo } from '@/service/scraping/achievement'
+import type { Database } from '@/types/database.types'
 import { toHalfWidth } from '@/utils/text'
 
 interface AchievementListProps {
@@ -26,7 +26,10 @@ const CATEGORIES = [
   { value: 'ranking', label: 'ランキング' },
 ] as const
 
-export const AchievementList = ({ achievements, infomations }: AchievementListProps) => {
+export const AchievementList = ({
+  achievements,
+  infomations,
+}: AchievementListProps) => {
   const searchParams = useSearchParams()
   const selectedTag = searchParams.get('tag') || 'all'
   const [searchQuery, setSearchQuery] = useState('')
@@ -36,13 +39,9 @@ export const AchievementList = ({ achievements, infomations }: AchievementListPr
 
     // カテゴリフィルタ
     if (selectedTag !== 'all') {
-      result = result.filter(achievement => {
-        const info = infomations.find(info => {
-          // 半角に変換したタイトルと比較
-          const normalizedTitle = achievement.title.replace(/[Ａ-Ｚａ-ｚ０-９]/g, s =>
-            String.fromCharCode(s.charCodeAt(0) - 0xfee0)
-          )
-          return info.title === normalizedTitle
+      result = result.filter((achievement) => {
+        const info = infomations.find((info) => {
+          return info.title === toHalfWidth(achievement.title)
         })
         return info?.tag === selectedTag
       })
@@ -52,9 +51,11 @@ export const AchievementList = ({ achievements, infomations }: AchievementListPr
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase()
       result = result.filter(
-        achievement =>
+        (achievement) =>
           toHalfWidth(achievement.title.toLowerCase()).includes(query) ||
-          toHalfWidth(achievement.discoverer?.toLowerCase() || '').includes(query)
+          toHalfWidth(achievement.discoverer?.toLowerCase() || '').includes(
+            query,
+          ),
       )
     }
 
@@ -72,10 +73,12 @@ export const AchievementList = ({ achievements, infomations }: AchievementListPr
       </div>
 
       {/* 絞り込みUI */}
-      <details className="bg-white rounded-lg mb-4" open>
+      <details className="bg-white rounded-lg mb-4">
         <summary className="cursor-pointer p-3 hover:bg-gray-50 rounded-lg list-none">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-700">🔍 絞り込み・検索</span>
+            <span className="text-sm font-medium text-gray-700">
+              🔍 絞り込み・検索
+            </span>
             <span className="text-xs text-gray-500">
               {selectedTag !== 'all' || searchQuery ? (
                 <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">
@@ -91,13 +94,17 @@ export const AchievementList = ({ achievements, infomations }: AchievementListPr
         <div className="p-3 pt-0 space-y-4">
           {/* 検索ボックス */}
           <div>
-            <label className="block text-xs text-gray-600 mb-2">
+            <label
+              className="block text-xs text-gray-600 mb-2"
+              htmlFor="achievement-search-box"
+            >
               称号名またはプレイヤー名で検索
             </label>
             <input
+              id="achievement-search-box"
               type="text"
               value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
+              onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="キーワードを入力..."
               className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
@@ -105,9 +112,11 @@ export const AchievementList = ({ achievements, infomations }: AchievementListPr
 
           {/* カテゴリ選択 */}
           <div>
-            <label className="block text-xs text-gray-600 mb-2">カテゴリで絞り込み</label>
+            <span className="block text-xs text-gray-600 mb-2">
+              カテゴリで絞り込み
+            </span>
             <div className="flex flex-wrap gap-2 justify-center">
-              {CATEGORIES.map(category => (
+              {CATEGORIES.map((category) => (
                 <Link
                   key={category.value}
                   href={
@@ -138,7 +147,7 @@ export const AchievementList = ({ achievements, infomations }: AchievementListPr
 
       {/* 称号リスト */}
       <div>
-        {filteredAchievements.map(achievement => (
+        {filteredAchievements.map((achievement) => (
           <AchievementPanel
             achievement={achievement}
             infomations={infomations}
