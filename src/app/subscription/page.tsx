@@ -39,9 +39,14 @@ export default async function Page() {
 
       <div className="bg-white rounded-lg container mx-auto px-4 py-8">
         <div className="flex flex-col gap-6 max-w-2xl mx-auto">
-          <p className="text-sm text-gray-600">
-            閻魔帳の有料サブスクリプションに加入して、運営を支援することができます。
-          </p>
+          <div>
+            <p className="text-sm text-gray-600">
+              閻魔帳の有料サブスクリプションに加入して、運営を支援することができます。
+            </p>
+            <p className="text-sm text-gray-600 m-1">
+              決済は外部ページで行われ、閻魔帳には決済情報は保存されません。
+            </p>
+          </div>
           {/* アクティブなプラン */}
           {plans
             .sort((a, b) => a.price - b.price)
@@ -51,6 +56,7 @@ export default async function Page() {
                 title={plan.name}
                 price={formatPrice(plan.price, plan.currency, plan.interval)}
                 description={plan.description}
+                features={plan.features}
                 stripeUrl={plan.checkoutUrl}
               />
             ))}
