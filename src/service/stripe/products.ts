@@ -16,6 +16,7 @@ export interface SubscriptionPlan {
   currency: string
   interval: 'month' | 'year' | 'week' | 'day'
   checkoutUrl: string
+  features: string[]
 }
 
 export async function getActiveSubscriptionPlans(): Promise<
@@ -35,6 +36,28 @@ export async function getActiveSubscriptionPlans(): Promise<
       const price = product.default_price
 
       if (price && typeof price !== 'string') {
+        // Fetch product features with expanded entitlement_feature
+        const productFeatures = await stripe.products.listFeatures(product.id, {
+          expand: ['data.entitlement_feature'],
+        })
+
+        // Extract feature descriptions from entitlement feature metadata
+        const featureDescriptions = productFeatures.data
+          .map((feature) => {
+            if (
+              typeof feature.entitlement_feature === 'object' &&
+              feature.entitlement_feature
+            ) {
+              // Get description from metadata or name as fallback
+              return (
+                feature.entitlement_feature.metadata?.description ||
+                feature.entitlement_feature.name
+              )
+            }
+            return null
+          })
+          .filter((desc): desc is string => !!desc)
+
         // Create a payment link for this price
         const paymentLink = await stripe.paymentLinks.create({
           line_items: [
@@ -53,6 +76,7 @@ export async function getActiveSubscriptionPlans(): Promise<
           currency: price.currency,
           interval: price.recurring?.interval || 'month',
           checkoutUrl: paymentLink.url,
+          features: featureDescriptions,
         })
       }
     }
