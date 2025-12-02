@@ -1,16 +1,16 @@
 import { TZDate, tz } from '@date-fns/tz'
 import classNames from 'classnames'
 import { format, isWithinInterval } from 'date-fns'
-
+import Image from 'next/image'
 import { Stage } from '@/components/stage-icon'
 import { fetchSchedule } from '@/service/supabase/schedule'
-import type { Record } from '@/types/record'
+import type { RankRecord } from '@/types/record'
 
 interface RecordsTableProps {
-  records: Record[]
+  records: RankRecord[]
 }
 
-export const RecordsTable = async ({ records }: RecordsTableProps) => {
+export const GaugeTable = async ({ records }: RecordsTableProps) => {
   const schedule = await fetchSchedule()
   const getStage = (date: Date) => {
     const term = schedule.find((s) => {
@@ -31,6 +31,9 @@ export const RecordsTable = async ({ records }: RecordsTableProps) => {
             <th className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-center">
               日時
             </th>
+            <th className="px-0 py-3 text-xs font-medium uppercase tracking-wider text-center w-[60]">
+              キャラ
+            </th>
             <th className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-center">
               累計
             </th>
@@ -41,9 +44,7 @@ export const RecordsTable = async ({ records }: RecordsTableProps) => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {records.slice(0, 100).map((record) => {
-            const date = new TZDate(
-              `${record.recorded_at ?? record.created_at.replace(/\+00:00$/, '-09:00')}+09:00`,
-            )
+            const date = new TZDate(`${record.recorded_at}+09:00`)
             const stage = getStage(date)
             return (
               <tr
@@ -61,8 +62,26 @@ export const RecordsTable = async ({ records }: RecordsTableProps) => {
                   </span>
                   {stage && <Stage name={stage} />}
                 </td>
+                <td>
+                  <Image
+                    src={
+                      record.chara
+                        ? `https://p.eagate.573.jp/game/chase2jokers/ccj/images/ranking/icon/ranking_icon_${record.chara}.png`
+                        : 'https://eacache.s.konaminet.jp/game/chase2jokers/ccj/images/character/chara_image/icon/chara_icon_unbanned.png'
+                    }
+                    alt={''}
+                    width={60}
+                    height={40}
+                    className="h-[40px]"
+                    unoptimized
+                  />
+                </td>
                 <td className="text-center">{record.point}P</td>
-                <td className="text-center">{record.diff}P</td>
+                <td className="text-center">
+                  {record.diff !== null
+                    ? `${Math.sign(record.diff) > 0 ? '+' : ''}${record.diff}`
+                    : '-'}
+                </td>
               </tr>
             )
           })}

@@ -59,7 +59,11 @@ export default async function RootLayout({
         {/* Manifestの設定 */}
         <link rel="manifest" href="/manifest.json" />
         {/* iOS用のapple-touch-icon */}
-        <link rel="apple-touch-icon" sizes="180x180" href="/image/icon-180.png" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/image/icon-180.png"
+        />
         {/* ブラウザのテーマカラー */}
         <meta name="theme-color" content="#7f1d1d" />
       </head>

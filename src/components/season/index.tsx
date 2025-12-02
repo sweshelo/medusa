@@ -1,15 +1,18 @@
 import classNames from 'classnames'
-import { differenceInDays, format } from 'date-fns'
+import { differenceInDays, format, isWithinInterval } from 'date-fns'
 
 import { fetchAllSeasons } from '@/service/supabase/season'
 
 export const Season = async () => {
   const seasons = await fetchAllSeasons()
+  const currentDate = new Date()
 
   if (!seasons || seasons.length === 0) {
     return (
       <div className="rounded-lg shadow-sm p-6 bg-white my-4">
-        <p className="text-gray-500 text-center">シーズン情報を取得できませんでした</p>
+        <p className="text-gray-500 text-center">
+          シーズン情報を取得できませんでした
+        </p>
       </div>
     )
   }
@@ -34,17 +37,21 @@ export const Season = async () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {seasons.map(season => {
-            const isCurrentSeason = !season.ended_at
-            const days = isCurrentSeason
-              ? differenceInDays(new Date(), new Date(season.started_at))
-              : differenceInDays(new Date(season.ended_at!), new Date(season.started_at))
+          {seasons.map((season) => {
+            const endedAt = season.ended_at
+              ? new Date(season.ended_at)
+              : currentDate
+            const days = differenceInDays(endedAt, new Date(season.started_at))
+            const isCurrentSeason = isWithinInterval(currentDate, {
+              start: season.started_at,
+              end: endedAt,
+            })
 
             return (
               <tr
                 key={season.id}
                 className={classNames({
-                  ['bg-amber-200']: isCurrentSeason,
+                  'bg-amber-200': isCurrentSeason,
                 })}
               >
                 <td className="text-center py-2 items-center gap-2 justify-center">
@@ -54,9 +61,13 @@ export const Season = async () => {
                   {format(new Date(season.started_at), 'yy/MM/dd')}
                 </td>
                 <td className="text-center py-2 items-center gap-2 justify-center">
-                  {season.ended_at ? format(new Date(season.ended_at), 'yy/MM/dd') : '-'}
+                  {season.ended_at
+                    ? format(new Date(season.ended_at), 'yy/MM/dd')
+                    : '-'}
                 </td>
-                <td className="text-center py-2 items-center gap-2 justify-center">{days}日</td>
+                <td className="text-center py-2 items-center gap-2 justify-center">
+                  {days}日
+                </td>
               </tr>
             )
           })}

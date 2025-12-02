@@ -2,27 +2,37 @@ import { AchievementView } from '@/components/achievement'
 import { PointsLineChart } from '@/components/charts/line-chart'
 import { Shiny } from '@/components/common/shiny'
 import { SmallHeadline } from '@/components/common/small-headline'
+import { GaugeTable } from '@/components/gauge-table'
 import { PlayerCard } from '@/components/player/card'
 import { RecordsTable } from '@/components/records-table'
 import { Revalidater } from '@/components/revalidater'
 import { AverageToolTipIcon } from '@/components/tooltip/average'
 import { DeviationToolTipIcon } from '@/components/tooltip/deviation'
 import { PlayedPrefectureMap } from '@/features/prefecture-map'
-import { fetchPlayerCount, fetchPlayerDeviationRanking } from '@/service/supabase/player'
-import { Achievement } from '@/types/achievement'
-import { Database } from '@/types/database.types'
+import {
+  fetchPlayerCount,
+  fetchPlayerDeviationRanking,
+} from '@/service/supabase/player'
+import type { Achievement } from '@/types/achievement'
+import type { Database } from '@/types/database.types'
+import type { RankRecord } from '@/types/record'
 import { getPlayerRankColor } from '@/utils/colors'
 
 interface PlayerPageProps {
   player: Database['public']['Tables']['player']['Row'] & {
     records: Database['public']['Tables']['record']['Row'][]
+    rankRecords: RankRecord[] | null
     maxPoints?: number
   }
   achievement?: Achievement
   timestamp: Date
 }
 
-export const PlayerPage = async ({ player, achievement, timestamp }: PlayerPageProps) => {
+export const PlayerPage = async ({
+  player,
+  achievement,
+  timestamp,
+}: PlayerPageProps) => {
   const [digest] = player.records
 
   const count = await fetchPlayerCount()
@@ -57,7 +67,9 @@ export const PlayerPage = async ({ player, achievement, timestamp }: PlayerPageP
                 <p className="text-left text-xs">最高ランキング</p>
               </div>
               <div className="">
-                <p className="text-right text-lg">{player.ranking && `${player.ranking}位`}</p>
+                <p className="text-right text-lg">
+                  {player.ranking && `${player.ranking}位`}
+                </p>
               </div>
             </div>
           </Shiny>
@@ -87,17 +99,44 @@ export const PlayerPage = async ({ player, achievement, timestamp }: PlayerPageP
                 <DeviationToolTipIcon />
               </div>
               <div className="">
-                <p className="text-right text-lg">{player.deviation_value ?? '-'}</p>
+                <p className="text-right text-lg">
+                  {player.deviation_value ?? '-'}
+                </p>
               </div>
             </div>
           </Shiny>
         </div>
       </div>
+      {player.rankRecords && player.rankRecords.length > 0 && (
+        <div className="my-4">
+          <SmallHeadline title="ランクゲージの推移" />
+          <div className="my-4">
+            <GaugeTable
+              records={player.rankRecords
+                .reverse()
+                .map((record, index, self) => {
+                  const prev = index > 0 ? self[index - 1] : null
+                  return record.version === '2024-01-01'
+                    ? {
+                        ...record,
+                        point: record.diff ?? 0,
+                        diff:
+                          prev?.diff && record.diff
+                            ? record.diff - prev.diff
+                            : null,
+                      }
+                    : record
+                })
+                .reverse()}
+            />
+          </div>
+        </div>
+      )}
       <div className="my-4">
         <SmallHeadline title="貢献度の推移" />
         <PointsLineChart
           records={player.records.filter(
-            record => record.diff && record.diff >= 50 && record.diff <= 500
+            (record) => record.diff && record.diff >= 50 && record.diff <= 500,
           )}
         />
       </div>

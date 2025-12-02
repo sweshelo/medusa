@@ -1,10 +1,15 @@
-import Image from 'next/image'
+'use client'
 
-import { Achievement } from '@/types/achievement'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
+
+import type { Achievement } from '@/types/achievement'
+import { sanitizeHTML } from '@/utils/sanitize'
 
 import { Shiny } from '../common/shiny'
 
-const BaseURL = 'https://eacache.s.konaminet.jp/game/chase2jokers/ccj/images/ranking/title_icon/'
+const BaseURL =
+  'https://eacache.s.konaminet.jp/game/chase2jokers/ccj/images/ranking/title_icon/'
 const Icons = [
   '01jan.png',
   '02feb.png',
@@ -32,6 +37,16 @@ interface AchievementProps {
 }
 
 export const AchievementView = ({ achievement }: AchievementProps) => {
+  // クライアントサイドでのみサニタイズを実施してハイドレーションエラーを回避
+  const [sanitizedMarkup, setSanitizedMarkup] = useState<string>('')
+
+  useEffect(() => {
+    if (typeof achievement !== 'string' && achievement.markup) {
+      const sanitized = sanitizeHTML(achievement.markup)
+      setSanitizedMarkup(sanitized || '')
+    }
+  }, [achievement])
+
   if (typeof achievement === 'string') {
     return (
       <div className="bg-silver-gradient text-center">
@@ -59,7 +74,7 @@ export const AchievementView = ({ achievement }: AchievementProps) => {
       <div className="flex justify-center items-center">
         {achievement.icon_first && (
           <Image
-            src={`${BaseURL}${Icons[parseInt(achievement.icon_first) - 1]}`}
+            src={`${BaseURL}${Icons[parseInt(achievement.icon_first, 10) - 1]}`}
             alt=""
             width={22}
             height={22}
@@ -67,7 +82,8 @@ export const AchievementView = ({ achievement }: AchievementProps) => {
           />
         )}
         <span
-          dangerouslySetInnerHTML={{ __html: achievement.markup }}
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: レンダリング時に厳格なサニタイゼーションを実施済み (sanitize.ts参照)
+          dangerouslySetInnerHTML={{ __html: sanitizedMarkup || '' }}
           className="font-bold px-2"
           style={{
             letterSpacing: '2px',
@@ -77,7 +93,7 @@ export const AchievementView = ({ achievement }: AchievementProps) => {
         />
         {achievement.icon_last && (
           <Image
-            src={`${BaseURL}${Icons[parseInt(achievement.icon_last) - 1]}`}
+            src={`${BaseURL}${Icons[parseInt(achievement.icon_last, 10) - 1]}`}
             alt=""
             width={22}
             height={22}

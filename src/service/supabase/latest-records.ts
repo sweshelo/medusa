@@ -3,7 +3,7 @@ import { supabase } from './client'
 export const fetchLatestRecords = async (players: string[]) => {
   // 各プレイヤーに対して最新の record を取得する
   const records = await Promise.all(
-    (players ?? []).map(async player => {
+    (players ?? []).map(async (player) => {
       const { data: records, error: recordError } = await supabase
         .from('record')
         .select('*')
@@ -13,7 +13,9 @@ export const fetchLatestRecords = async (players: string[]) => {
         .limit(1)
 
       if (recordError) {
-        console.error(`Error fetching record for player ${player}: ${recordError.message}`)
+        console.error(
+          `Error fetching record for player ${player}: ${recordError.message}`,
+        )
       }
 
       const [record] = records ?? []
@@ -22,7 +24,7 @@ export const fetchLatestRecords = async (players: string[]) => {
         player,
         record,
       }
-    })
+    }),
   )
 
   return records

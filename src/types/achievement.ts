@@ -1,4 +1,4 @@
-import { Database } from './database.types'
+import type { Database } from './database.types'
 
 export type Achievement =
   | Database['public']['Tables']['achievement']['Row']
