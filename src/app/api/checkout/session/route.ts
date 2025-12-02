@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     }
 
     // アプリケーションのベースURL
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL
 
     // Stripe Checkout Sessionを作成
     const session = await stripe.checkout.sessions.create({
