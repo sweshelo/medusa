@@ -1,10 +1,14 @@
 'use client'
 
+import type { User } from '@supabase/supabase-js'
 import Link from 'next/link'
-
 import { useDrawer } from '@/hooks/drawer'
 
-export const Drawer = () => {
+interface DrawerProps {
+  user: User | null
+}
+
+export const Drawer = ({ user }: DrawerProps) => {
   const { isOpen, closeDrawer } = useDrawer()
 
   return (
@@ -74,6 +78,19 @@ export const Drawer = () => {
               オンライン
             </Link>
           </li>
+          {user ? (
+            <li>
+              <Link href="/settings" className="block p-2 hover:bg-gray-100">
+                設定
+              </Link>
+            </li>
+          ) : (
+            <li>
+              <Link href="/login" className="block p-2 hover:bg-gray-100">
+                ログイン
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </div>

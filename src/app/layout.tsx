@@ -4,12 +4,12 @@ import { Suspense } from 'react'
 import { ToastContainer } from 'react-toastify'
 
 import { Loading } from '@/components/common/loading'
-import { Drawer } from '@/components/drawer'
 import { Header } from '@/components/header'
 import { DrawerProvider } from '@/hooks/drawer'
 
 import './globals.css'
 import type { Metadata } from 'next'
+import { DrawerWrapper } from '@/components/drawer/drawer-wrapper'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://放課後天地創造.club'),
@@ -70,7 +70,7 @@ export default async function RootLayout({
       <body className={`antialiased font-mplus`}>
         <DrawerProvider>
           <Header />
-          <Drawer />
+          <DrawerWrapper />
           <div className="w-full min-h-screen mx-auto bg-gray-100 sm:p-7">
             <div className="max-w-[700px] mx-auto bg-sky-50 p-4 sm:p-8 sm:rounded-lg shadow-2xl min-h-lvh">
               <Suspense fallback={<Loading />}>{children}</Suspense>
