@@ -59,29 +59,54 @@ export const ImageUpload = ({ onUploadSuccess }: ImageUploadProps) => {
 
   const handleFileSelect = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0]
-      if (!file) return
+      try {
+        const file = e.target.files?.[0]
+        if (!file) {
+          return
+        }
 
-      // ファイルタイプチェック
-      if (!file.type.startsWith('image/')) {
-        toast.error('画像ファイルを選択してください')
-        return
+        // ファイルタイプチェック
+        if (!file.type.startsWith('image/')) {
+          toast.error('画像ファイルを選択してください')
+          return
+        }
+
+        // ファイルサイズチェック（10MB）- アップロード時に圧縮されます
+        if (file.size > 10 * 1024 * 1024) {
+          toast.error('ファイルサイズは10MB以下にしてください')
+          return
+        }
+
+        setSelectedFile(file)
+
+        // プレビュー表示をPromiseでラップ
+        const previewUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onload = (event) => {
+            if (event.target?.result) {
+              resolve(event.target.result as string)
+            } else {
+              reject(new Error('Failed to read file'))
+            }
+          }
+          reader.onerror = () => {
+            reject(new Error('Failed to load image file'))
+          }
+          reader.readAsDataURL(file)
+        })
+
+        setPreview(previewUrl)
+      } catch (error) {
+        console.error('File select error:', error)
+        toast.error(
+          error instanceof Error
+            ? error.message
+            : '画像の読み込みに失敗しました',
+        )
+        // エラー時はリセット
+        setSelectedFile(null)
+        setPreview(null)
       }
-
-      // ファイルサイズチェック（2MB）
-      if (file.size > 2 * 1024 * 1024) {
-        toast.error('ファイルサイズは2MB以下にしてください')
-        return
-      }
-
-      setSelectedFile(file)
-
-      // プレビュー表示
-      const reader = new FileReader()
-      reader.onload = (event) => {
-        setPreview(event.target?.result as string)
-      }
-      reader.readAsDataURL(file)
     },
     [],
   )
@@ -117,6 +142,7 @@ export const ImageUpload = ({ onUploadSuccess }: ImageUploadProps) => {
 
       // 2000px超なら圧縮
       if (img.width > 2000 || img.height > 2000) {
+        toast.info('画像を圧縮しています…')
         const options = {
           maxSizeMB: 2,
           maxWidthOrHeight: 2000,
@@ -199,7 +225,9 @@ export const ImageUpload = ({ onUploadSuccess }: ImageUploadProps) => {
             hover:file:bg-blue-100
             disabled:opacity-50 disabled:cursor-not-allowed"
         />
-        <p className="mt-1 text-xs text-gray-500">※ 2MB以下のJPEG/PNG画像</p>
+        <p className="mt-1 text-xs text-gray-500">
+          ※ 10MB以下のJPEG/PNG画像（アップロード時に自動圧縮されます）
+        </p>
       </div>
 
       {preview && (
