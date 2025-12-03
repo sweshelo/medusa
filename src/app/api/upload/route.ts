@@ -82,8 +82,8 @@ export async function POST(request: Request) {
 
     const imageUrl = `${R2_PUBLIC_URL}/${key}`
 
-    // データベースに保存
-    const { error: dbError } = await supabase.from('game_image').insert({
+    // game_imageをデータベースに保存
+    const { error: imageError } = await supabase.from('game_image').insert({
       id: imageId,
       user_id: user.id,
       url: imageUrl,
@@ -91,12 +91,25 @@ export async function POST(request: Request) {
       processed: false,
     })
 
-    if (dbError) {
-      console.error('Database error:', dbError)
+    if (imageError) {
+      console.error('Failed to save image metadata:', imageError)
       return NextResponse.json(
         { error: 'Failed to save image metadata' },
         { status: 500 },
       )
+    }
+
+    // gameレコードも作成
+    const { error: gameError } = await supabase.from('game').insert({
+      image_id: imageId,
+      played_at: takenAt || null,
+      recorded_by: user.id,
+    })
+
+    if (gameError) {
+      console.error('Failed to create game record:', gameError)
+      // game_imageは既に作成済みだが、gameの作成に失敗
+      // Workerが後で処理できるため、エラーは返さずに警告のみ
     }
 
     return NextResponse.json({
