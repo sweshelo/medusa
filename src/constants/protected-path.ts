@@ -1,1 +1,1 @@
-export const PROTECTED_PATH = ['/settings']
+export const PROTECTED_PATH = ['/settings', '/pekora']

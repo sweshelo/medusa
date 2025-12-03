@@ -109,7 +109,7 @@ export const LinkPlayer = ({ initialPlayer }: LinkPlayerProps) => {
         )}
 
         {linkedPlayer ? (
-          <div>
+          <div className="p-3">
             <div className="mb-4">
               <p className="text-sm text-gray-600 mb-2">
                 紐づいているプレイヤー:

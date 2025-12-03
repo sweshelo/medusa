@@ -72,6 +72,130 @@ export type Database = {
         }
         Relationships: []
       }
+      game: {
+        Row: {
+          created_at: string
+          id: number
+          image_id: string | null
+          played_at: string | null
+          recorded_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          image_id?: string | null
+          played_at?: string | null
+          recorded_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          image_id?: string | null
+          played_at?: string | null
+          recorded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'game_image_id_fkey'
+            columns: ['image_id']
+            isOneToOne: false
+            referencedRelation: 'game_image'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      game_image: {
+        Row: {
+          created_at: string
+          id: string
+          processed: boolean
+          taken_at: string | null
+          url: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          processed?: boolean
+          taken_at?: string | null
+          url?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          processed?: boolean
+          taken_at?: string | null
+          url?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      game_result: {
+        Row: {
+          achievement: string | null
+          assist: number | null
+          chain: number | null
+          charge: number | null
+          created_at: string
+          death: number | null
+          flight: number | null
+          game_id: number | null
+          id: number
+          is_mvp: boolean | null
+          is_win: number | null
+          is_you: boolean | null
+          kill: number | null
+          player_name: string | null
+          score: number | null
+          team: boolean | null
+        }
+        Insert: {
+          achievement?: string | null
+          assist?: number | null
+          chain?: number | null
+          charge?: number | null
+          created_at?: string
+          death?: number | null
+          flight?: number | null
+          game_id?: number | null
+          id?: number
+          is_mvp?: boolean | null
+          is_win?: number | null
+          is_you?: boolean | null
+          kill?: number | null
+          player_name?: string | null
+          score?: number | null
+          team?: boolean | null
+        }
+        Update: {
+          achievement?: string | null
+          assist?: number | null
+          chain?: number | null
+          charge?: number | null
+          created_at?: string
+          death?: number | null
+          flight?: number | null
+          game_id?: number | null
+          id?: number
+          is_mvp?: boolean | null
+          is_win?: number | null
+          is_you?: boolean | null
+          kill?: number | null
+          player_name?: string | null
+          score?: number | null
+          team?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'game_result_game_id_fkey'
+            columns: ['game_id']
+            isOneToOne: false
+            referencedRelation: 'game'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       player: {
         Row: {
           average: number | null

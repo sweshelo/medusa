@@ -1,0 +1,70 @@
+'use client'
+
+import { useCallback, useEffect, useState } from 'react'
+import { Headline } from '@/components/common/headline'
+import { SmallHeadline } from '@/components/common/small-headline'
+import { ImageHistoryItem } from '@/components/game-image/image-history-item'
+import { ImageUpload } from '@/features/image-upload'
+import type { Tables } from '@/types/database.types'
+import { getUploadedImages } from './actions'
+
+type GameImage = Tables<'game_image'>
+
+export default function PekoraPage() {
+  const [images, setImages] = useState<GameImage[]>([])
+  const [loading, setLoading] = useState(true)
+
+  const fetchImages = useCallback(async () => {
+    setLoading(true)
+    const result = await getUploadedImages()
+    if (result.images) {
+      setImages(result.images)
+    }
+    setLoading(false)
+  }, [])
+
+  useEffect(() => {
+    fetchImages()
+  }, [fetchImages])
+
+  const handleUploadSuccess = useCallback(() => {
+    fetchImages()
+  }, [fetchImages])
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <Headline title="画像アップロード" />
+
+      <div className="max-w-3xl mx-auto space-y-8 mt-6">
+        {/* アップロードフォーム */}
+        <section>
+          <SmallHeadline title="新規アップロード" />
+          <ImageUpload onUploadSuccess={handleUploadSuccess} />
+        </section>
+
+        {/* アップロード履歴 */}
+        <section>
+          <SmallHeadline title="アップロード履歴" />
+          {loading ? (
+            <div className="bg-white rounded-lg p-4">
+              <div className="animate-pulse space-y-4">
+                <div className="h-48 bg-gray-200 rounded" />
+                <div className="h-48 bg-gray-200 rounded" />
+              </div>
+            </div>
+          ) : images.length === 0 ? (
+            <div className="bg-white rounded-lg p-8 text-center text-gray-500">
+              アップロードされた画像がありません
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {images.map((image) => (
+                <ImageHistoryItem key={image.id} image={image} />
+              ))}
+            </div>
+          )}
+        </section>
+      </div>
+    </div>
+  )
+}
