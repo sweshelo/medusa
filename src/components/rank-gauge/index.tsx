@@ -24,8 +24,6 @@ export const RankGauge = ({ value, border }: RankGaugeProps) => {
           : value
         : value) % 100
 
-  console.log(exactGaugeValue)
-
   return (
     <div
       className={`rounded-sm shadow-sm ${isOni ? 'bg-red-300' : 'bg-white'} py-2 my-3`}
@@ -64,7 +62,7 @@ export const RankGauge = ({ value, border }: RankGaugeProps) => {
           <div
             className="absolute h-full transition-all duration-500"
             style={{
-              width: `${exactGaugeValue}%`,
+              width: `${exactGaugeValue || 100}%`,
             }}
           >
             <Shiny color={isOni ? 'shiny-rainbow' : color} className="h-full">
