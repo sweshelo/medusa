@@ -4,11 +4,13 @@ import { Shiny } from '@/components/common/shiny'
 import { SmallHeadline } from '@/components/common/small-headline'
 import { GaugeTable } from '@/components/gauge-table'
 import { PlayerCard } from '@/components/player/card'
+import { RankGauge } from '@/components/rank-gauge'
 import { RecordsTable } from '@/components/records-table'
 import { Revalidater } from '@/components/revalidater'
 import { AverageToolTipIcon } from '@/components/tooltip/average'
 import { DeviationToolTipIcon } from '@/components/tooltip/deviation'
 import { PlayedPrefectureMap } from '@/features/prefecture-map'
+import { getOniBorder } from '@/service/scraping/oni-border'
 import {
   fetchPlayerCount,
   fetchPlayerDeviationRanking,
@@ -33,15 +35,19 @@ export const PlayerPage = async ({
   achievement,
   timestamp,
 }: PlayerPageProps) => {
-  const [digest] = player.records
+  const [topRecord] = player.records
+  const [topRankRecord] =
+    player.rankRecords?.filter((r) => r.version === '2025-12-01') ?? []
+  const digest = topRecord || topRankRecord
 
   const count = await fetchPlayerCount()
   const index = await fetchPlayerDeviationRanking(player.name)
+  const border = await getOniBorder()
   const getColor = () => getPlayerRankColor(index, count ?? null)
 
   return digest ? (
     <>
-      <AchievementView achievement={achievement ?? digest.achievement} />
+      {achievement && <AchievementView achievement={achievement} />}
       <div className="py-3">
         <PlayerCard player={player} chara={digest.chara} />
       </div>
@@ -107,10 +113,12 @@ export const PlayerPage = async ({
           </Shiny>
         </div>
       </div>
-      {player.rankRecords && player.rankRecords.length > 0 && (
+      <Revalidater timestamp={timestamp} />
+      {topRankRecord && player.rankRecords && player.rankRecords.length > 0 && (
         <div className="my-4">
           <SmallHeadline title="ランクゲージの推移" />
           <div className="my-4">
+            <RankGauge value={topRankRecord.point} border={border} />
             <GaugeTable
               records={player.rankRecords
                 .reverse()
@@ -133,6 +141,10 @@ export const PlayerPage = async ({
         </div>
       )}
       <div className="my-4">
+        <PlayedPrefectureMap playerName={player.name} />
+      </div>
+      {/*
+      <div className="my-4">
         <SmallHeadline title="貢献度の推移" />
         <PointsLineChart
           records={player.records.filter(
@@ -141,12 +153,9 @@ export const PlayerPage = async ({
         />
       </div>
       <div className="my-4">
-        <PlayedPrefectureMap playerName={player.name} />
-      </div>
-      <Revalidater timestamp={timestamp} />
-      <div className="my-4">
         <RecordsTable records={player.records} />
       </div>
+      */}
     </>
   ) : (
     <>
