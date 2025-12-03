@@ -10,10 +10,18 @@ interface ImageUploadProps {
   onUploadSuccess?: () => void
 }
 
+interface SelectedImage {
+  id: string
+  file: File
+  preview: string
+  uploading: boolean
+  uploaded: boolean
+  error: string | null
+}
+
 export const ImageUpload = ({ onUploadSuccess }: ImageUploadProps) => {
-  const [uploading, setUploading] = useState(false)
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const [preview, setPreview] = useState<string | null>(null)
+  const [selectedImages, setSelectedImages] = useState<SelectedImage[]>([])
+  const [isUploading, setIsUploading] = useState(false)
 
   const removeExif = useCallback(async (file: File): Promise<Blob> => {
     return new Promise((resolve, reject) => {
@@ -59,148 +67,229 @@ export const ImageUpload = ({ onUploadSuccess }: ImageUploadProps) => {
 
   const handleFileSelect = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
-      try {
-        const file = e.target.files?.[0]
-        if (!file) {
-          return
-        }
+      const files = Array.from(e.target.files || [])
+      if (files.length === 0) return
 
-        // ファイルタイプチェック
-        if (!file.type.startsWith('image/')) {
-          toast.error('画像ファイルを選択してください')
-          return
-        }
+      const newImages: SelectedImage[] = []
 
-        // ファイルサイズチェック（10MB）- アップロード時に圧縮されます
-        if (file.size > 10 * 1024 * 1024) {
-          toast.error('ファイルサイズは10MB以下にしてください')
-          return
-        }
+      for (const file of files) {
+        try {
+          // ファイルタイプチェック
+          if (!file.type.startsWith('image/')) {
+            toast.error(`${file.name}: 画像ファイルを選択してください`)
+            continue
+          }
 
-        setSelectedFile(file)
+          // ファイルサイズチェック（10MB）
+          if (file.size > 10 * 1024 * 1024) {
+            toast.error(`${file.name}: ファイルサイズは10MB以下にしてください`)
+            continue
+          }
 
-        // プレビュー表示をPromiseでラップ
-        const previewUrl = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader()
-          reader.onload = (event) => {
-            if (event.target?.result) {
-              resolve(event.target.result as string)
-            } else {
-              reject(new Error('Failed to read file'))
+          // プレビュー生成
+          const previewUrl = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onload = (event) => {
+              if (event.target?.result) {
+                resolve(event.target.result as string)
+              } else {
+                reject(new Error('Failed to read file'))
+              }
             }
-          }
-          reader.onerror = () => {
-            reject(new Error('Failed to load image file'))
-          }
-          reader.readAsDataURL(file)
-        })
+            reader.onerror = () => {
+              reject(new Error('Failed to load image file'))
+            }
+            reader.readAsDataURL(file)
+          })
 
-        setPreview(previewUrl)
-      } catch (error) {
-        console.error('File select error:', error)
-        toast.error(
-          error instanceof Error
-            ? error.message
-            : '画像の読み込みに失敗しました',
-        )
-        // エラー時はリセット
-        setSelectedFile(null)
-        setPreview(null)
+          newImages.push({
+            id: uuidv4(),
+            file,
+            preview: previewUrl,
+            uploading: false,
+            uploaded: false,
+            error: null,
+          })
+        } catch (error) {
+          console.error('File select error:', error)
+          toast.error(
+            `${file.name}: ${error instanceof Error ? error.message : '画像の読み込みに失敗しました'}`,
+          )
+        }
       }
+
+      if (newImages.length > 0) {
+        setSelectedImages((prev) => [...prev, ...newImages])
+        toast.success(`${newImages.length}枚の画像を追加しました`)
+      }
+
+      // input要素をリセット（同じファイルを再選択可能にする）
+      e.target.value = ''
     },
     [],
   )
 
-  const handleUpload = useCallback(async () => {
-    if (!selectedFile) return
+  const handleRemoveImage = useCallback((imageId: string) => {
+    setSelectedImages((prev) => prev.filter((img) => img.id !== imageId))
+  }, [])
 
-    setUploading(true)
+  const handleClearAll = useCallback(() => {
+    setSelectedImages([])
+  }, [])
 
-    try {
-      // EXIF読み取り
-      let takenAt: string | null = null
+  const uploadSingleImage = useCallback(
+    async (image: SelectedImage) => {
       try {
-        const exifData = await exifr.parse(selectedFile)
-        if (exifData?.DateTimeOriginal) {
-          takenAt = new Date(exifData.DateTimeOriginal).toISOString()
+        // 状態を「アップロード中」に更新
+        setSelectedImages((prev) =>
+          prev.map((img) =>
+            img.id === image.id
+              ? { ...img, uploading: true, error: null }
+              : img,
+          ),
+        )
+
+        // EXIF読み取り
+        let takenAt: string | null = null
+        try {
+          const exifData = await exifr.parse(image.file)
+          if (exifData?.DateTimeOriginal) {
+            takenAt = new Date(exifData.DateTimeOriginal).toISOString()
+          }
+        } catch (exifError) {
+          console.warn('Failed to read EXIF data:', exifError)
         }
-      } catch (exifError) {
-        console.warn('Failed to read EXIF data:', exifError)
-      }
 
-      // 画像を読み込んで解像度チェック
-      const img = new Image()
-      const imageUrl = URL.createObjectURL(selectedFile)
-      await new Promise((resolve, reject) => {
-        img.onload = resolve
-        img.onerror = reject
-        img.src = imageUrl
-      })
-      URL.revokeObjectURL(imageUrl)
+        // 画像を読み込んで解像度チェック
+        const img = new Image()
+        const imageUrl = URL.createObjectURL(image.file)
+        await new Promise((resolve, reject) => {
+          img.onload = resolve
+          img.onerror = reject
+          img.src = imageUrl
+        })
+        URL.revokeObjectURL(imageUrl)
 
-      let processedFile = selectedFile
+        let processedFile = image.file
 
-      // 2000px超なら圧縮
-      if (img.width > 2000 || img.height > 2000) {
-        toast.info('画像を圧縮しています…')
-        const options = {
-          maxSizeMB: 2,
-          maxWidthOrHeight: 2000,
-          useWebWorker: true,
+        // 2000px超なら圧縮
+        if (img.width > 2000 || img.height > 2000) {
+          const options = {
+            maxSizeMB: 2,
+            maxWidthOrHeight: 2000,
+            useWebWorker: true,
+          }
+          processedFile = await imageCompression(image.file, options)
         }
-        processedFile = await imageCompression(selectedFile, options)
-        toast.info('画像を圧縮しました')
+
+        // EXIF削除
+        const blobWithoutExif = await removeExif(processedFile)
+        const fileWithoutExif = new File(
+          [blobWithoutExif],
+          processedFile.name,
+          {
+            type: 'image/jpeg',
+          },
+        )
+
+        // UUID生成
+        const imageId = uuidv4()
+
+        // アップロード
+        const formData = new FormData()
+        formData.append('file', fileWithoutExif)
+        formData.append('imageId', imageId)
+        if (takenAt) {
+          formData.append('takenAt', takenAt)
+        }
+
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        })
+
+        const result = await response.json()
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Upload failed')
+        }
+
+        // 成功
+        setSelectedImages((prev) =>
+          prev.map((img) =>
+            img.id === image.id
+              ? { ...img, uploading: false, uploaded: true }
+              : img,
+          ),
+        )
+
+        return true
+      } catch (error) {
+        console.error('Upload error:', error)
+        const errorMessage =
+          error instanceof Error ? error.message : 'アップロードに失敗しました'
+
+        setSelectedImages((prev) =>
+          prev.map((img) =>
+            img.id === image.id
+              ? { ...img, uploading: false, error: errorMessage }
+              : img,
+          ),
+        )
+
+        return false
       }
+    },
+    [removeExif],
+  )
 
-      // EXIF削除
-      const blobWithoutExif = await removeExif(processedFile)
-      const fileWithoutExif = new File([blobWithoutExif], processedFile.name, {
-        type: 'image/jpeg',
-      })
+  const handleUploadAll = useCallback(async () => {
+    const imagesToUpload = selectedImages.filter((img) => !img.uploaded)
+    if (imagesToUpload.length === 0) return
 
-      // UUID生成
-      const imageId = uuidv4()
+    setIsUploading(true)
 
-      // アップロード
-      const formData = new FormData()
-      formData.append('file', fileWithoutExif)
-      formData.append('imageId', imageId)
-      if (takenAt) {
-        formData.append('takenAt', takenAt)
+    let successCount = 0
+    let failCount = 0
+
+    // 順次アップロード
+    for (const image of imagesToUpload) {
+      const success = await uploadSingleImage(image)
+      if (success) {
+        successCount++
+      } else {
+        failCount++
       }
+    }
 
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      })
+    setIsUploading(false)
 
-      const result = await response.json()
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Upload failed')
-      }
-
-      toast.success('画像をアップロードしました')
-      setSelectedFile(null)
-      setPreview(null)
-
-      // リセット
-      const input = document.getElementById('image-input') as HTMLInputElement
-      if (input) {
-        input.value = ''
-      }
-
+    // 結果表示
+    if (failCount === 0) {
+      toast.success(`${successCount}枚の画像をアップロードしました`)
       // 成功時のコールバック
       onUploadSuccess?.()
-    } catch (error) {
-      console.error('Upload error:', error)
-      toast.error(
-        error instanceof Error ? error.message : 'アップロードに失敗しました',
+      // アップロード済みの画像を削除
+      setSelectedImages((prev) => prev.filter((img) => !img.uploaded))
+    } else {
+      toast.warning(
+        `${successCount}枚成功、${failCount}枚失敗しました。失敗した画像を確認してください。`,
       )
-    } finally {
-      setUploading(false)
+      // 成功した画像のみ削除
+      setSelectedImages((prev) =>
+        prev.filter((img) => !img.uploaded || img.error),
+      )
+      if (successCount > 0) {
+        onUploadSuccess?.()
+      }
     }
-  }, [selectedFile, removeExif, onUploadSuccess])
+  }, [selectedImages, uploadSingleImage, onUploadSuccess])
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes < 1024) return `${bytes} B`
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+  }
 
   return (
     <div className="bg-white rounded-lg p-4">
@@ -209,47 +298,125 @@ export const ImageUpload = ({ onUploadSuccess }: ImageUploadProps) => {
           htmlFor="image-input"
           className="block text-sm font-medium text-gray-700 mb-2"
         >
-          画像を選択
+          画像を選択（複数選択可能）
         </label>
-        <input
-          id="image-input"
-          type="file"
-          accept="image/*"
-          onChange={handleFileSelect}
-          disabled={uploading}
-          className="block w-full text-sm text-gray-500
-            file:mr-4 file:py-2 file:px-4
-            file:rounded-sm file:border-0
-            file:text-sm file:font-semibold
-            file:bg-blue-50 file:text-blue-700
-            hover:file:bg-blue-100
-            disabled:opacity-50 disabled:cursor-not-allowed"
-        />
+        <div className="flex gap-2">
+          <input
+            id="image-input"
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleFileSelect}
+            disabled={isUploading}
+            className="block w-full text-sm text-gray-500
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-sm file:border-0
+              file:text-sm file:font-semibold
+              file:bg-blue-50 file:text-blue-700
+              hover:file:bg-blue-100
+              disabled:opacity-50 disabled:cursor-not-allowed"
+          />
+          {selectedImages.length > 0 && (
+            <button
+              type="button"
+              onClick={handleClearAll}
+              disabled={isUploading}
+              className="px-4 py-2 text-sm font-semibold text-red-600 bg-red-50 rounded-sm hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+            >
+              すべてクリア
+            </button>
+          )}
+        </div>
         <p className="mt-1 text-xs text-gray-500">
           ※ 10MB以下のJPEG/PNG画像（アップロード時に自動圧縮されます）
         </p>
       </div>
 
-      {preview && (
-        <div className="mb-4">
-          <p className="text-sm font-medium text-gray-700 mb-2">プレビュー</p>
-          <img
-            src={preview}
-            alt="Preview"
-            className="max-w-full h-auto rounded-lg border border-gray-300"
-            style={{ maxHeight: '400px' }}
-          />
+      {selectedImages.length > 0 && (
+        <div className="mb-4 space-y-3">
+          <p className="text-sm font-medium text-gray-700">
+            選択済み画像（{selectedImages.length}枚）
+          </p>
+          <div className="space-y-2">
+            {selectedImages.map((image) => (
+              <div
+                key={image.id}
+                className={`border rounded-lg p-3 ${
+                  image.error
+                    ? 'border-red-300 bg-red-50'
+                    : image.uploaded
+                      ? 'border-green-300 bg-green-50'
+                      : 'border-gray-300'
+                }`}
+              >
+                <div className="flex gap-3">
+                  <img
+                    src={image.preview}
+                    alt={image.file.name}
+                    className="w-24 h-24 object-cover rounded"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate">
+                      {image.file.name}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {formatFileSize(image.file.size)}
+                    </p>
+                    {image.uploading && (
+                      <p className="text-xs text-blue-600 mt-2">
+                        アップロード中...
+                      </p>
+                    )}
+                    {image.uploaded && (
+                      <p className="text-xs text-green-600 mt-2">
+                        ✓ アップロード完了
+                      </p>
+                    )}
+                    {image.error && (
+                      <p className="text-xs text-red-600 mt-2">{image.error}</p>
+                    )}
+                  </div>
+                  {!image.uploaded && !image.uploading && (
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveImage(image.id)}
+                      className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 rounded"
+                      title="削除"
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <title>削除</title>
+                        <path d="M6 18L18 6M6 6l12 12"></path>
+                      </svg>
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
-      {selectedFile && (
+      {selectedImages.length > 0 && (
         <button
           type="button"
-          onClick={handleUpload}
-          disabled={uploading}
+          onClick={handleUploadAll}
+          disabled={
+            isUploading ||
+            selectedImages.every((img) => img.uploaded || img.uploading)
+          }
           className="w-full px-4 py-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
         >
-          {uploading ? 'アップロード中...' : 'アップロード'}
+          {isUploading
+            ? 'アップロード中...'
+            : `${selectedImages.filter((img) => !img.uploaded).length}枚をアップロード`}
         </button>
       )}
     </div>

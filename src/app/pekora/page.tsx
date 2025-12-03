@@ -32,7 +32,7 @@ export default function PekoraPage() {
   }, [fetchImages])
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto">
       <Headline title="画像アップロード" />
 
       <div className="max-w-3xl mx-auto space-y-8 mt-6">
