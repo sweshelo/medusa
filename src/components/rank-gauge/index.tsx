@@ -50,7 +50,9 @@ export const RankGauge = ({ value, border }: RankGaugeProps) => {
           {/* プログレスバー部分にShinyエフェクトを適用 */}
           <div
             className="absolute h-full transition-all duration-500"
-            style={{ width: `${sValue ? 100 : value % 100}%` }}
+            style={{
+              width: `${sValue ? 100 : (rank === 'B+' ? value / 2 : value) % 100}%`,
+            }}
           >
             <Shiny color={isOni ? 'shiny-rainbow' : color} className="h-full">
               <div className="h-full" />
