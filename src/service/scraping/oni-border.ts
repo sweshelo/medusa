@@ -38,5 +38,3 @@ export const getOniBorder = unstable_cache(
     revalidate: 3600, // 1時間
   },
 )
-
-console.log(await getOniBorder())

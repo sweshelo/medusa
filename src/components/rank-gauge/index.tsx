@@ -13,8 +13,6 @@ export const RankGauge = ({ value, border }: RankGaugeProps) => {
   const sValue = value > 1400 ? value - 1300 : undefined
   const isOni = border?.top !== undefined ? value >= border.top : false
 
-  console.log(isOni, border)
-
   return (
     <div
       className={`rounded-sm shadow-sm ${isOni ? 'bg-red-300' : 'bg-white'} py-2 my-3`}

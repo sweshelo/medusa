@@ -1,7 +1,6 @@
 import { supabase } from './client'
 
 export const fetchAchievement = async (name: string) => {
-  console.log(name)
   const { data: achievement, error } = await supabase
     .from('achievement')
     .select('*')
