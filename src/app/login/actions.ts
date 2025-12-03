@@ -9,8 +9,8 @@ export async function login(formData: FormData) {
   const supabase = await createClient()
 
   const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+    email: formData.get('email')?.toString() ?? '',
+    password: formData.get('password')?.toString() ?? '',
   }
 
   const { error } = await supabase.auth.signInWithPassword(data)
@@ -25,7 +25,7 @@ export async function login(formData: FormData) {
 
 export async function sendMagicLink(formData: FormData) {
   const supabase = await createClient()
-  const email = formData.get('email') as string
+  const email = formData.get('email')?.toString() ?? ''
 
   const { error } = await supabase.auth.signInWithOtp({
     email,
