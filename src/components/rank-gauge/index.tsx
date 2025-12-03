@@ -1,3 +1,8 @@
+import {
+  S_RANK_BORDER,
+  S_RANK_SHOW_VALUE_BORDER,
+  UPPER_MATCHING_RANGE_BORDER,
+} from '@/constants/gauge'
 import type { Border } from '@/service/scraping/oni-border'
 import { getRank, getRankColor } from '@/utils/rank'
 import { Shiny } from '../common/shiny'
@@ -7,22 +12,34 @@ interface RankGaugeProps {
   border: Border
 }
 
+/**
+ * ランクゲージのバー比率を返します。100%の場合も 0 が返却されるので、関数呼び出し時には `|| 0` としてください。
+ * @param value ランクゲージの生の値
+ * @param rank ランク
+ * @returns ゲージ比率 (%)
+ */
+const getExactRankGaugeValue = (value: number, rank: string) => {
+  switch (rank) {
+    case 'B+': {
+      return (value - UPPER_MATCHING_RANGE_BORDER) / 2
+    }
+    case 'S': {
+      return value >= S_RANK_SHOW_VALUE_BORDER ? 100 : value % 100
+    }
+    default: {
+      return value % 100
+    }
+  }
+}
+
 export const RankGauge = ({ value, border }: RankGaugeProps) => {
   const rank = getRank(value)
   const color = getRankColor(rank)
-  const sValue = value > 1400 ? value - 1300 : undefined
+  const sValue =
+    value > S_RANK_SHOW_VALUE_BORDER ? value - S_RANK_BORDER : undefined
   const isOni = border?.top !== undefined ? value >= border.top : false
 
-  const exactGaugeValue =
-    (rank === 'B+'
-      ? value <= 100
-        ? value / 2
-        : (value + 100) / 2
-      : rank === 'S'
-        ? (sValue ?? 0) > 0
-          ? 100
-          : value
-        : value) % 100
+  const exactGaugeValue = getExactRankGaugeValue(value, rank) || 100
 
   return (
     <div
@@ -62,7 +79,7 @@ export const RankGauge = ({ value, border }: RankGaugeProps) => {
           <div
             className="absolute h-full transition-all duration-500"
             style={{
-              width: `${exactGaugeValue || 100}%`,
+              width: `${exactGaugeValue}%`,
             }}
           >
             <Shiny color={isOni ? 'shiny-rainbow' : color} className="h-full">

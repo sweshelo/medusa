@@ -1,0 +1,3 @@
+export const UPPER_MATCHING_RANGE_BORDER = 800
+export const S_RANK_BORDER = 1300
+export const S_RANK_SHOW_VALUE_BORDER = 1400
