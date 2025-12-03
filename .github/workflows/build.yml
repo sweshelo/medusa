@@ -23,8 +23,8 @@ jobs:
       - name: bun-install
         run: bun i
 
-      - name: ESLint
+      - name: Lint
         run: bun run lint
 
-      - name: bun-build
-        run: bun run build
+      - name: Type Check
+        run: bun check:types
