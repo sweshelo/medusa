@@ -1,22 +1,23 @@
 export const getRank = (gauge: number) => {
-  const border = Math.ceil(gauge / 100)
+  const border = Math.floor(gauge / 100)
   switch (border) {
-    case 1:
+    case 0:
       return 'D-'
-    case 2:
+    case 1:
       return 'D'
-    case 3:
+    case 2:
       return 'D+'
-    case 4:
+    case 3:
       return 'C-'
-    case 5:
+    case 4:
       return 'C'
-    case 6:
+    case 5:
       return 'C+'
-    case 7:
+    case 6:
       return 'B-'
-    case 8:
+    case 7:
       return 'B'
+    case 8:
     case 9:
       return 'B+'
     case 10:

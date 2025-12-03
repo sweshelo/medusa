@@ -13,6 +13,19 @@ export const RankGauge = ({ value, border }: RankGaugeProps) => {
   const sValue = value > 1400 ? value - 1300 : undefined
   const isOni = border?.top !== undefined ? value >= border.top : false
 
+  const exactGaugeValue =
+    (rank === 'B+'
+      ? value <= 100
+        ? value / 2
+        : (value + 100) / 2
+      : rank === 'S'
+        ? (sValue ?? 0) > 0
+          ? 100
+          : value
+        : value) % 100
+
+  console.log(exactGaugeValue)
+
   return (
     <div
       className={`rounded-sm shadow-sm ${isOni ? 'bg-red-300' : 'bg-white'} py-2 my-3`}
@@ -50,7 +63,9 @@ export const RankGauge = ({ value, border }: RankGaugeProps) => {
           {/* プログレスバー部分にShinyエフェクトを適用 */}
           <div
             className="absolute h-full transition-all duration-500"
-            style={{ width: `${sValue ? 100 : value % 100}%` }}
+            style={{
+              width: `${exactGaugeValue}%`,
+            }}
           >
             <Shiny color={isOni ? 'shiny-rainbow' : color} className="h-full">
               <div className="h-full" />
