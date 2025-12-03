@@ -6,13 +6,18 @@ export async function GET(request: Request) {
   const code = requestUrl.searchParams.get('code')
   const next = requestUrl.searchParams.get('next') ?? '/'
 
+  const isInternalPath = next.startsWith('/') && !next.startsWith('//')
+  const safePath = isInternalPath ? next : '/'
+
   if (code) {
     const supabase = await createClient()
     const { error } = await supabase.auth.exchangeCodeForSession(code)
 
     if (!error) {
       // Successfully authenticated, redirect with success parameter
-      return NextResponse.redirect(`${requestUrl.origin}${next}?login=success`)
+      return NextResponse.redirect(
+        `${requestUrl.origin}${safePath}?login=success`,
+      )
     }
   }
 
