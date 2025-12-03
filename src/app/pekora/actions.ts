@@ -33,7 +33,13 @@ export async function getUploadedImages() {
 
   const { data: images, error } = await supabase
     .from('game_image')
-    .select('*')
+    .select(`
+      *,
+      game!game_image_id_fkey(
+        *,
+        game_result(*)
+      )
+    `)
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
 

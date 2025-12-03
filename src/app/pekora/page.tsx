@@ -9,9 +9,19 @@ import type { Tables } from '@/types/database.types'
 import { getUploadedImages } from './actions'
 
 type GameImage = Tables<'game_image'>
+type Game = Tables<'game'>
+type GameResult = Tables<'game_result'>
+
+interface GameWithResults extends Game {
+  game_result: GameResult[]
+}
+
+type ImageWithGame = GameImage & {
+  game: GameWithResults[]
+}
 
 export default function PekoraPage() {
-  const [images, setImages] = useState<GameImage[]>([])
+  const [images, setImages] = useState<ImageWithGame[]>([])
   const [loading, setLoading] = useState(true)
 
   const fetchImages = useCallback(async () => {
