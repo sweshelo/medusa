@@ -67,7 +67,7 @@ export const fetchActivePrefectures = unstable_cache(
         .filter((pref) => pref.exist === 'true')
         .map((pref) => pref.name)
 
-      console.log(`稼働中の都道府県を取得: ${prefectures.length}件`)
+      console.info(`稼働中の都道府県を取得: ${prefectures.length}件`)
       return prefectures
     } catch (error) {
       console.error('稼働中の都道府県取得でエラー:', error)
