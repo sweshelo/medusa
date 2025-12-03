@@ -10,6 +10,7 @@ import { Revalidater } from '@/components/revalidater'
 import { AverageToolTipIcon } from '@/components/tooltip/average'
 import { DeviationToolTipIcon } from '@/components/tooltip/deviation'
 import { PlayedPrefectureMap } from '@/features/prefecture-map'
+import { getOniBorder } from '@/service/scraping/oni-border'
 import {
   fetchPlayerCount,
   fetchPlayerDeviationRanking,
@@ -41,6 +42,7 @@ export const PlayerPage = async ({
 
   const count = await fetchPlayerCount()
   const index = await fetchPlayerDeviationRanking(player.name)
+  const border = await getOniBorder()
   const getColor = () => getPlayerRankColor(index, count ?? null)
 
   return digest ? (
@@ -116,7 +118,7 @@ export const PlayerPage = async ({
         <div className="my-4">
           <SmallHeadline title="ランクゲージの推移" />
           <div className="my-4">
-            <RankGauge value={topRankRecord.point} />
+            <RankGauge value={topRankRecord.point} border={border} />
             <GaugeTable
               records={player.rankRecords
                 .reverse()
