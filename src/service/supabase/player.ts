@@ -31,14 +31,14 @@ export const fetchPlayer = async (playerId: number) => {
 
   const [player] = players
 
-  // レコードを取得（新しい順に300件まで）
+  // レコードを取得
   const { data: records, error: recordsError } = await supabase
     .from('record')
     .select('*')
     .eq('player_name', player.name)
     .or('version.eq.2023-04-05,version.is.null')
     .order('created_at', { ascending: false })
-    .limit(300)
+    .limit(1)
 
   if (recordsError) {
     throw new Error(`Error fetching records: ${recordsError.message}`)

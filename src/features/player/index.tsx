@@ -4,6 +4,7 @@ import { Shiny } from '@/components/common/shiny'
 import { SmallHeadline } from '@/components/common/small-headline'
 import { GaugeTable } from '@/components/gauge-table'
 import { PlayerCard } from '@/components/player/card'
+import { RankGauge } from '@/components/rank-gauge'
 import { RecordsTable } from '@/components/records-table'
 import { Revalidater } from '@/components/revalidater'
 import { AverageToolTipIcon } from '@/components/tooltip/average'
@@ -34,6 +35,8 @@ export const PlayerPage = async ({
   timestamp,
 }: PlayerPageProps) => {
   const [digest] = player.records
+  const [rank] =
+    player.rankRecords?.filter((r) => r.version === '2025-12-01') ?? []
 
   const count = await fetchPlayerCount()
   const index = await fetchPlayerDeviationRanking(player.name)
@@ -107,10 +110,12 @@ export const PlayerPage = async ({
           </Shiny>
         </div>
       </div>
+      <Revalidater timestamp={timestamp} />
       {player.rankRecords && player.rankRecords.length > 0 && (
         <div className="my-4">
           <SmallHeadline title="ランクゲージの推移" />
           <div className="my-4">
+            <RankGauge value={rank.point} />
             <GaugeTable
               records={player.rankRecords
                 .reverse()
@@ -133,6 +138,10 @@ export const PlayerPage = async ({
         </div>
       )}
       <div className="my-4">
+        <PlayedPrefectureMap playerName={player.name} />
+      </div>
+      {/*
+      <div className="my-4">
         <SmallHeadline title="貢献度の推移" />
         <PointsLineChart
           records={player.records.filter(
@@ -141,12 +150,9 @@ export const PlayerPage = async ({
         />
       </div>
       <div className="my-4">
-        <PlayedPrefectureMap playerName={player.name} />
-      </div>
-      <Revalidater timestamp={timestamp} />
-      <div className="my-4">
         <RecordsTable records={player.records} />
       </div>
+      */}
     </>
   ) : (
     <>
