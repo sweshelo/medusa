@@ -35,14 +35,16 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps) {
   try {
     const player = await fetchPlayer(parseInt((await params).id, 10))
+
     const achievement =
-      (await fetchAchievement(player.records[0].achievement)) ?? undefined
+      (await fetchAchievement(player.achievement)) ?? undefined
     const date = new Date()
 
     return player ? (
       <PlayerPage player={player} achievement={achievement} timestamp={date} />
     ) : null
-  } catch {
+  } catch (e) {
+    console.error(e)
     return (
       <div className="bg-white text-center p-2 rounded-lg">
         プレイヤーデータの取得に失敗しました
