@@ -34,9 +34,10 @@ export const PlayerPage = async ({
   achievement,
   timestamp,
 }: PlayerPageProps) => {
-  const [digest] = player.records
-  const [rank] =
+  const [topRecord] = player.records
+  const [topRankRecord] =
     player.rankRecords?.filter((r) => r.version === '2025-12-01') ?? []
+  const digest = topRecord || topRankRecord
 
   const count = await fetchPlayerCount()
   const index = await fetchPlayerDeviationRanking(player.name)
@@ -44,7 +45,7 @@ export const PlayerPage = async ({
 
   return digest ? (
     <>
-      <AchievementView achievement={achievement ?? digest.achievement} />
+      {achievement && <AchievementView achievement={achievement} />}
       <div className="py-3">
         <PlayerCard player={player} chara={digest.chara} />
       </div>
@@ -115,7 +116,7 @@ export const PlayerPage = async ({
         <div className="my-4">
           <SmallHeadline title="ランクゲージの推移" />
           <div className="my-4">
-            <RankGauge value={rank.point} />
+            <RankGauge value={topRankRecord.point} />
             <GaugeTable
               records={player.rankRecords
                 .reverse()

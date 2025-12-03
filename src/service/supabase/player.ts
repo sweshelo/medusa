@@ -31,6 +31,21 @@ export const fetchPlayer = async (playerId: number) => {
 
   const [player] = players
 
+  // 称号
+  const { data: achievements, error: achievementError } = await supabase
+    .from('record')
+    .select('achievement')
+    .eq('player_name', player.name)
+    .order('created_at', { ascending: false })
+    .limit(1)
+  const [achievement] = achievements ?? []
+
+  if (achievementError) {
+    throw new Error(
+      `Error fetching player's achievement: ${achievementError.message}`,
+    )
+  }
+
   // レコードを取得
   const { data: records, error: recordsError } = await supabase
     .from('record')
@@ -71,6 +86,7 @@ export const fetchPlayer = async (playerId: number) => {
     ranking,
     records,
     rankRecords,
+    achievement: achievement.achievement || '新人チェイサー',
   }
 }
 
