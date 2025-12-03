@@ -114,7 +114,7 @@ export const PlayerPage = async ({
         </div>
       </div>
       <Revalidater timestamp={timestamp} />
-      {player.rankRecords && player.rankRecords.length > 0 && (
+      {topRankRecord && player.rankRecords && player.rankRecords.length > 0 && (
         <div className="my-4">
           <SmallHeadline title="ランクゲージの推移" />
           <div className="my-4">
