@@ -108,6 +108,35 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          player_id: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          player_id?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          player_id?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'profiles_player_id_fkey'
+            columns: ['player_id']
+            isOneToOne: true
+            referencedRelation: 'player'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       record: {
         Row: {
           achievement: string
