@@ -8,6 +8,10 @@ export async function resetPassword(formData: FormData) {
   const supabase = await createClient()
   const password = formData.get('password') as string
 
+  if (!password || password.length < 8) {
+    return { error: 'パスワードが短すぎます' }
+  }
+
   const { error } = await supabase.auth.updateUser({
     password: password,
   })

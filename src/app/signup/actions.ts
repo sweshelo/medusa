@@ -10,6 +10,10 @@ export async function signup(formData: FormData) {
     password: formData.get('password') as string,
   }
 
+  if (data.password.length < 8) {
+    return { error: 'パスワードが短すぎます' }
+  }
+
   const { error } = await supabase.auth.signUp(data)
 
   if (error) {
