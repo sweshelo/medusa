@@ -81,6 +81,11 @@ export const Drawer = ({ user }: DrawerProps) => {
           {user ? (
             <>
               <li>
+                <Link href="/pekora" className="block p-2 hover:bg-gray-100">
+                  画像記録機能
+                </Link>
+              </li>
+              <li>
                 <Link href="/settings" className="block p-2 hover:bg-gray-100">
                   設定
                 </Link>

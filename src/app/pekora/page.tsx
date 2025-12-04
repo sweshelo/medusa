@@ -43,7 +43,17 @@ export default function PekoraPage() {
 
   return (
     <div className="container mx-auto">
-      <Headline title="画像アップロード" />
+      <Headline title="画像記録機能 (β)" />
+      <div className="bg-white rounded-lg py-3 px-1 text-gray-600 text-sm text-center">
+        <p>アップロードされた画像から試合のリザルトを分析します</p>
+        <p>処理済みの画像をクリックすると分析結果を表示します</p>
+      </div>
+
+      <div className="text-sm text-center border-1 border-amber-200 bg-amber-100 rounded-lg my-2 p-2 text-gray-600">
+        この機能は現在試験運用中です。
+        <br />
+        アップロードされた記録を一覧で確認する機能や、アップロードした画像の取り下げ、識字ミスの手直し機能が今後実装予定です。
+      </div>
 
       <div className="max-w-3xl mx-auto space-y-8 mt-6">
         {/* アップロードフォーム */}
