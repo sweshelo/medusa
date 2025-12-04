@@ -1,6 +1,6 @@
 {
   "name": "medusa",
-  "version": "0.11.1",
+  "version": "0.12.4",
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
@@ -33,7 +33,7 @@
     "highcharts": "^12.4.0",
     "highcharts-react-official": "^3.2.3",
     "marked": "^17.0.1",
-    "next": "16.0.5",
+    "next": "16.0.7",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-icons": "^5.5.0",
