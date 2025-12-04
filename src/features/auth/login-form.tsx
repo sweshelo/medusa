@@ -6,13 +6,11 @@ import { useState } from 'react'
 interface LoginFormProps {
   onSubmit: (formData: FormData) => Promise<{ error?: string }>
   redirectOnSuccess?: string
-  showSignupLink?: boolean
 }
 
 export function LoginForm({
   onSubmit,
   redirectOnSuccess = '/',
-  showSignupLink = true,
 }: LoginFormProps) {
   const router = useRouter()
   const [error, setError] = useState<string | null>(null)
