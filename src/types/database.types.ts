@@ -234,18 +234,21 @@ export type Database = {
       }
       profiles: {
         Row: {
+          agreed_terms: string | null
           created_at: string
           id: string
           player_id: number | null
           updated_at: string
         }
         Insert: {
+          agreed_terms?: string | null
           created_at?: string
           id: string
           player_id?: number | null
           updated_at?: string
         }
         Update: {
+          agreed_terms?: string | null
           created_at?: string
           id?: string
           player_id?: number | null

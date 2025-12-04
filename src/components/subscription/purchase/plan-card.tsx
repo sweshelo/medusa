@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Tooltip } from 'react-tooltip'
 
 interface PlanCardProps {
   title: string
@@ -8,6 +9,7 @@ interface PlanCardProps {
   description?: string | null
   features?: string[]
   priceId: string
+  hasActiveSubscription?: boolean
 }
 
 export const PlanCard = ({
@@ -16,6 +18,7 @@ export const PlanCard = ({
   description,
   features,
   priceId,
+  hasActiveSubscription = false,
 }: PlanCardProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -98,11 +101,19 @@ export const PlanCard = ({
         <button
           type="button"
           onClick={handleCheckout}
-          disabled={isLoading}
+          disabled={isLoading || hasActiveSubscription}
           className="block w-full py-3 px-6 text-center text-white font-bold bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          data-tooltip-id={
+            hasActiveSubscription ? 'already-subscribed' : undefined
+          }
         >
           {isLoading ? '処理中...' : '納入する'}
         </button>
+        {hasActiveSubscription && (
+          <Tooltip id="already-subscribed">
+            <p>貴方は既に御布施を納入しています</p>
+          </Tooltip>
+        )}
       </div>
     </div>
   )

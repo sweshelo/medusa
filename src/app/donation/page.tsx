@@ -69,6 +69,13 @@ export default async function Page() {
               </h3>
               <div className="space-y-2 text-sm text-green-700">
                 <p>
+                  プラン:{' '}
+                  <span className="font-semibold">
+                    {plans.find((p) => p.priceId === subscription.priceId)
+                      ?.name || '不明'}
+                  </span>
+                </p>
+                <p>
                   ステータス:{' '}
                   <span className="font-semibold">
                     {subscription.status === 'active'
@@ -105,6 +112,7 @@ export default async function Page() {
                 description={plan.description}
                 features={plan.features}
                 priceId={plan.priceId}
+                hasActiveSubscription={!!subscription}
               />
             ))}
         </div>
