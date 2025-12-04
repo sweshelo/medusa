@@ -101,7 +101,7 @@ export const PlanCard = ({
           disabled={isLoading}
           className="block w-full py-3 px-6 text-center text-white font-bold bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? '処理中...' : '購入する'}
+          {isLoading ? '処理中...' : '納入する'}
         </button>
       </div>
     </div>

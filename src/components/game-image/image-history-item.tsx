@@ -73,7 +73,7 @@ export const ImageHistoryItem = ({ image }: ImageHistoryItemProps) => {
                   ゲーム情報
                 </h4>
                 {image.game.map((game) => (
-                  <div key={game.id} className="bg-white rounded p-3 space-y-3">
+                  <div key={game.id} className="rounded space-y-3">
                     <div className="space-y-1 text-xs">
                       {game.game_result && game.game_result.length > 0 && (
                         <GameResultTable results={game.game_result} />

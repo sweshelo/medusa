@@ -7,7 +7,7 @@ import { getActiveSubscriptionPlans } from '@/service/stripe/products'
 import { getUserSubscription } from '@/service/supabase/subscription'
 
 export const metadata: Metadata = {
-  title: 'サブスクリプション',
+  title: '御布施',
 }
 
 export default async function Page() {
@@ -35,16 +35,29 @@ export default async function Page() {
 
   return (
     <div className="text-center py-2 mb-2">
-      <Headline title="サブスクリプションプラン" />
+      <Headline title="御布施" />
 
       <div className="bg-white rounded-lg container mx-auto px-4 py-8">
         <div className="flex flex-col gap-6 max-w-2xl mx-auto">
           <div>
             <p className="text-sm text-gray-600">
-              閻魔帳の有料サブスクリプションに加入して、運営を支援することができます。
+              閻魔帳に寄付をすることで、運営を支援することができます。
             </p>
             <p className="text-sm text-gray-600 m-1">
               決済は外部ページで行われ、閻魔帳には決済情報は保存されません。
+            </p>
+          </div>
+
+          <div className="bg-blue-50 border-2 border-blue-200 rounded-lg">
+            <p className="p-3 text-sm text-gray-600">
+              100円の御布施を1年間継続して納入(1200円)頂くことで、
+              閻魔帳の累積赤字の 約3%
+              が解消されます。また、100円でランニングコストの 約6%
+              を補うことができます。
+              <br />
+              <span className="text-[10px] text-gray-400">
+                (具体的な金額は為替レートや使用状況により変動します)
+              </span>
             </p>
           </div>
 
@@ -52,7 +65,7 @@ export default async function Page() {
           {subscription && (
             <div className="p-6 bg-green-50 border-2 border-green-200 rounded-lg">
               <h3 className="text-lg font-bold text-green-800 mb-2">
-                アクティブなサブスクリプション
+                貴方が包んでくださった御布施
               </h3>
               <div className="space-y-2 text-sm text-green-700">
                 <p>
@@ -73,7 +86,7 @@ export default async function Page() {
                 </p>
                 {subscription.cancelAtPeriodEnd && (
                   <p className="text-orange-600 font-semibold">
-                    このサブスクリプションは次回更新日にキャンセルされます
+                    御布施は次回更新日から納入を停止します
                   </p>
                 )}
               </div>

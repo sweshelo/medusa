@@ -86,10 +86,7 @@ export const Drawer = ({ user }: DrawerProps) => {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/subscription"
-                  className="block p-2 hover:bg-gray-100"
-                >
+                <Link href="/donation" className="block p-2 hover:bg-gray-100">
                   御布施
                 </Link>
               </li>

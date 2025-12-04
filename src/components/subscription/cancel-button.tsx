@@ -22,7 +22,7 @@ export const CancelSubscriptionButton = () => {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'サブスクリプションの解約に失敗しました')
+        throw new Error(data.error || '御布施の納入取りやめに失敗しました')
       }
 
       // 成功した場合はページをリロードして最新の状態を表示
@@ -42,7 +42,7 @@ export const CancelSubscriptionButton = () => {
           onClick={() => setShowConfirm(true)}
           className="w-full py-2 px-4 text-sm text-red-600 border border-red-600 rounded-lg bg-red-100 hover:bg-red-200 transition-colors duration-200"
         >
-          サブスクリプションを解約する
+          御布施の納入をやめる
         </button>
         {error && (
           <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
@@ -56,10 +56,10 @@ export const CancelSubscriptionButton = () => {
   return (
     <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
       <h4 className="text-sm font-bold text-red-800 mb-2">
-        本当に解約しますか？
+        本当に納入を取りやめますか？
       </h4>
       <p className="text-xs text-red-700 mb-4">
-        解約すると、次回更新日までサービスを利用できますが、それ以降は自動的に終了します。
+        御布施の納入を取りやめると、次回更新日まで御礼を利用できますが、それ以降は自動的に終了します。
       </p>
       <div className="flex gap-2">
         <button
@@ -68,7 +68,7 @@ export const CancelSubscriptionButton = () => {
           disabled={isLoading}
           className="flex-1 py-2 px-4 text-sm text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? '処理中...' : '解約する'}
+          {isLoading ? '処理中...' : '御布施の納入をやめる'}
         </button>
         <button
           type="button"

@@ -24,7 +24,7 @@ export async function POST(_request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // アクティブなサブスクリプションを取得
+    // アクティブな御布施を取得
     const { data: subscription, error: subError } = await supabase
       .from('subscriptions')
       .select('stripe_subscription_id, cancel_at_period_end')
@@ -34,7 +34,7 @@ export async function POST(_request: NextRequest) {
 
     if (subError || !subscription) {
       return NextResponse.json(
-        { error: 'アクティブなサブスクリプションが見つかりません' },
+        { error: 'アクティブな御布施が見つかりません' },
         { status: 404 },
       )
     }
@@ -42,12 +42,12 @@ export async function POST(_request: NextRequest) {
     // すでに解約予約済みの場合
     if (subscription.cancel_at_period_end) {
       return NextResponse.json(
-        { error: 'このサブスクリプションは既に解約予約されています' },
+        { error: 'この御布施は既に納入取りやめ予約されています' },
         { status: 400 },
       )
     }
 
-    // Stripe APIでサブスクリプションを期間終了時に解約するよう設定
+    // Stripe APIで御布施を期間終了時に解約するよう設定
     await stripe.subscriptions.update(subscription.stripe_subscription_id, {
       cancel_at_period_end: true,
     })
@@ -56,12 +56,12 @@ export async function POST(_request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: 'サブスクリプションを解約予約しました',
+      message: '御布施の納入を取りやめました',
     })
   } catch (error) {
     console.error('Subscription cancellation error:', error)
     return NextResponse.json(
-      { error: 'サブスクリプションの解約に失敗しました' },
+      { error: '御布施の納入の取りやめに失敗しました' },
       { status: 500 },
     )
   }

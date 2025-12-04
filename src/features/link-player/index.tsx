@@ -95,7 +95,7 @@ export const LinkPlayer = ({ initialPlayer }: LinkPlayerProps) => {
   return (
     <div className="">
       <SmallHeadline title="プレイヤー連携" />
-      <div className="bg-white rounded-lg p-3 my-2">
+      <div className="bg-white rounded-lg py-3 my-2">
         {message && (
           <div
             className={`mb-4 p-3 rounded-sm ${
