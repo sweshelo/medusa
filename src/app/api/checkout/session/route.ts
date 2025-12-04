@@ -48,8 +48,8 @@ export async function POST(request: NextRequest) {
           quantity: 1,
         },
       ],
-      success_url: `${baseUrl}/subscription?success=true`,
-      cancel_url: `${baseUrl}/subscription?canceled=true`,
+      success_url: `${baseUrl}/donation?success=true`,
+      cancel_url: `${baseUrl}/donation?canceled=true`,
       client_reference_id: user.id, // SupabaseのユーザーIDを保存
       customer_email: user.email,
       metadata: {
