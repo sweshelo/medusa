@@ -79,15 +79,14 @@ export const Drawer = ({ user }: DrawerProps) => {
             </Link>
           </li>
           {user ? (
-            <>
+            <div className="mt-6">
+              <p className="text-center text-sm text-gray-600">
+                ログインユーザ専用
+              </p>
+              <div className="border my-1" />
               <li>
                 <Link href="/pekora" className="block p-2 hover:bg-gray-100">
                   画像記録機能
-                </Link>
-              </li>
-              <li>
-                <Link href="/settings" className="block p-2 hover:bg-gray-100">
-                  設定
                 </Link>
               </li>
               <li>
@@ -95,7 +94,12 @@ export const Drawer = ({ user }: DrawerProps) => {
                   御布施
                 </Link>
               </li>
-            </>
+              <li>
+                <Link href="/settings" className="block p-2 hover:bg-gray-100">
+                  設定
+                </Link>
+              </li>
+            </div>
           ) : (
             <li>
               <Link href="/login" className="block p-2 hover:bg-gray-100">

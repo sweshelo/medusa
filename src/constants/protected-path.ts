@@ -1,1 +1,1 @@
-export const PROTECTED_PATH = ['/settings', '/pekora']
+export const PROTECTED_PATH = ['/settings', '/pekora', '/donation']
