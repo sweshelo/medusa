@@ -1,27 +1,9 @@
 'use server'
 
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
-import type { Database } from '@/types/database.types'
+import { createClient } from '@/service/supabase/server'
 
 export async function getUploadedImages() {
-  const cookieStore = await cookies()
-  const supabase = createServerClient<Database>(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll()
-        },
-        setAll(cookiesToSet) {
-          for (const { name, value, options } of cookiesToSet) {
-            cookieStore.set(name, value, options)
-          }
-        },
-      },
-    },
-  )
+  const supabase = await createClient()
 
   const {
     data: { user },

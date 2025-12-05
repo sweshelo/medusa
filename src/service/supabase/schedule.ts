@@ -1,5 +1,7 @@
 import type { Schedule } from '@/types/schedule'
-import { supabase } from './client'
+import { createAdminClient } from './admin'
+
+const supabase = createAdminClient()
 
 export const fetchSchedule = async (): Promise<Schedule[]> => {
   const { data, error } = await supabase.from('schedule').select('*')

@@ -13,7 +13,6 @@ export const metadata: Metadata = {
 export default async function Page() {
   const plans = await getActiveSubscriptionPlans()
   const subscription = await getUserSubscription()
-  console.log(subscription)
 
   // 価格を日本円形式でフォーマット
   const formatPrice = (amount: number, currency: string, interval: string) => {

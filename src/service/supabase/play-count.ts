@@ -1,4 +1,6 @@
-import { supabase } from './client'
+import { createAdminClient } from './admin'
+
+const supabase = createAdminClient()
 
 export interface PlayCountRanking {
   player_name: string

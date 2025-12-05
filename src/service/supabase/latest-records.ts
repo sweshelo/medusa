@@ -1,4 +1,6 @@
-import { supabase } from './client'
+import { createAdminClient } from './admin'
+
+const supabase = createAdminClient()
 
 export const fetchLatestRecords = async (players: string[]) => {
   // 各プレイヤーに対して最新の record を取得する

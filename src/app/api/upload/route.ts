@@ -1,32 +1,14 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { R2_BUCKET_NAME, R2_PUBLIC_URL, r2Client } from '@/service/r2/client'
-import type { Database } from '@/types/database.types'
+import { createClient } from '@/service/supabase/server'
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024 // 2MB
 
 export async function POST(request: Request) {
   try {
     // 認証チェック
-    const cookieStore = await cookies()
-    const supabase = createServerClient<Database>(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return cookieStore.getAll()
-          },
-          setAll(cookiesToSet) {
-            for (const { name, value, options } of cookiesToSet) {
-              cookieStore.set(name, value, options)
-            }
-          },
-        },
-      },
-    )
+    const supabase = await createClient()
 
     const {
       data: { user },

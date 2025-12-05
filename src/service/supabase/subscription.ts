@@ -17,8 +17,6 @@ export async function getUserSubscription(): Promise<UserSubscription | null> {
     error: authError,
   } = await supabase.auth.getUser()
 
-  console.log(user)
-
   if (authError || !user) {
     return null
   }
@@ -30,8 +28,6 @@ export async function getUserSubscription(): Promise<UserSubscription | null> {
     .eq('user_id', user.id)
     .in('status', ['active', 'trialing'])
     .single()
-
-  console.error(error)
 
   if (error || !data) {
     return null
