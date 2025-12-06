@@ -3,7 +3,7 @@ import {
   S_RANK_SHOW_VALUE_BORDER,
   UPPER_MATCHING_RANGE_BORDER,
 } from '@/constants/gauge'
-import type { Border } from '@/service/scraping/oni-border'
+import type { Border } from '@/service/scraping/ranking'
 import { getRank, getRankColor } from '@/utils/rank'
 import { Shiny } from '../common/shiny'
 

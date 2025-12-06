@@ -10,7 +10,7 @@ import { Revalidater } from '@/components/revalidater'
 import { AverageToolTipIcon } from '@/components/tooltip/average'
 import { DeviationToolTipIcon } from '@/components/tooltip/deviation'
 import { PlayedPrefectureMap } from '@/features/prefecture-map'
-import { getOniBorder } from '@/service/scraping/oni-border'
+import { getOniBorder } from '@/service/scraping/ranking'
 import {
   fetchPlayerCount,
   fetchPlayerDeviationRanking,
