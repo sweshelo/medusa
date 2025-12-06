@@ -2,22 +2,21 @@
 
 import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
-import { useToast } from '@/hooks/use-toast'
+import { toast } from 'react-toastify'
 
 export function ToastTrigger() {
   const searchParams = useSearchParams()
-  const { showToast } = useToast()
 
   useEffect(() => {
     const login = searchParams.get('login')
     const error = searchParams.get('error')
 
     if (login === 'success') {
-      showToast('ログインしました', 'success')
+      toast.success('ログインしました')
     } else if (error === 'auth_failed') {
-      showToast('認証に失敗しました', 'error')
+      toast.error('認証に失敗しました')
     }
-  }, [searchParams, showToast])
+  }, [searchParams])
 
   return null
 }

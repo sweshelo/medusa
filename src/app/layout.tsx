@@ -4,13 +4,12 @@ import { Suspense } from 'react'
 
 import { Loading } from '@/components/common/loading'
 import { Header } from '@/components/header'
-import { ToastProvider } from '@/components/toast/toast-provider'
-import { ToastTrigger } from '@/components/toast/toast-trigger'
 import { DrawerProvider } from '@/hooks/drawer'
 
 import './globals.css'
 import type { Metadata } from 'next'
 import { DrawerWrapper } from '@/components/drawer/drawer-wrapper'
+import { ToastTrigger } from '@/components/toast/toast-trigger'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://放課後天地創造.club'),
@@ -69,22 +68,18 @@ export default async function RootLayout({
         <meta name="theme-color" content="#7f1d1d" />
       </head>
       <body className={`antialiased font-mplus`}>
-        <ToastProvider>
-          <Suspense fallback={null}>
-            <ToastTrigger />
-          </Suspense>
-          <DrawerProvider>
-            <Header />
-            <DrawerWrapper />
-            <div className="w-full min-h-screen mx-auto bg-gray-100 sm:p-7">
-              <div className="max-w-[700px] mx-auto bg-sky-50 p-4 sm:p-8 sm:rounded-lg shadow-2xl min-h-lvh">
-                <Suspense fallback={<Loading />}>{children}</Suspense>
-              </div>
+        <DrawerProvider>
+          <ToastTrigger />
+          <Header />
+          <DrawerWrapper />
+          <div className="w-full min-h-screen mx-auto bg-gray-100 sm:p-7">
+            <div className="max-w-[700px] mx-auto bg-sky-50 p-4 sm:p-8 sm:rounded-lg shadow-2xl min-h-lvh">
+              <Suspense fallback={<Loading />}>{children}</Suspense>
             </div>
-            <Analytics />
-            <SpeedInsights />
-          </DrawerProvider>
-        </ToastProvider>
+          </div>
+          <Analytics />
+          <SpeedInsights />
+        </DrawerProvider>
       </body>
     </html>
   )
