@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Revalidater } from '@/components/revalidater'
 import { PlayerPage } from '@/features/player'
+import { getRankers } from '@/service/scraping/ranking'
 import { fetchAchievement } from '@/service/supabase/achievement'
 import {
   fetchPlayer,
@@ -15,8 +16,9 @@ export const revalidate = 86400 // 丸一日キャッシュする
 export const dynamicParams = true
 
 export async function generateStaticParams() {
-  const players = await fetchRecentPlayedPlayersId()
-  return players.map((id) => ({ id: `${id}` }))
+  const playerNames = await getRankers()
+  const playersId = await fetchRecentPlayedPlayersId(playerNames)
+  return playersId.map((id) => ({ id: `${id}` }))
 }
 
 export async function generateMetadata({
