@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
-
+import { getRankers } from '@/service/scraping/ranking'
 import { getPlayerIdByName } from '@/service/supabase/player'
 
 export const metadata: Metadata = {
@@ -9,6 +9,11 @@ export const metadata: Metadata = {
 
 interface PageProps {
   params: Promise<{ name: string }>
+}
+
+export async function generateStaticParams() {
+  const playerNames = await getRankers()
+  return playerNames.map((name) => ({ name: `${name}` }))
 }
 
 export default async function Page({ params }: PageProps) {

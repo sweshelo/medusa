@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: 'ランキング',
 }
 
-export const revalidate = 43200
+export const revalidate = 3600
 
 export default async function Page() {
   const ranking =
