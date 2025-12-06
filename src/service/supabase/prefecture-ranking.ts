@@ -2,7 +2,9 @@ import { PrefectureAchievements } from '@/constants/prefecture'
 import type { PrefectureRanking } from '@/types/prefecture-ranking'
 import { toHalfWidth } from '@/utils/text'
 
-import { supabase } from './client'
+import { createAdminClient } from './admin'
+
+const supabase = createAdminClient()
 
 interface PlayerAchievement {
   player_name: string

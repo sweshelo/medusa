@@ -1,6 +1,8 @@
 import { subDays } from 'date-fns'
 
-import { supabase } from './client'
+import { createAdminClient } from './admin'
+
+const supabase = createAdminClient()
 
 export const getPlayerIdByName = async (playerName: string) => {
   const { data: players, error } = await supabase

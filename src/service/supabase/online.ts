@@ -1,7 +1,9 @@
 import { TZDate } from '@date-fns/tz'
 import { sub } from 'date-fns'
 
-import { supabase } from './client'
+import { createAdminClient } from './admin'
+
+const supabase = createAdminClient()
 
 export const fetchOnlinePlayers = async () => {
   const { data, error } = await supabase

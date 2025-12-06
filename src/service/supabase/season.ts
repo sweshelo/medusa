@@ -1,6 +1,8 @@
 import type { Tables } from '@/types/database.types'
 
-import { supabase } from './client'
+import { createAdminClient } from './admin'
+
+const supabase = createAdminClient()
 
 export type Season = Tables<'season'>
 

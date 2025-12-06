@@ -1,11 +1,9 @@
 import { AchievementView } from '@/components/achievement'
-import { PointsLineChart } from '@/components/charts/line-chart'
 import { Shiny } from '@/components/common/shiny'
 import { SmallHeadline } from '@/components/common/small-headline'
 import { GaugeTable } from '@/components/gauge-table'
-import { PlayerCard } from '@/components/player/card'
+import { PlayerView } from '@/components/player/card'
 import { RankGauge } from '@/components/rank-gauge'
-import { RecordsTable } from '@/components/records-table'
 import { Revalidater } from '@/components/revalidater'
 import { AverageToolTipIcon } from '@/components/tooltip/average'
 import { DeviationToolTipIcon } from '@/components/tooltip/deviation'
@@ -49,7 +47,7 @@ export const PlayerPage = async ({
     <>
       {achievement && <AchievementView achievement={achievement} />}
       <div className="py-3">
-        <PlayerCard player={player} chara={digest.chara} />
+        <PlayerView player={player} chara={digest.chara} />
       </div>
       <div className="relative">
         <div className="grid grid-cols-3 grid-rows-1 gap-2">

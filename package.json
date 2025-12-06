@@ -15,18 +15,24 @@
     "schema:update": "supabase gen types typescript --linked > src/types/database.types.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.943.0",
     "@date-fns/tz": "^1.4.1",
+    "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.84.0",
     "@tailwindcss/postcss": "^4.1.17",
+    "@tailwindcss/typography": "^0.5.19",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
+    "browser-image-compression": "^2.0.2",
     "cheerio": "^1.1.2",
     "classnames": "^2.5.1",
     "d3": "^5.15.0",
     "date-fns": "^4.1.0",
     "dompurify": "^3.3.0",
+    "exifr": "^7.1.3",
     "highcharts": "^12.4.0",
     "highcharts-react-official": "^3.2.3",
+    "marked": "^17.0.1",
     "next": "16.0.7",
     "react": "19.2.1",
     "react-dom": "19.2.1",
@@ -34,8 +40,10 @@
     "react-toastify": "^11.0.5",
     "react-tooltip": "^5.30.0",
     "recharts": "^2.15.4",
+    "sanitize-html": "^2.17.0",
+    "stripe": "^20.0.0",
     "supabase": "^2.62.5",
-    "sanitize-html": "^2.17.0"
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.8",
@@ -47,10 +55,10 @@
     "cross-env": "^7.0.3",
     "dependency-cruiser": "^17.0.0",
     "husky": "^9.1.7",
+    "knip": "^5.71.0",
     "lint-staged": "^16.2.7",
     "rimraf": "^6.1.2",
     "sass": "^1.94.2",
-    "sass-loader": "^16.0.6",
     "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3"
   },

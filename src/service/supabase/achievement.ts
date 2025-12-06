@@ -1,4 +1,6 @@
-import { supabase } from './client'
+import { createAdminClient } from './admin'
+
+const supabase = createAdminClient()
 
 export const fetchAchievement = async (name: string) => {
   const { data: achievement, error } = await supabase

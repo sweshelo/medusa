@@ -11,12 +11,17 @@ interface PlayerCardProps {
   children?: React.ReactElement | React.ReactElement[]
 }
 
-export const PlayerCard = ({ player, chara, children }: PlayerCardProps) => {
+export const PlayerCard = (props: PlayerCardProps) => {
   return (
-    <Link
-      className="bg-white rounded-lg flex items-center shadow-sm truncate"
-      href={`/player/${player.name}`}
-    >
+    <Link href={`/player/${props.player.name}`} className="block">
+      <PlayerView {...props} />
+    </Link>
+  )
+}
+
+export const PlayerView = ({ player, chara, children }: PlayerCardProps) => {
+  return (
+    <div className="bg-white rounded-lg flex items-center shadow-sm truncate">
       <Image
         src={
           chara
@@ -33,6 +38,6 @@ export const PlayerCard = ({ player, chara, children }: PlayerCardProps) => {
         {children}
         <div className="text-3xl font-bold text-left">{player.name}</div>
       </div>
-    </Link>
+    </div>
   )
 }
