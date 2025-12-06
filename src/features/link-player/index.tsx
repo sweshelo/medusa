@@ -126,7 +126,7 @@ export const LinkPlayer = ({ initialPlayer }: LinkPlayerProps) => {
             </button>
           </div>
         ) : (
-          <div>
+          <div className="p-2">
             <p className="text-sm text-gray-600 mb-2">
               プレイヤー名を検索して紐づけてください
             </p>

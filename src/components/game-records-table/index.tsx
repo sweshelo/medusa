@@ -55,22 +55,25 @@ export const GameRecordsTable = async ({ records }: GameRecordsTableProps) => {
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-orange-300">
           <tr>
-            <th className="px-6 py-3 text-xs font-medium uppercase tracking-wider text-center">
+            <th className="px-1 py-3 text-xs font-medium uppercase tracking-wider text-center">
               日時
             </th>
-            <th className="px-5 py-3 text-xs font-medium uppercase tracking-wider text-center">
-              貢献度
+            <th className="px-1 py-3 text-xs font-medium uppercase tracking-wider text-center">
+              P
             </th>
-            <th className="px-2 py-3 text-xs font-medium uppercase tracking-wider text-center">
+            <th className="px-1 py-3 text-xs font-medium uppercase tracking-wider text-center">
               キル
             </th>
-            <th className="px-2 py-3 text-xs font-medium uppercase tracking-wider text-center">
-              逃走P
+            <th className="px-1 py-3 text-xs font-medium uppercase tracking-wider text-center">
+              C
             </th>
-            <th className="px-2 py-3 text-xs font-medium uppercase tracking-wider text-center">
-              アシスト
+            <th className="px-1 py-3 text-xs font-medium uppercase tracking-wider text-center">
+              逃走
             </th>
-            <th className="px-2 py-3 text-xs font-medium uppercase tracking-wider text-center">
+            <th className="px-1 py-3 text-xs font-medium uppercase tracking-wider text-center">
+              A
+            </th>
+            <th className="px-1 py-3 text-xs font-medium uppercase tracking-wider text-center">
               勝敗
             </th>
           </tr>
@@ -97,7 +100,7 @@ export const GameRecordsTable = async ({ records }: GameRecordsTableProps) => {
 
               return (
                 <tr key={record.id} className="hover:bg-gray-50">
-                  <td className="text-center py-2 flex items-center gap-2 justify-center">
+                  <td className="text-center py-2 flex items-center gap-2 justify-center text-xs">
                     {date ? (
                       <>
                         <span className="">
@@ -112,7 +115,7 @@ export const GameRecordsTable = async ({ records }: GameRecordsTableProps) => {
                       <span className="text-sm text-gray-600">日時不明</span>
                     )}
                   </td>
-                  <td className="text-center">
+                  <td className="text-center text-sm">
                     {record.score !== null
                       ? `${record.score.toLocaleString()}P`
                       : '-'}
@@ -120,11 +123,22 @@ export const GameRecordsTable = async ({ records }: GameRecordsTableProps) => {
                   <td className="text-center text-sm">
                     <span className="">{record.kill ?? '不明'}</span>
                   </td>
+                  <td className="text-center text-xs">
+                    <span className="">
+                      {record.charge ? `${record.charge.toFixed(1)}%` : '不明'}
+                    </span>
+                    <br />
+                    <span className="">
+                      {record.chain ? `${record.chain}回` : '不明'}
+                    </span>
+                  </td>
                   <td className="text-center text-sm">
                     <span className="">{record.flight ?? '不明'}</span>
                   </td>
                   <td className="text-center text-sm">
-                    <span className="">{record.assist ?? '不明'}</span>
+                    <span className="">
+                      {record.assist?.toFixed(1) ?? '不明'}
+                    </span>
                   </td>
                   <td className="text-center">
                     {record.is_win !== null ? (

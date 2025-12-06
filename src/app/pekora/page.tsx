@@ -42,13 +42,20 @@ export default function PekoraPage() {
     fetchImages()
   }, [fetchImages])
 
+  const linkStyle = 'underline text-blue-600 px-1'
+
   return (
     <div className="container mx-auto">
       <Headline title="画像記録機能 (β)" />
       <div className="bg-white rounded-lg py-3 px-1 text-gray-600 text-sm text-center">
         <p>アップロードされた画像から試合のリザルトを分析します</p>
         <p>処理済みの画像をクリックすると分析結果を表示します</p>
-        <p>プレイヤーページで一覧を確認できます</p>
+        <p>
+          <Link href={'/player/you'} className={linkStyle}>
+            あなたのプレイヤーページ
+          </Link>
+          で一覧を確認できます
+        </p>
       </div>
 
       <div className="text-sm text-center border-1 border-amber-200 bg-amber-100 rounded-lg my-2 p-2 text-gray-600">
@@ -57,7 +64,7 @@ export default function PekoraPage() {
         アップロードした画像の取り下げ機能が今後実装予定です。
         <br />
         この機能をご利用になる場合、宜しければ
-        <Link href={'/donation'} className="underline text-blue-600 px-1">
+        <Link href={'/donation'} className={linkStyle}>
           寄付
         </Link>
         もご検討下さい。
