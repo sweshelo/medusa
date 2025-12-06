@@ -60,7 +60,7 @@ export default async function Page() {
                 />
               </a>
               <p className="text-xs text-gray-600 mt-3">
-                FANBOXでは、100円、500円、1500円のメンバーシップを用意しています。
+                FANBOXでは、500円、1500円のメンバーシップを用意しています。
                 <br />
                 Pixivアカウントが必要です。
               </p>
@@ -82,7 +82,8 @@ export default async function Page() {
               <div className="mt-3">
                 <p className="text-[12px] text-gray-400 mb-1">(英語のみ)</p>
                 <p className="text-xs text-gray-600">
-                  ko-fi.com では、100円、500円を選択肢として用意しています。
+                  ko-fi.com
+                  では、100円、500円をデフォルトの選択肢として用意しています。
                   <br />
                   更に任意の金額を上乗せして寄付頂くことが可能です。
                   <br />
