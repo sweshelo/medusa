@@ -109,6 +109,23 @@ export async function updateSession(request: NextRequest) {
     }
   }
 
+  if (user && request.nextUrl.pathname.startsWith('/player/you')) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('player_id')
+      .eq('id', user.id)
+      .single()
+    const url = request.nextUrl.clone()
+
+    if (profile?.player_id) {
+      url.pathname = `/player/id/${profile.player_id}`
+      return NextResponse.redirect(url)
+    } else {
+      url.pathname = `/settings`
+      return NextResponse.redirect(url)
+    }
+  }
+
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
   // creating a new response object with NextResponse.next() make sure to:
   // 1. Pass the request in it, like so:

@@ -116,14 +116,13 @@ export async function PlayerGameRecordsServer({
     <div className="my-4">
       <SmallHeadline title="画像記録履歴" />
       <div className="bg-white p-3 mb-2 text-sm text-gray-600 rounded-lg text-center">
-        あなたが
         <Link href="/pekora" className="underline text-blue-400 px-1">
           画像記録機能
         </Link>
         で登録したリザルトが表示されます
         <br />
       </div>
-      <GameRecordsTable records={gameResults} />
+      <GameRecordsTable records={gameResults.reverse()} />
     </div>
   )
 }
