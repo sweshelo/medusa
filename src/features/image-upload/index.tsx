@@ -1,5 +1,6 @@
 'use client'
 
+import { TZDate } from '@date-fns/tz'
 import imageCompression from 'browser-image-compression'
 import * as exifr from 'exifr'
 import { useCallback, useState } from 'react'
@@ -154,7 +155,10 @@ export const ImageUpload = ({ onUploadSuccess }: ImageUploadProps) => {
         try {
           const exifData = await exifr.parse(image.file)
           if (exifData?.DateTimeOriginal) {
-            takenAt = new Date(exifData.DateTimeOriginal).toISOString()
+            takenAt = new TZDate(
+              exifData.DateTimeOriginal,
+              'Asia/Tokyo',
+            ).toISOString()
           }
         } catch (exifError) {
           console.warn('Failed to read EXIF data:', exifError)
