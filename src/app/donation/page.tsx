@@ -49,7 +49,7 @@ export default async function Page() {
                 href="https://sweshelo.fanbox.cc/"
                 target="_blank"
                 className="inline-block hover:opacity-80 transition-opacity"
-                rel="noopener"
+                rel="noopener noreferrer"
               >
                 <img
                   src={
@@ -71,7 +71,7 @@ export default async function Page() {
                 href="https://ko-fi.com/P5P81PRZH1"
                 target="_blank"
                 className="inline-block hover:opacity-80 transition-opacity"
-                rel="noopener"
+                rel="noopener noreferrer"
               >
                 <img
                   src="https://storage.ko-fi.com/cdn/kofi6.png?v=6"
@@ -97,7 +97,7 @@ export default async function Page() {
                 href="https://patreon.com/sweshelo?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink"
                 target="_blank"
                 className="inline-block hover:opacity-80 transition-opacity"
-                rel="noopener"
+                rel="noopener noreferrer"
               >
                 <img
                   src={'/image/patreon.png'}
