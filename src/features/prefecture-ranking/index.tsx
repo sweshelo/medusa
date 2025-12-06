@@ -31,7 +31,6 @@ export const PrefectureRankingPage = ({
   })
 
   const getRankingColor = (count: number) => {
-    if (count >= 40) return 'shiny-rainbow'
     if (count >= 30) return 'shiny-gold'
     if (count >= 20) return 'shiny-silver'
     if (count >= 10) return 'shiny-copper'
@@ -56,7 +55,11 @@ export const PrefectureRankingPage = ({
           >
             <div className="flex items-center">
               <Shiny
-                color={getRankingColor(player.prefecture_count)}
+                color={
+                  index === 0
+                    ? 'shiny-rainbow'
+                    : getRankingColor(player.prefecture_count)
+                }
                 className="rounded-lg border px-3"
               >
                 <div className="text-xs text-gray-600">{player.rank}位</div>
