@@ -39,6 +39,8 @@ export default async function Page() {
             <p className="text-sm text-gray-600">
               以下の外部サービスで決済を行えます
               <br />
+              支援頂ける金額を選べるよう、各プラットフォーム毎に意図的にプランの金額を変更しています
+              <br />
               アイコンをクリックして遷移します
             </p>
             {/* Fanbox Card */}
