@@ -25,7 +25,6 @@ export default function PekoraPage() {
   const [loading, setLoading] = useState(true)
 
   const fetchImages = useCallback(async () => {
-    setLoading(true)
     const result = await getUploadedImages()
     if (result.images) {
       setImages(result.images)
@@ -34,6 +33,7 @@ export default function PekoraPage() {
   }, [])
 
   useEffect(() => {
+    setLoading(true)
     fetchImages()
   }, [fetchImages])
 
@@ -79,7 +79,11 @@ export default function PekoraPage() {
           ) : (
             <div className="space-y-4">
               {images.map((image) => (
-                <ImageHistoryItem key={image.id} image={image} />
+                <ImageHistoryItem
+                  key={image.id}
+                  image={image}
+                  onUpdate={fetchImages}
+                />
               ))}
             </div>
           )}

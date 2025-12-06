@@ -14,9 +14,13 @@ interface ImageHistoryItemProps {
   image: GameImage & {
     game: GameWithResults[]
   }
+  onUpdate?: () => void
 }
 
-export const ImageHistoryItem = ({ image }: ImageHistoryItemProps) => {
+export const ImageHistoryItem = ({
+  image,
+  onUpdate,
+}: ImageHistoryItemProps) => {
   const hasGameData = image.game && image.game.length > 0
 
   return (
@@ -69,14 +73,28 @@ export const ImageHistoryItem = ({ image }: ImageHistoryItemProps) => {
             {/* ゲーム情報とリザルト */}
             {hasGameData ? (
               <div>
-                <h4 className="text-sm font-semibold text-gray-700 mb-2">
-                  ゲーム情報
-                </h4>
                 {image.game.map((game) => (
                   <div key={game.id} className="rounded space-y-3">
                     <div className="space-y-1 text-xs">
                       {game.game_result && game.game_result.length > 0 && (
-                        <GameResultTable results={game.game_result} />
+                        <GameResultTable
+                          results={game.game_result.sort((a, b) => {
+                            if (a.team === b.team) {
+                              if (a.score === b.score) {
+                                return Number(a.charge) > Number(b.charge)
+                                  ? -1
+                                  : 1
+                              } else {
+                                return Number(a.score) > Number(b.score)
+                                  ? -1
+                                  : 1
+                              }
+                            } else {
+                              return a.team ? -1 : 1
+                            }
+                          })}
+                          onUpdate={onUpdate}
+                        />
                       )}
                     </div>
                   </div>
