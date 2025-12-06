@@ -1,38 +1,12 @@
 import type { Metadata } from 'next'
 
 import { Headline } from '@/components/common/headline'
-import { CancelSubscriptionButton } from '@/components/subscription/cancel-button'
-import { PlanCard } from '@/components/subscription/purchase/plan-card'
-import { getActiveSubscriptionPlans } from '@/service/stripe/products'
-import { getUserSubscription } from '@/service/supabase/subscription'
 
 export const metadata: Metadata = {
   title: '御布施',
 }
 
 export default async function Page() {
-  const plans = await getActiveSubscriptionPlans()
-  const subscription = await getUserSubscription()
-
-  // 価格を日本円形式でフォーマット
-  const formatPrice = (amount: number, currency: string, interval: string) => {
-    const formattedAmount = new Intl.NumberFormat('ja-JP', {
-      style: 'currency',
-      currency: currency.toUpperCase(),
-      minimumFractionDigits: 0,
-    }).format(amount)
-
-    const intervalText =
-      {
-        month: '/月',
-        year: '/年',
-        week: '/週',
-        day: '/日',
-      }[interval] || ''
-
-    return `${formattedAmount}${intervalText}`
-  }
-
   return (
     <div className="text-center py-2 mb-2">
       <Headline title="御布施" />
@@ -61,60 +35,83 @@ export default async function Page() {
             </p>
           </div>
 
-          {/* 現在のサブスクリプション状態 */}
-          {subscription && (
-            <div className="p-6 bg-green-50 border-2 border-green-200 rounded-lg">
-              <h3 className="text-lg font-bold text-green-800 mb-2">
-                貴方が包んでくださった御布施
-              </h3>
-              <div className="space-y-2 text-sm text-green-700">
-                <p>
-                  プラン:{' '}
-                  <span className="font-semibold">
-                    {plans.find((p) => p.priceId === subscription.priceId)
-                      ?.name || '不明'}
-                  </span>
-                </p>
-                <p>
-                  ステータス:{' '}
-                  <span className="font-semibold">
-                    {subscription.status === 'active'
-                      ? 'アクティブ'
-                      : 'トライアル中'}
-                  </span>
-                </p>
-                <p>
-                  次回更新日:{' '}
-                  <span className="font-semibold">
-                    {new Date(subscription.currentPeriodEnd).toLocaleDateString(
-                      'ja-JP',
-                    )}
-                  </span>
-                </p>
-                {subscription.cancelAtPeriodEnd && (
-                  <p className="text-orange-600 font-semibold">
-                    御布施は次回更新日から納入を停止します
-                  </p>
-                )}
-              </div>
-              {/* 解約ボタン（解約予約済みでない場合のみ表示） */}
-              {!subscription.cancelAtPeriodEnd && <CancelSubscriptionButton />}
+          <div className="space-y-4">
+            <p className="text-sm text-gray-600">
+              以下の外部サービスで決済を行えます
+              <br />
+              アイコンをクリックして遷移します
+            </p>
+            {/* Fanbox Card */}
+            <div className="border-2 border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors bg-white shadow-sm">
+              <a
+                href="https://sweshelo.fanbox.cc/"
+                target="_blank"
+                className="inline-block hover:opacity-80 transition-opacity"
+                rel="noopener"
+              >
+                <img
+                  src={
+                    'https://s.pximg.net/www/js/fanbox/8068a01f50b06fc3cde7c98141bfa428.svg'
+                  }
+                  alt="Support on PIXIV FANBOX"
+                  className="h-auto w-40"
+                />
+              </a>
+              <p className="text-xs text-gray-600 mt-3">
+                FANBOXでは、100円、500円、1500円のメンバーシップを用意しています。
+                <br />
+                Pixivアカウントが必要です。
+              </p>
             </div>
-          )}
-          {/* アクティブなプラン */}
-          {plans
-            .sort((a, b) => a.price - b.price)
-            .map((plan) => (
-              <PlanCard
-                key={plan.id}
-                title={plan.name}
-                price={formatPrice(plan.price, plan.currency, plan.interval)}
-                description={plan.description}
-                features={plan.features}
-                priceId={plan.priceId}
-                hasActiveSubscription={!!subscription}
-              />
-            ))}
+            {/* Ko-fi Card */}
+            <div className="border-2 border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors bg-white shadow-sm">
+              <a
+                href="https://ko-fi.com/P5P81PRZH1"
+                target="_blank"
+                className="inline-block hover:opacity-80 transition-opacity"
+                rel="noopener"
+              >
+                <img
+                  src="https://storage.ko-fi.com/cdn/kofi6.png?v=6"
+                  alt="Buy Me a Coffee at ko-fi.com"
+                  className="h-12 w-auto"
+                />
+              </a>
+              <div className="mt-3">
+                <p className="text-[12px] text-gray-400 mb-1">(英語のみ)</p>
+                <p className="text-xs text-gray-600">
+                  ko-fi.com では、100円、500円を選択肢として用意しています。
+                  <br />
+                  更に任意の金額を上乗せして寄付頂くことが可能です。
+                  <br />
+                  PayPalアカウントが必要です。
+                </p>
+              </div>
+            </div>
+
+            {/* Patreon Card */}
+            <div className="border-2 border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors bg-white shadow-sm">
+              <a
+                href="https://patreon.com/sweshelo?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink"
+                target="_blank"
+                className="inline-block hover:opacity-80 transition-opacity"
+                rel="noopener"
+              >
+                <img
+                  src={'/image/patreon.png'}
+                  alt="Support on Patreon"
+                  className="h-auto w-40"
+                />
+              </a>
+              <p className="text-xs text-gray-600 mt-3">
+                Patreonでは、$3、$5、$10のメンバーシップを用意しています。
+                <br />
+                決済金額は引き落とし時の為替の影響を受けます。
+                <br />
+                Patreonアカウントが必要です。
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
