@@ -107,13 +107,13 @@ export const fetchAllPlayersName = async (): Promise<string[]> => {
   }
 }
 
-export const fetchRecentPlayedPlayersId = async (): Promise<number[]> => {
+export const fetchRecentPlayedPlayersId = async (
+  names: string[],
+): Promise<number[]> => {
   const { data: players, error: joinError } = await supabase
     .from('player')
     .select(`id`)
-    .gte('updated_at', subDays(new Date(), 30).toISOString())
-    .order('updated_at', { ascending: false })
-    .limit(50)
+    .in('name', names)
 
   if (joinError) {
     console.error('ユーザ取得でエラー: ', joinError)
