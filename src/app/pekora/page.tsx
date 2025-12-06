@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 import { Headline } from '@/components/common/headline'
 import { SmallHeadline } from '@/components/common/small-headline'
@@ -47,18 +48,31 @@ export default function PekoraPage() {
       <div className="bg-white rounded-lg py-3 px-1 text-gray-600 text-sm text-center">
         <p>アップロードされた画像から試合のリザルトを分析します</p>
         <p>処理済みの画像をクリックすると分析結果を表示します</p>
+        <p>プレイヤーページで一覧を確認できます</p>
       </div>
 
       <div className="text-sm text-center border-1 border-amber-200 bg-amber-100 rounded-lg my-2 p-2 text-gray-600">
         この機能は現在試験運用中です。
         <br />
-        アップロードされた記録を一覧で確認する機能や、アップロードした画像の取り下げ、識字ミスの手直し機能が今後実装予定です。
+        アップロードした画像の取り下げ機能が今後実装予定です。
+        <br />
+        この機能をご利用になる場合、宜しければ
+        <Link href={'/donation'} className="underline text-blue-600 px-1">
+          寄付
+        </Link>
+        もご検討下さい。
       </div>
 
       <div className="max-w-3xl mx-auto space-y-8 mt-6">
         {/* アップロードフォーム */}
         <section>
           <SmallHeadline title="新規アップロード" />
+          <div className="text-sm text-center border-1 border-red-200 bg-red-100 rounded-lg my-2 p-2 font-bold text-gray-800">
+            短時間で大量の画像(100枚程度)をアップロードした場合、アカウントを凍結します
+            <br />
+            常識の範囲内でご利用下さい
+          </div>
+
           <ImageUpload onUploadSuccess={handleUploadSuccess} />
         </section>
 
