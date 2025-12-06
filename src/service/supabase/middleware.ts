@@ -4,7 +4,49 @@ import { PROTECTED_PATH } from '@/constants/protected-path'
 import { CURRENT_TERMS_VERSION } from '@/constants/terms'
 import type { Database } from '@/types/database.types'
 
+// 認証チェックが必要なパスのリスト
+const AUTH_REQUIRED_PATHS = [
+  ...PROTECTED_PATH, // /settings, /pekora, /donation
+  '/login', // ログイン済みユーザーのリダイレクト用
+  '/terms', // 利用規約同意チェック用
+  '/player/you', // プレイヤーIDリダイレクト用
+]
+
+// 認証チェックをスキップする条件を判定
+function shouldSkipAuth(request: NextRequest): boolean {
+  // 1. Preflight リクエスト (OPTIONS) をスキップ
+  if (request.method === 'OPTIONS') {
+    return true
+  }
+
+  // 2. Server Actions をスキップ
+  // Next.js Server Actions は特定のヘッダーを持つPOSTリクエスト
+  const isServerAction =
+    request.method === 'POST' &&
+    (request.headers.get('Next-Action') !== null ||
+      request.headers.get('x-action') !== null)
+
+  if (isServerAction) {
+    return true
+  }
+
+  // 3. 認証が必要なパス以外をスキップ
+  const pathname = request.nextUrl.pathname
+  const needsAuth = AUTH_REQUIRED_PATHS.some((path) =>
+    pathname.startsWith(path),
+  )
+
+  return !needsAuth
+}
+
 export async function updateSession(request: NextRequest) {
+  // 認証チェックが不要な場合は早期リターン
+  if (shouldSkipAuth(request)) {
+    return NextResponse.next({
+      request,
+    })
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   })
