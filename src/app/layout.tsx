@@ -9,7 +9,6 @@ import { DrawerProvider } from '@/hooks/drawer'
 import './globals.css'
 import type { Metadata } from 'next'
 import { DrawerWrapper } from '@/components/drawer/drawer-wrapper'
-import { ToastTrigger } from '@/components/toast/toast-trigger'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://放課後天地創造.club'),
@@ -69,7 +68,6 @@ export default async function RootLayout({
       </head>
       <body className={`antialiased font-mplus`}>
         <DrawerProvider>
-          <ToastTrigger />
           <Header />
           <DrawerWrapper />
           <div className="w-full min-h-screen mx-auto bg-gray-100 sm:p-7">
