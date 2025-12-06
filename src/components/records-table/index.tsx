@@ -12,16 +12,6 @@ interface RecordsTableProps {
 
 export const RecordsTable = async ({ records }: RecordsTableProps) => {
   const schedule = await fetchSchedule()
-  const getStage = (date: Date) => {
-    const term = schedule.find((s) => {
-      if (!s.started_at) return false
-      const start = new TZDate(s.started_at, 'Asia/Tokyo')
-      const end = s.ended_at ? new TZDate(s.ended_at, 'Asia/Tokyo') : new Date()
-      return isWithinInterval(date, { start, end })
-    })
-
-    return (date.getUTCHours() + 9) % 2 ? term?.even_time : term?.odd_time
-  }
 
   return (
     <div className="overflow-x-auto rounded-lg shadow-sm">

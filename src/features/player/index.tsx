@@ -1,6 +1,8 @@
+import { Suspense } from 'react'
 import { AchievementView } from '@/components/achievement'
 import { Shiny } from '@/components/common/shiny'
 import { SmallHeadline } from '@/components/common/small-headline'
+import { PlayerGameRecordsServer } from '@/components/game-records-table/server'
 import { GaugeTable } from '@/components/gauge-table'
 import { PlayerView } from '@/components/player/card'
 import { RankGauge } from '@/components/rank-gauge'
@@ -138,9 +140,25 @@ export const PlayerPage = async ({
           </div>
         </div>
       )}
-      <div className="my-4">
-        <PlayedPrefectureMap playerName={player.name} />
-      </div>
+      <Suspense
+        fallback={
+          <div className="my-4">
+            <SmallHeadline title="画像記録履歴" />
+            <div className="bg-white rounded-lg p-4">
+              <div className="animate-pulse space-y-4">
+                <div className="h-12 bg-gray-200 rounded" />
+                <div className="h-12 bg-gray-200 rounded" />
+                <div className="h-12 bg-gray-200 rounded" />
+              </div>
+            </div>
+          </div>
+        }
+      >
+        <PlayerGameRecordsServer
+          playerId={player.id}
+          playerName={player.name}
+        />
+      </Suspense>
       {/*
       <div className="my-4">
         <SmallHeadline title="貢献度の推移" />
@@ -154,6 +172,9 @@ export const PlayerPage = async ({
         <RecordsTable records={player.records} />
       </div>
       */}
+      <div className="my-4">
+        <PlayedPrefectureMap playerName={player.name} />
+      </div>
     </>
   ) : (
     <>
