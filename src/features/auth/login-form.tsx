@@ -27,7 +27,6 @@ export function LoginForm({
       const result = await onSubmit(formData)
       if (result?.error) {
         setError(result.error)
-        setLoading(false)
       } else {
         // Success - redirect will happen via server action
         // or handle client-side redirect if needed
@@ -43,6 +42,7 @@ export function LoginForm({
         return
       }
       setError('予期しないエラーが発生しました')
+    } finally {
       setLoading(false)
     }
   }

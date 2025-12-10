@@ -11,10 +11,7 @@ export const SignOut = () => {
     setLoading(true)
 
     try {
-      const result = await signout()
-      if (result?.error) {
-        setLoading(false)
-      }
+      await signout()
     } catch (err) {
       // Server action redirect throws, which is expected behavior
       if (err instanceof Error && err.message.includes('NEXT_REDIRECT')) {
@@ -22,6 +19,7 @@ export const SignOut = () => {
         return
       }
       toast('ログアウト中にエラーが発生しました', { type: 'error' })
+    } finally {
       setLoading(false)
     }
   }

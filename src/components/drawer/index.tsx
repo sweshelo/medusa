@@ -2,17 +2,27 @@
 
 import type { User } from '@supabase/supabase-js'
 import Link from 'next/link'
-import { Suspense, useEffect, useState } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { Suspense, useCallback, useEffect, useState } from 'react'
 import { useDrawer } from '@/hooks/drawer'
 import { getUser } from './actions'
 
 export const Drawer = () => {
   const { isOpen, closeDrawer } = useDrawer()
   const [user, setUser] = useState<User>()
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
 
-  useEffect(() => {
+  const handlePathChange = useCallback(() => {
     getUser().then((user) => setUser(user))
   }, [])
+
+  useEffect(() => {
+    if (searchParams.get('login') === 'success' || pathname === 'login')
+      handlePathChange()
+  }, [searchParams, pathname, handlePathChange])
+
+  useEffect(handlePathChange, [])
 
   return (
     <div>
