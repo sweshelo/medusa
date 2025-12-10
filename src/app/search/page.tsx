@@ -6,7 +6,6 @@ import { SearchBox } from '@/components/search-box'
 export const metadata: Metadata = {
   title: 'プレーヤー検索',
 }
-export const revalidate = 86400
 
 export default async function Page() {
   return (

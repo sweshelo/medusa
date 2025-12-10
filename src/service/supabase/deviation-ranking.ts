@@ -1,8 +1,13 @@
+'use cache'
+
+import { cacheLife } from 'next/cache'
 import { createAdminClient } from './admin'
 
 const supabase = createAdminClient()
 
-export const fetchDeviationRanking = async () => {
+export async function fetchDeviationRanking() {
+  cacheLife({ stale: 300, revalidate: 600, expire: 1200 }) // 10分 - 必要に応じて調整してください
+
   const { data: players, error: playerError } = await supabase
     .from('player')
     .select('*')
