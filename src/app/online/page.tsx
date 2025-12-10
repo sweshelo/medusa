@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-  cacheLife({ stale: 30, revalidate: 60, expire: 120 }) // 1分
+  cacheLife({ stale: 120, revalidate: 240, expire: 600 })
 
   const players = await fetchOnlinePlayers()
   const timestamp = new Date()

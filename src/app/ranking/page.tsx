@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-  cacheLife({ stale: 150, revalidate: 300, expire: 600 }) // 5分
+  cacheLife('hours')
 
   const now = new Date()
   const ranking =

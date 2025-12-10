@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-  cacheLife({ stale: 300, revalidate: 600, expire: 1200 }) // 10分
+  cacheLife('days')
 
   const ranking = await fetchPrefectureConquestRanking()
   const timestamp = new Date()

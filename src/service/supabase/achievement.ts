@@ -22,7 +22,7 @@ export async function fetchAchievement(name: string) {
 }
 
 export async function fetchAllAchievements() {
-  cacheLife('hours') // 1時間 - 必要に応じて調整してください
+  cacheLife('days')
 
   const { data: achievements, error } = await supabase
     .from('achievement')

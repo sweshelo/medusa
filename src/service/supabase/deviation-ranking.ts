@@ -6,7 +6,7 @@ import { createAdminClient } from './admin'
 const supabase = createAdminClient()
 
 export async function fetchDeviationRanking() {
-  cacheLife({ stale: 300, revalidate: 600, expire: 1200 }) // 10分 - 必要に応じて調整してください
+  cacheLife('max')
 
   const { data: players, error: playerError } = await supabase
     .from('player')

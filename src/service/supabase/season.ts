@@ -10,7 +10,7 @@ const supabase = createAdminClient()
 export type Season = Tables<'season'>
 
 export async function fetchCurrentSeason(): Promise<Season | null> {
-  cacheLife('hours') // 1時間 - 必要に応じて調整してください
+  cacheLife('days')
 
   const { data, error } = await supabase
     .from('season')

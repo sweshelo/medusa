@@ -13,7 +13,7 @@ export interface PlayCountRanking {
 }
 
 export async function fetchPlayCountRanking(): Promise<PlayCountRanking[]> {
-  cacheLife({ stale: 150, revalidate: 300, expire: 600 }) // 5分 - 必要に応じて調整してください
+  cacheLife('days')
 
   // PostgreSQL関数を使用して効率的にプレイ数をカウント
   // 現在のシーズン中のレコードのみを集計

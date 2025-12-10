@@ -22,7 +22,8 @@ interface PlayerAchievement {
 export async function fetchPrefectureConquestRanking(): Promise<
   PrefectureRanking[]
 > {
-  cacheLife({ stale: 300, revalidate: 600, expire: 1200 }) // 10分 - 必要に応じて調整してください
+  cacheLife('weeks')
+
   // 都道府県の称号リスト（半角）
   const prefectureAchievements = new Set(
     PrefectureAchievements.map((p) => p.achievement),

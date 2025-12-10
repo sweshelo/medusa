@@ -34,7 +34,7 @@ const originalPageURL = (index: number, date: Date | undefined) => {
 }
 
 export async function fetchRankingTable(date?: Date) {
-  cacheLife({ stale: 150, revalidate: 300, expire: 600 }) // 5分 - 必要に応じて調整してください
+  cacheLife('hours')
 
   const ranking: Ranking[] = []
 

@@ -9,7 +9,7 @@ import { createAdminClient } from './admin'
 const supabase = createAdminClient()
 
 export async function fetchOnlinePlayers() {
-  cacheLife({ stale: 30, revalidate: 60, expire: 120 }) // 1分 - 必要に応じて調整してください
+  cacheLife({ stale: 60, revalidate: 240, expire: 600 })
 
   const { data, error } = await supabase
     .from('record')
