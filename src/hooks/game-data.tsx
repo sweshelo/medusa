@@ -20,7 +20,7 @@ const GameDataContext = createContext<GameDataContextType | undefined>(
   undefined,
 )
 
-export const PlayersProvider = ({ children }: { children: ReactNode }) => {
+export const GameDataProvider = ({ children }: { children: ReactNode }) => {
   const [players, setPlayers] = useState<string[]>([])
   const [schedule, setSchedule] = useState<Schedule[]>([])
 
@@ -39,7 +39,7 @@ export const PlayersProvider = ({ children }: { children: ReactNode }) => {
 export const useGameData = () => {
   const context = useContext(GameDataContext)
   if (!context) {
-    throw new Error('useGameContext must be used within a DrawerProvider')
+    throw new Error('useGameContext must be used within a GameDataProvider')
   }
   return context
 }

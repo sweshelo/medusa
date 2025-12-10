@@ -9,7 +9,7 @@ import { DrawerProvider } from '@/hooks/drawer'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Drawer } from '@/components/drawer'
-import { PlayersProvider } from '@/hooks/game-data'
+import { GameDataProvider } from '@/hooks/game-data'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://放課後天地創造.club'),
@@ -69,7 +69,7 @@ export default function RootLayout({
       </head>
       <body className={`antialiased font-mplus`}>
         <DrawerProvider>
-          <PlayersProvider>
+          <GameDataProvider>
             <Suspense fallback={<Loading />}>
               <Header />
               <Drawer />
@@ -81,7 +81,7 @@ export default function RootLayout({
             </div>
             <Analytics />
             <SpeedInsights />
-          </PlayersProvider>
+          </GameDataProvider>
         </DrawerProvider>
       </body>
     </html>
