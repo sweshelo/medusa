@@ -50,7 +50,7 @@ export const GameRecordsTable = ({ records }: GameRecordsTableProps) => {
 
       return (date.getUTCHours() + 9) % 2 ? term?.even_time : term?.odd_time
     },
-    [schedule.find],
+    [schedule],
   )
 
   return (
