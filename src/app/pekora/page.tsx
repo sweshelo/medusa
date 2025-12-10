@@ -7,7 +7,8 @@ import { SmallHeadline } from '@/components/common/small-headline'
 import { ImageHistoryItem } from '@/components/game-image/image-history-item'
 import { ImageUpload } from '@/features/image-upload'
 import type { Tables } from '@/types/database.types'
-import { getAllPlayersName, getUploadedImages } from './actions'
+import { getAllPlayersName } from '@/utils/actions/players'
+import { getUploadedImages } from './actions'
 
 type GameImage = Tables<'game_image'>
 type Game = Tables<'game'>
