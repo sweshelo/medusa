@@ -18,7 +18,7 @@ export const Drawer = () => {
   }, [])
 
   useEffect(() => {
-    if (searchParams.get('login') === 'success' || pathname === 'login')
+    if (searchParams.get('login') === 'success' || pathname === '/login')
       handlePathChange()
   }, [searchParams, pathname, handlePathChange])
 
