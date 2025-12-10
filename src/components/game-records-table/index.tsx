@@ -1,18 +1,11 @@
-import { TZDate, tz } from '@date-fns/tz'
+import { TZDate } from '@date-fns/tz'
 import { format, isWithinInterval } from 'date-fns'
 import { fetchSchedule } from '@/service/supabase/schedule'
-import type { Tables } from '@/types/database.types'
 import { Stage } from '../stage-icon'
-
-type GameResult = Tables<'game_result'>
+import type { GameResultWithImage } from './server'
 
 interface GameRecordsTableProps {
-  records: Array<
-    GameResult & {
-      played_at: string | null
-      image_created_at: string
-    }
-  >
+  records: Array<GameResultWithImage>
 }
 
 const intToGameResult = (result: number) => {
@@ -103,11 +96,9 @@ export const GameRecordsTable = async ({ records }: GameRecordsTableProps) => {
                   <td className="text-center py-2 flex items-center gap-2 justify-center text-xs">
                     {date ? (
                       <>
-                        <span className="">
-                          {format(date, 'yy/MM/dd', { in: tz('Asia/Tokyo') })}
-                        </span>
+                        <span className="">{format(date, 'yy/MM/dd')}</span>
                         <span className="hidden md:inline">
-                          {format(date, 'HH:mm', { in: tz('Asia/Tokyo') })}
+                          {format(date, 'HH:mm')}
                         </span>
                         {stage && <Stage name={stage} />}
                       </>
