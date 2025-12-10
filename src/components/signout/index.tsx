@@ -11,7 +11,8 @@ export const SignOut = () => {
     setLoading(true)
 
     try {
-      await signout()
+      const result = await signout()
+      if (!result) throw new Error()
     } catch (err) {
       // Server action redirect throws, which is expected behavior
       if (err instanceof Error && err.message.includes('NEXT_REDIRECT')) {
