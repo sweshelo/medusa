@@ -1,6 +1,7 @@
 'use server'
 
 import { createAdminClient } from '@/service/supabase/admin'
+import { fetchAllPlayersName } from '@/service/supabase/player'
 import { createClient } from '@/service/supabase/server'
 import type { TablesUpdate } from '@/types/database.types'
 
@@ -88,4 +89,14 @@ export async function updateGameResult(
   }
 
   return { error: null, success: true }
+}
+
+export const getAllPlayersName = async (): Promise<string[]> => {
+  try {
+    const players = await fetchAllPlayersName()
+    return players
+  } catch (error) {
+    console.error('Failed to fetch players:', error)
+    return []
+  }
 }

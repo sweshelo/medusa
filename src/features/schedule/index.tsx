@@ -1,10 +1,13 @@
 import classNames from 'classnames'
 import { format, isWithinInterval, parseISO } from 'date-fns'
-
+import { cacheLife } from 'next/cache'
 import { fetchSchedule } from '@/service/supabase/schedule'
 import type { Schedule } from '@/types/schedule'
 
 export const ScheduleTable = async () => {
+  'use cache'
+  cacheLife('days')
+
   const schedule = await fetchSchedule()
 
   // 現在アクティブな期間を見つける

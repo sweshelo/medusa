@@ -1,4 +1,6 @@
 import { format } from 'date-fns'
+import { useEffect, useState } from 'react'
+import { getAllPlayersName } from '@/app/settings/actions'
 import { GameResultTable } from '@/components/game-result/game-result-table'
 import type { Tables } from '@/types/database.types'
 
@@ -14,11 +16,13 @@ interface ImageHistoryItemProps {
   image: GameImage & {
     game: GameWithResults[]
   }
+  players: string[]
   onUpdate?: () => void
 }
 
 export const ImageHistoryItem = ({
   image,
+  players,
   onUpdate,
 }: ImageHistoryItemProps) => {
   const hasGameData = image.game && image.game.length > 0
@@ -94,6 +98,7 @@ export const ImageHistoryItem = ({
                             }
                           })}
                           onUpdate={onUpdate}
+                          players={players ?? []}
                         />
                       )}
                     </div>

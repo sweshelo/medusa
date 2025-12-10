@@ -8,7 +8,7 @@ import { DrawerProvider } from '@/hooks/drawer'
 
 import './globals.css'
 import type { Metadata } from 'next'
-import { DrawerWrapper } from '@/components/drawer/drawer-wrapper'
+import { Drawer } from '@/components/drawer'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://放課後天地創造.club'),
@@ -70,7 +70,7 @@ export default function RootLayout({
         <DrawerProvider>
           <Suspense fallback={<Loading />}>
             <Header />
-            <DrawerWrapper />
+            <Drawer />
           </Suspense>
           <div className="w-full min-h-screen mx-auto bg-gray-100 sm:p-7">
             <div className="max-w-[700px] mx-auto bg-sky-50 p-4 sm:p-8 sm:rounded-lg shadow-2xl min-h-lvh">

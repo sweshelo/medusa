@@ -7,7 +7,7 @@ import { SmallHeadline } from '@/components/common/small-headline'
 import { ImageHistoryItem } from '@/components/game-image/image-history-item'
 import { ImageUpload } from '@/features/image-upload'
 import type { Tables } from '@/types/database.types'
-import { getUploadedImages } from './actions'
+import { getAllPlayersName, getUploadedImages } from './actions'
 
 type GameImage = Tables<'game_image'>
 type Game = Tables<'game'>
@@ -41,6 +41,11 @@ export default function PekoraPage() {
   const handleUploadSuccess = useCallback(() => {
     fetchImages()
   }, [fetchImages])
+
+  const [players, setPlayers] = useState<string[]>([])
+  useEffect(() => {
+    getAllPlayersName().then((names) => setPlayers(names))
+  }, [])
 
   const linkStyle = 'underline text-blue-600 px-1'
 
@@ -104,6 +109,7 @@ export default function PekoraPage() {
                   key={image.id}
                   image={image}
                   onUpdate={fetchImages}
+                  players={players}
                 />
               ))}
             </div>
