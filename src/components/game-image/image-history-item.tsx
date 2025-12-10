@@ -1,6 +1,4 @@
 import { format } from 'date-fns'
-import { useEffect, useState } from 'react'
-import { getAllPlayersName } from '@/app/settings/actions'
 import { GameResultTable } from '@/components/game-result/game-result-table'
 import type { Tables } from '@/types/database.types'
 

@@ -202,32 +202,30 @@ export const GameResultTable = ({
               >
                 <td className="border border-gray-300 px-2 py-1 whitespace-nowrap">
                   {isEditing ? (
-                    <>
-                      <div>
-                        <input
-                          type="text"
-                          value={result.player_name || ''}
-                          onChange={(e) =>
-                            updateEditedResult(
-                              index,
-                              'player_name',
-                              e.target.value,
-                            )
-                          }
-                          onBlur={(e) =>
-                            handlePlayerNameBlur(index, e.target.value)
-                          }
-                          className="bg-transparent border-none p-0 text-xs focus:outline-none"
-                        />
-                        {result.player_name &&
-                          players.length > 0 &&
-                          !players.includes(result.player_name) && (
-                            <span className="text-orange-500 text-[10px] block">
-                              ⚠ 未登録プレイヤー
-                            </span>
-                          )}
-                      </div>
-                    </>
+                    <div>
+                      <input
+                        type="text"
+                        value={result.player_name || ''}
+                        onChange={(e) =>
+                          updateEditedResult(
+                            index,
+                            'player_name',
+                            e.target.value,
+                          )
+                        }
+                        onBlur={(e) =>
+                          handlePlayerNameBlur(index, e.target.value)
+                        }
+                        className="bg-transparent border-none p-0 text-xs focus:outline-none"
+                      />
+                      {result.player_name &&
+                        players.length > 0 &&
+                        !players.includes(result.player_name) && (
+                          <span className="text-orange-500 text-[10px] block">
+                            ⚠ 未登録プレイヤー
+                          </span>
+                        )}
+                    </div>
                   ) : (
                     <div>
                       <span>{result.player_name || '-'}</span>

@@ -9,7 +9,7 @@ import { DrawerProvider } from '@/hooks/drawer'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Drawer } from '@/components/drawer'
-import { PlayersProvider } from '@/hooks/players'
+import { PlayersProvider } from '@/hooks/game-data'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://放課後天地創造.club'),

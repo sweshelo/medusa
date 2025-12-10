@@ -1,6 +1,11 @@
+'use client'
+
 import { TZDate } from '@date-fns/tz'
 import { format, isWithinInterval } from 'date-fns'
-import { fetchSchedule } from '@/service/supabase/schedule'
+import Image from 'next/image'
+import { useCallback } from 'react'
+import { Tooltip } from 'react-tooltip'
+import { useGameData } from '@/hooks/game-data'
 import { Stage } from '../stage-icon'
 import type { GameResultWithImage } from './server'
 
@@ -30,18 +35,23 @@ const intToColorClass = (result: number) => {
   }
 }
 
-export const GameRecordsTable = async ({ records }: GameRecordsTableProps) => {
-  const schedule = await fetchSchedule()
-  const getStage = (date: Date) => {
-    const term = schedule.find((s) => {
-      if (!s.started_at) return false
-      const start = new TZDate(s.started_at, 'Asia/Tokyo')
-      const end = s.ended_at ? new TZDate(s.ended_at, 'Asia/Tokyo') : new Date()
-      return isWithinInterval(date, { start, end })
-    })
+export const GameRecordsTable = ({ records }: GameRecordsTableProps) => {
+  const { schedule } = useGameData()
+  const getStage = useCallback(
+    (date: Date) => {
+      const term = schedule.find((s) => {
+        if (!s.started_at) return false
+        const start = new TZDate(s.started_at, 'Asia/Tokyo')
+        const end = s.ended_at
+          ? new TZDate(s.ended_at, 'Asia/Tokyo')
+          : new Date()
+        return isWithinInterval(date, { start, end })
+      })
 
-    return (date.getUTCHours() + 9) % 2 ? term?.even_time : term?.odd_time
-  }
+      return (date.getUTCHours() + 9) % 2 ? term?.even_time : term?.odd_time
+    },
+    [schedule.find],
+  )
 
   return (
     <div className="overflow-x-auto rounded-lg shadow-sm">
@@ -92,7 +102,11 @@ export const GameRecordsTable = async ({ records }: GameRecordsTableProps) => {
               const stage = date ? getStage(date) : undefined
 
               return (
-                <tr key={record.id} className="hover:bg-gray-50">
+                <tr
+                  key={record.id}
+                  className="hover:bg-gray-50"
+                  data-tooltip-id={`${record.id}`}
+                >
                   <td className="text-center py-2 flex items-center gap-2 justify-center text-xs">
                     {date ? (
                       <>
@@ -140,6 +154,18 @@ export const GameRecordsTable = async ({ records }: GameRecordsTableProps) => {
                       '-'
                     )}
                   </td>
+                  {record.image_path && (
+                    <Tooltip id={`${record.id}`}>
+                      <Image
+                        src={record.image_path}
+                        width={500}
+                        height={300}
+                        unoptimized
+                        alt="ゲームリザルト画像"
+                        className="max-w-[90vw] md:max-w-[600px] w-auto h-auto object-contain"
+                      />
+                    </Tooltip>
+                  )}
                 </tr>
               )
             })

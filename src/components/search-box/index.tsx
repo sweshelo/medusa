@@ -1,12 +1,12 @@
 'use client'
 
 import { useCallback, useMemo, useState } from 'react'
-import { usePlayers } from '@/hooks/players'
+import { useGameData } from '@/hooks/game-data'
 import { PlayerCard } from '../player/card'
 
 export const SearchBox = () => {
   const [query, setQuery] = useState('')
-  const { players } = usePlayers()
+  const { players } = useGameData()
 
   // 半角文字を全角に変換
   const transform = useCallback(

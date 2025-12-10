@@ -1,4 +1,4 @@
-import { cacheLife, unstable_cache } from 'next/cache'
+import { cacheLife } from 'next/cache'
 
 /**
  * 都道府県情報の型定義
