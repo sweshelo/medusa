@@ -33,7 +33,7 @@ const groupByDate = (records: RankRecord[]) => {
     if (!grouped.has(date)) {
       grouped.set(date, [])
     }
-    grouped.get(date)!.push(record)
+    grouped.get(date)?.push(record)
   }
   return grouped
 }
