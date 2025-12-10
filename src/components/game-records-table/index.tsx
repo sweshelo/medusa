@@ -154,24 +154,27 @@ export const GameRecordsTable = ({ records }: GameRecordsTableProps) => {
                       '-'
                     )}
                   </td>
-                  {record.image_path && (
-                    <Tooltip id={`${record.id}`}>
-                      <Image
-                        src={record.image_path}
-                        width={500}
-                        height={300}
-                        unoptimized
-                        alt="ゲームリザルト画像"
-                        className="max-w-[90vw] md:max-w-[600px] w-auto h-auto object-contain"
-                      />
-                    </Tooltip>
-                  )}
                 </tr>
               )
             })
           )}
         </tbody>
       </table>
+      {records.map(
+        (record) =>
+          record.image_path && (
+            <Tooltip id={`${record.id}`}>
+              <Image
+                src={record.image_path}
+                width={500}
+                height={300}
+                unoptimized
+                alt="ゲームリザルト画像"
+                className="max-w-[90vw] md:max-w-[600px] w-auto h-auto object-contain"
+              />
+            </Tooltip>
+          ),
+      )}
     </div>
   )
 }
