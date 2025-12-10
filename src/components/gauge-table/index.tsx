@@ -1,5 +1,6 @@
 import { TZDate, tz } from '@date-fns/tz'
 import { format } from 'date-fns'
+import { cacheLife } from 'next/cache'
 import { fetchSchedule } from '@/service/supabase/schedule'
 import type { RankRecord } from '@/types/record'
 import { GaugeTableClient } from './client'
@@ -40,6 +41,9 @@ const groupByDate = (records: RankRecord[]) => {
 
 // メインコンポーネント（サーバーコンポーネント）
 export const GaugeTable = async ({ records }: RecordsTableProps) => {
+  'use cache'
+  cacheLife('days')
+
   const schedule = await fetchSchedule()
   const groupedRecords = groupByDate(records)
 
