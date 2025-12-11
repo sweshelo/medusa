@@ -14,11 +14,13 @@ interface ImageHistoryItemProps {
   image: GameImage & {
     game: GameWithResults[]
   }
+  players: string[]
   onUpdate?: () => void
 }
 
 export const ImageHistoryItem = ({
   image,
+  players,
   onUpdate,
 }: ImageHistoryItemProps) => {
   const hasGameData = image.game && image.game.length > 0
@@ -94,6 +96,7 @@ export const ImageHistoryItem = ({
                             }
                           })}
                           onUpdate={onUpdate}
+                          players={players ?? []}
                         />
                       )}
                     </div>

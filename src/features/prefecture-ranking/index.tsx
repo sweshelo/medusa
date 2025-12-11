@@ -5,10 +5,12 @@ import type { PrefectureRanking } from '@/types/prefecture-ranking'
 
 interface PrefectureRankingPageProps {
   ranking: PrefectureRanking[]
+  timestamp?: Date
 }
 
 export const PrefectureRankingPage = ({
   ranking,
+  timestamp = new Date(),
 }: PrefectureRankingPageProps) => {
   // 同率順位を計算
   const rankingsWithPosition = ranking.map((player, index) => {
@@ -42,7 +44,7 @@ export const PrefectureRankingPage = ({
       <Headline title="制県度ランキング" />
       <div className="bg-white text-center py-2 mb-2 rounded-lg">
         <span className="text-sm text-gray-600">
-          最終更新: {new Date().toLocaleString('ja-JP')}
+          最終更新: {timestamp.toLocaleString('ja-JP')}
         </span>
       </div>
 

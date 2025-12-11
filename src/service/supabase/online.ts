@@ -1,11 +1,16 @@
+'use cache'
+
 import { TZDate } from '@date-fns/tz'
 import { sub } from 'date-fns'
+import { cacheLife } from 'next/cache'
 
 import { createAdminClient } from './admin'
 
 const supabase = createAdminClient()
 
-export const fetchOnlinePlayers = async () => {
+export async function fetchOnlinePlayers() {
+  cacheLife({ stale: 60, revalidate: 240, expire: 600 })
+
   const { data, error } = await supabase
     .from('record')
     .select('player_name, chara, recorded_at')

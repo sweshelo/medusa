@@ -10,8 +10,6 @@ export const metadata: Metadata = {
   title: '称号',
 }
 
-export const revalidate = 43200
-
 export default async function Page() {
   const achievements = await fetchAllAchievements()
   const infomations = await fetchAchievementInfomation()

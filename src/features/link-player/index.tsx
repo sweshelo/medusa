@@ -3,22 +3,17 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   getAllPlayersName,
+  getLinkedPlayer,
   linkPlayerToUser,
   unlinkPlayer,
 } from '@/app/settings/actions'
 import { SmallHeadline } from '@/components/common/small-headline'
 import { PlayerCard, PlayerView } from '@/components/player/card'
 
-interface LinkPlayerProps {
-  initialPlayer: { id: number; name: string } | null
-}
-
-export const LinkPlayer = ({ initialPlayer }: LinkPlayerProps) => {
+export const LinkPlayer = () => {
   const [query, setQuery] = useState('')
   const [players, setPlayers] = useState<string[]>()
-  const [linkedPlayer, setLinkedPlayer] = useState<string | null>(
-    initialPlayer?.name ?? null,
-  )
+  const [linkedPlayer, setLinkedPlayer] = useState<string>()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<{
     type: 'success' | 'error'
@@ -27,6 +22,7 @@ export const LinkPlayer = ({ initialPlayer }: LinkPlayerProps) => {
 
   useEffect(() => {
     getAllPlayersName().then((players) => setPlayers(players))
+    getLinkedPlayer().then((player) => setLinkedPlayer(player.player?.name))
   }, [])
 
   // 半角文字を全角に変換
@@ -85,7 +81,7 @@ export const LinkPlayer = ({ initialPlayer }: LinkPlayerProps) => {
     if (result.error) {
       setMessage({ type: 'error', text: result.error })
     } else if (result.success) {
-      setLinkedPlayer(null)
+      setLinkedPlayer(undefined)
       setMessage({ type: 'success', text: '紐づけを解除しました' })
     }
 

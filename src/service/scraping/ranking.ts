@@ -1,7 +1,7 @@
-'use server'
+'use cache'
 
 import * as cheerio from 'cheerio'
-import { unstable_cache } from 'next/cache'
+import { cacheLife } from 'next/cache'
 import { ANNONYMOUS } from '@/constants/name'
 
 export interface Border {
@@ -12,36 +12,34 @@ export interface Border {
 const CCJ_RANKING_PAGE =
   'https://p.eagate.573.jp/game/chase2jokers/ccj/ranking/index.html'
 
-export const getOniBorder = unstable_cache(
-  async (): Promise<Border> => {
-    const response = await fetch(CCJ_RANKING_PAGE)
-    const html = await response.text()
+export async function getOniBorder(): Promise<Border> {
+  cacheLife('hours') // 1時間
 
-    const $ = cheerio.load(html)
-    const topMatch = $('#ranking_data > li:nth-child(5) > div:nth-child(3)')
-      .text()
-      .match(/\d+/)?.[0]
-    const bottomMatch = $('#ranking_data > li:nth-child(6) > div:nth-child(3)')
-      .text()
-      .match(/\d+/)?.[0]
+  const response = await fetch(CCJ_RANKING_PAGE)
+  const html = await response.text()
 
-    const topValue = topMatch ? Number(topMatch) : undefined
-    const bottomValue = bottomMatch ? Number(bottomMatch) : undefined
+  const $ = cheerio.load(html)
+  const topMatch = $('#ranking_data > li:nth-child(5) > div:nth-child(3)')
+    .text()
+    .match(/\d+/)?.[0]
+  const bottomMatch = $('#ranking_data > li:nth-child(6) > div:nth-child(3)')
+    .text()
+    .match(/\d+/)?.[0]
 
-    const gauge = {
-      top: Number.isNaN(topValue) ? undefined : topValue,
-      bottom: Number.isNaN(bottomValue) ? undefined : bottomValue,
-    }
+  const topValue = topMatch ? Number(topMatch) : undefined
+  const bottomValue = bottomMatch ? Number(bottomMatch) : undefined
 
-    return gauge
-  },
-  ['oni-border'],
-  {
-    revalidate: 3600, // 1時間
-  },
-)
+  const gauge = {
+    top: Number.isNaN(topValue) ? undefined : topValue,
+    bottom: Number.isNaN(bottomValue) ? undefined : bottomValue,
+  }
 
-export const getRankers = async (): Promise<string[]> => {
+  return gauge
+}
+
+export async function getRankers(): Promise<string[]> {
+  cacheLife('hours') // 1時間
+
   const result = await Promise.all(
     [0, 1, 2, 3].map(async (index) => {
       try {

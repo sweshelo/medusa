@@ -1,3 +1,5 @@
+'use cache: private'
+
 import Link from 'next/link'
 import { SmallHeadline } from '@/components/common/small-headline'
 import { createClient } from '@/service/supabase/server'
@@ -19,6 +21,12 @@ type ImageWithGame = GameImage & {
 interface PlayerGameRecordsServerProps {
   playerId: number
   playerName: string
+}
+
+export interface GameResultWithImage extends GameResult {
+  played_at: string | null
+  image_created_at: string
+  image_path: string | null
 }
 
 export async function PlayerGameRecordsServer({
@@ -75,30 +83,31 @@ export async function PlayerGameRecordsServer({
   }
 
   // プレイヤー名でフィルタリングして、フラット化
-  const gameResults: Array<
-    GameResult & {
-      played_at: string | null
-      image_created_at: string
-    }
-  > = []
-
-  for (const image of images as ImageWithGame[]) {
-    if (image.game && Array.isArray(image.game)) {
-      for (const game of image.game) {
-        if (game.game_result && Array.isArray(game.game_result)) {
-          for (const result of game.game_result) {
-            if (result.player_name === playerName) {
-              gameResults.push({
+  const gameResults: Array<GameResultWithImage> = images
+    .flatMap((image) => {
+      return image.game.flatMap((game) => {
+        return game.game_result.flatMap((result) => {
+          return result.is_you
+            ? {
                 ...result,
                 played_at: game.played_at,
                 image_created_at: image.created_at,
-              })
-            }
-          }
-        }
-      }
-    }
-  }
+                image_path: image.url,
+              }
+            : undefined
+        })
+      })
+    })
+    .filter((r) => r !== undefined)
+    .sort((a, b) => {
+      if (!a.played_at) return 1
+      if (!b.played_at) return -1
+
+      const aDate = new Date(a.played_at)
+      const bDate = new Date(b.played_at)
+
+      return bDate.valueOf() - aDate.valueOf()
+    })
 
   // データがある場合のみ表示
   if (gameResults.length === 0) {
@@ -122,7 +131,7 @@ export async function PlayerGameRecordsServer({
         で登録したリザルトが表示されます
         <br />
       </div>
-      <GameRecordsTable records={gameResults.reverse()} />
+      <GameRecordsTable records={gameResults} />
     </div>
   )
 }

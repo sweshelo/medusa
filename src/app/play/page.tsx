@@ -1,4 +1,7 @@
+'use cache'
+
 import type { Metadata } from 'next'
+import { cacheLife } from 'next/cache'
 
 import PlayCountRankingPage from '@/features/play'
 import { fetchPlayCountRanking } from '@/service/supabase/play-count'
@@ -8,14 +11,17 @@ export const metadata: Metadata = {
   title: 'プレイ数ランキング',
 }
 
-export const revalidate = 86400
-
 export default async function Page() {
+  cacheLife('weeks')
+
   const ranking = await fetchPlayCountRanking()
   const season = await fetchCurrentSeason()
-  const date = new Date()
-
+  const timestamp = new Date()
   return (
-    <PlayCountRankingPage ranking={ranking} season={season} timestamp={date} />
+    <PlayCountRankingPage
+      ranking={ranking}
+      season={season}
+      timestamp={timestamp}
+    />
   )
 }

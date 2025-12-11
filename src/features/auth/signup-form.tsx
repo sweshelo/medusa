@@ -30,7 +30,6 @@ export function SignupForm({
       const result = await onSubmit(formData)
       if (result?.error) {
         setError(result.error)
-        setLoading(false)
       } else if (result?.success) {
         // Success - redirect to login page
         router.push('/login?registered=true')
@@ -38,6 +37,7 @@ export function SignupForm({
     } catch (err) {
       console.error('Signup error:', err)
       setError('予期しないエラーが発生しました')
+    } finally {
       setLoading(false)
     }
   }

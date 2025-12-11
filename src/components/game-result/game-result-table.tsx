@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { updateGameResult } from '@/app/pekora/actions'
 import type { Tables } from '@/types/database.types'
 import { toFullWidth } from '@/utils/text'
@@ -9,6 +9,7 @@ type GameResult = Tables<'game_result'>
 
 interface GameResultTableProps {
   results: GameResult[]
+  players: string[]
   onUpdate?: () => void
 }
 
@@ -36,51 +37,21 @@ const intToColorClass = (result: number) => {
 
 export const GameResultTable = ({
   results,
+  players,
   onUpdate,
 }: GameResultTableProps) => {
   const [isEditing, setIsEditing] = useState(false)
   const [editedResults, setEditedResults] = useState<GameResult[]>([])
-  const [validationWarnings, setValidationWarnings] = useState<
-    Record<number, string>
-  >({})
-  const [availablePlayers, setAvailablePlayers] = useState<string[]>([])
   const [isSaving, setIsSaving] = useState(false)
 
-  const checkAvailablePlayers = useCallback(async () => {
-    const copiedResults = JSON.parse(JSON.stringify(results))
-
-    // Fetch available players
-    try {
-      const response = await fetch('/api/players')
-      if (response.ok) {
-        const players = await response.json()
-        setAvailablePlayers(players)
-
-        // Validate all existing player names
-        const warnings: Record<number, string> = {}
-        copiedResults.forEach((result: GameResult, index: number) => {
-          if (result.player_name && !players.includes(result.player_name)) {
-            warnings[index] = 'このプレイヤーは登録されていません'
-          }
-        })
-        setValidationWarnings(warnings)
-      }
-    } catch (error) {
-      console.error('Failed to fetch players:', error)
-    }
-
-    return copiedResults
-  }, [results])
-
-  const handleEditClick = async () => {
+  const handleEditClick = () => {
+    setEditedResults([...results])
     setIsEditing(true)
-    setEditedResults(await checkAvailablePlayers())
   }
 
   const handleCancelEdit = () => {
     setIsEditing(false)
     setEditedResults([])
-    setValidationWarnings({})
   }
 
   const handleSave = async () => {
@@ -124,7 +95,6 @@ export const GameResultTable = ({
     if (!hasError) {
       setIsEditing(false)
       setEditedResults([])
-      setValidationWarnings({})
       if (onUpdate) {
         onUpdate()
       }
@@ -143,34 +113,11 @@ export const GameResultTable = ({
     setEditedResults(updated)
   }
 
-  const handlePlayerNameBlur = async (index: number, value: string) => {
-    if (!value) return
-
+  const handlePlayerNameBlur = (index: number, value: string) => {
     // Convert to full-width
     const fullWidthName = toFullWidth(value)
     updateEditedResult(index, 'player_name', fullWidthName)
-
-    // Validate against available players
-    if (
-      availablePlayers.length > 0 &&
-      !availablePlayers.includes(fullWidthName)
-    ) {
-      setValidationWarnings((prev) => ({
-        ...prev,
-        [index]: 'このプレイヤーは登録されていません',
-      }))
-    } else {
-      setValidationWarnings((prev) => {
-        const updated = { ...prev }
-        delete updated[index]
-        return updated
-      })
-    }
   }
-
-  useEffect(() => {
-    checkAvailablePlayers()
-  }, [checkAvailablePlayers])
 
   const displayResults = isEditing ? editedResults : results
 
@@ -255,7 +202,7 @@ export const GameResultTable = ({
               >
                 <td className="border border-gray-300 px-2 py-1 whitespace-nowrap">
                   {isEditing ? (
-                    <div className="">
+                    <div>
                       <input
                         type="text"
                         value={result.player_name || ''}
@@ -271,14 +218,25 @@ export const GameResultTable = ({
                         }
                         className="bg-transparent border-none p-0 text-xs focus:outline-none"
                       />
+                      {result.player_name &&
+                        players.length > 0 &&
+                        !players.includes(result.player_name) && (
+                          <span className="text-orange-500 text-[10px] block">
+                            ⚠ 未登録プレイヤー
+                          </span>
+                        )}
                     </div>
                   ) : (
-                    result.player_name || '-'
-                  )}
-                  {validationWarnings[index] && (
-                    <span className="text-orange-500 text-[10px] block">
-                      {validationWarnings[index]}
-                    </span>
+                    <div>
+                      <span>{result.player_name || '-'}</span>
+                      {result.player_name &&
+                        players.length > 0 &&
+                        !players.includes(result.player_name) && (
+                          <span className="text-orange-500 text-[10px] block">
+                            ⚠ 未登録プレイヤー
+                          </span>
+                        )}
+                    </div>
                   )}
                 </td>
                 <td className="border border-gray-300 px-2 py-1 text-right">
