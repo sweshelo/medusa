@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { cacheLife } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { getRankers } from '@/service/scraping/ranking'
 import { getPlayerIdByName } from '@/service/supabase/player'
@@ -17,6 +18,9 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }: PageProps) {
+  'use cache'
+  cacheLife('max')
+
   const name = decodeURI((await params).name)
   const id = await getPlayerIdByName(name)
 
