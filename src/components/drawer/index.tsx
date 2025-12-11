@@ -3,7 +3,7 @@
 import type { User } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
-import { Suspense, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDrawer } from '@/hooks/drawer'
 import { getUser } from './actions'
 
@@ -18,9 +18,10 @@ export const Drawer = () => {
   }, [])
 
   useEffect(() => {
+    closeDrawer()
     if (searchParams.get('login') === 'success' || pathname === '/login')
       handlePathChange()
-  }, [searchParams, pathname, handlePathChange])
+  }, [searchParams, pathname, handlePathChange, closeDrawer])
 
   useEffect(handlePathChange, [])
 
