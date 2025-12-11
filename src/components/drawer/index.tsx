@@ -17,11 +17,12 @@ export const Drawer = () => {
     getUser().then((user) => setUser(user))
   }, [])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: closeDrawer() は Contextなので含めると即座にドロワーが閉じられる
   useEffect(() => {
     closeDrawer()
     if (searchParams.get('login') === 'success' || pathname === '/login')
       handlePathChange()
-  }, [searchParams, pathname, handlePathChange, closeDrawer])
+  }, [searchParams, pathname, handlePathChange])
 
   useEffect(handlePathChange, [])
 
