@@ -1,7 +1,15 @@
+'use server'
+
+import { cacheLife } from 'next/cache'
 import type { Schedule } from '@/types/schedule'
-import { supabase } from './client'
+import { createAdminClient } from './admin'
+
+const supabase = createAdminClient()
 
 export const fetchSchedule = async (): Promise<Schedule[]> => {
+  'use cache'
+  cacheLife('days')
+
   const { data, error } = await supabase.from('schedule').select('*')
   if (error) {
     console.error('スケジュール取得でエラー: ', error)

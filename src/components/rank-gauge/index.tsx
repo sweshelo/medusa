@@ -62,12 +62,10 @@ export const RankGauge = ({ value, border }: RankGaugeProps) => {
       <div className="flex items-center gap-3 px-4">
         {/* ランク表示部分 - テキスト幅に応じて自動調整 */}
         {isOni ? (
-          <>
-            <div className="flex-shrink-0 font-bold mx-2">
-              <span className="text-xs">推定ランク</span>{' '}
-              <span className="text-red-900 text-xl">鬼</span>
-            </div>
-          </>
+          <div className="flex-shrink-0 font-bold mx-2">
+            <span className="text-xs">推定ランク</span>{' '}
+            <span className="text-red-900 text-xl">鬼</span>
+          </div>
         ) : (
           <div className="flex-shrink-0 font-bold text-lg mx-2">
             ランク {rank}

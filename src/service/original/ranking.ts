@@ -1,5 +1,8 @@
+'use cache'
+
 import * as cheerio from 'cheerio'
 import { format } from 'date-fns'
+import { cacheLife } from 'next/cache'
 import sanitizeHtml from 'sanitize-html'
 
 import type { Ranking } from '@/types/ranking'
@@ -30,7 +33,9 @@ const originalPageURL = (index: number, date: Date | undefined) => {
   return `https://p.eagate.573.jp/game/chase2jokers/ccj/ranking/index.html?page=${index}&rid=${month}`
 }
 
-export const fetchRankingTable = async (date?: Date) => {
+export async function fetchRankingTable(date?: Date) {
+  cacheLife('hours')
+
   const ranking: Ranking[] = []
 
   await Promise.all(

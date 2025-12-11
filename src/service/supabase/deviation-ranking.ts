@@ -1,6 +1,13 @@
-import { supabase } from './client'
+'use cache'
 
-export const fetchDeviationRanking = async () => {
+import { cacheLife } from 'next/cache'
+import { createAdminClient } from './admin'
+
+const supabase = createAdminClient()
+
+export async function fetchDeviationRanking() {
+  cacheLife('max')
+
   const { data: players, error: playerError } = await supabase
     .from('player')
     .select('*')

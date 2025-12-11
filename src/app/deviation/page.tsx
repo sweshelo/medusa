@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import DeviationRankingPage from '@/features/deviation'
 import { fetchDeviationRanking } from '@/service/supabase/deviation-ranking'
 
-export const revalidate = 86400
 export const metadata: Metadata = {
   title: '偏差値ランキング',
 }

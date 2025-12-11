@@ -1,11 +1,30 @@
 'use client'
 
+import type { User } from '@supabase/supabase-js'
 import Link from 'next/link'
-
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
 import { useDrawer } from '@/hooks/drawer'
+import { getUser } from './actions'
 
 export const Drawer = () => {
   const { isOpen, closeDrawer } = useDrawer()
+  const [user, setUser] = useState<User>()
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+
+  const handlePathChange = useCallback(() => {
+    getUser().then((user) => setUser(user))
+  }, [])
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: closeDrawer() は Contextなので含めると即座にドロワーが閉じられる
+  useEffect(() => {
+    closeDrawer()
+    if (searchParams.get('login') === 'success' || pathname === '/login')
+      handlePathChange()
+  }, [searchParams, pathname, handlePathChange])
+
+  useEffect(handlePathChange, [])
 
   return (
     <div>
@@ -74,6 +93,37 @@ export const Drawer = () => {
               オンライン
             </Link>
           </li>
+          {user ? (
+            <>
+              <li>
+                <div className="mt-6">
+                  <p className="text-center text-sm text-gray-600">
+                    ログインユーザ専用
+                  </p>
+                  <div className="border my-1" />
+                </div>
+                <Link href="/pekora" className="block p-2 hover:bg-gray-100">
+                  画像記録機能
+                </Link>
+              </li>
+              <li>
+                <Link href="/donation" className="block p-2 hover:bg-gray-100">
+                  御布施
+                </Link>
+              </li>
+              <li>
+                <Link href="/settings" className="block p-2 hover:bg-gray-100">
+                  設定
+                </Link>
+              </li>
+            </>
+          ) : (
+            <li>
+              <Link href="/login" className="block p-2 hover:bg-gray-100">
+                ログイン
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </div>

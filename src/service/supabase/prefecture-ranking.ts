@@ -1,8 +1,13 @@
+'use cache'
+
+import { cacheLife } from 'next/cache'
 import { PrefectureAchievements } from '@/constants/prefecture'
 import type { PrefectureRanking } from '@/types/prefecture-ranking'
 import { toHalfWidth } from '@/utils/text'
 
-import { supabase } from './client'
+import { createAdminClient } from './admin'
+
+const supabase = createAdminClient()
 
 interface PlayerAchievement {
   player_name: string
@@ -14,9 +19,11 @@ interface PlayerAchievement {
  * 1. RPCで全プレイヤーの(player_name, achievement)を取得（ページネーション対応）
  * 2. TypeScript側で都道府県の称号のみフィルタして集計
  */
-export const fetchPrefectureConquestRanking = async (): Promise<
+export async function fetchPrefectureConquestRanking(): Promise<
   PrefectureRanking[]
-> => {
+> {
+  cacheLife('weeks')
+
   // 都道府県の称号リスト（半角）
   const prefectureAchievements = new Set(
     PrefectureAchievements.map((p) => p.achievement),

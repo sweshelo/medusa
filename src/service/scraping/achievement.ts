@@ -1,4 +1,7 @@
+'use cache'
+
 import * as cheerio from 'cheerio'
+import { cacheLife } from 'next/cache'
 
 import {
   CharacterSuffix,
@@ -12,9 +15,9 @@ export interface AchievementInfo {
   tag: string
 }
 
-export const fetchAchievementInfomation = async (): Promise<
-  AchievementInfo[]
-> => {
+export async function fetchAchievementInfomation(): Promise<AchievementInfo[]> {
+  cacheLife('hours') // 1時間
+
   const response = await fetch('https://wiki3.jp/chase2jokers/page/31')
   const html = await response.text()
 

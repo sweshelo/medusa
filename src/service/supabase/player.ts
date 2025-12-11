@@ -1,8 +1,13 @@
-import { subDays } from 'date-fns'
+'use cache'
 
-import { supabase } from './client'
+import { cacheLife } from 'next/cache'
+import { createAdminClient } from './admin'
 
-export const getPlayerIdByName = async (playerName: string) => {
+const supabase = createAdminClient()
+
+export async function getPlayerIdByName(playerName: string) {
+  cacheLife('days') // 24時間
+
   const { data: players, error } = await supabase
     .from('player')
     .select('id')

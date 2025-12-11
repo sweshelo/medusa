@@ -1,10 +1,17 @@
+'use cache'
+
+import { cacheLife } from 'next/cache'
 import type { Tables } from '@/types/database.types'
 
-import { supabase } from './client'
+import { createAdminClient } from './admin'
+
+const supabase = createAdminClient()
 
 export type Season = Tables<'season'>
 
-export const fetchCurrentSeason = async (): Promise<Season | null> => {
+export async function fetchCurrentSeason(): Promise<Season | null> {
+  cacheLife('days')
+
   const { data, error } = await supabase
     .from('season')
     .select('*')

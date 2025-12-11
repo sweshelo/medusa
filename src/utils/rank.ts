@@ -26,7 +26,6 @@ export const getRank = (gauge: number) => {
       return 'A'
     case 12:
       return 'A+'
-    case 13:
     default:
       return 'S'
   }

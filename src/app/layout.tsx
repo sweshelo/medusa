@@ -1,15 +1,15 @@
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Suspense } from 'react'
-import { ToastContainer } from 'react-toastify'
 
 import { Loading } from '@/components/common/loading'
-import { Drawer } from '@/components/drawer'
 import { Header } from '@/components/header'
 import { DrawerProvider } from '@/hooks/drawer'
 
 import './globals.css'
 import type { Metadata } from 'next'
+import { Drawer } from '@/components/drawer'
+import { GameDataProvider } from '@/hooks/game-data'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://放課後天地創造.club'),
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   ],
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
@@ -69,16 +69,19 @@ export default async function RootLayout({
       </head>
       <body className={`antialiased font-mplus`}>
         <DrawerProvider>
-          <Header />
-          <Drawer />
-          <div className="w-full min-h-screen mx-auto bg-gray-100 sm:p-7">
-            <div className="max-w-[700px] mx-auto bg-sky-50 p-4 sm:p-8 sm:rounded-lg shadow-2xl min-h-lvh">
-              <Suspense fallback={<Loading />}>{children}</Suspense>
+          <GameDataProvider>
+            <Suspense fallback={<Loading />}>
+              <Header />
+              <Drawer />
+            </Suspense>
+            <div className="w-full min-h-screen mx-auto bg-gray-100 sm:p-7">
+              <div className="max-w-[700px] mx-auto bg-sky-50 p-4 sm:p-8 sm:rounded-lg shadow-2xl min-h-lvh">
+                <Suspense fallback={<Loading />}>{children}</Suspense>
+              </div>
             </div>
-          </div>
-          <Analytics />
-          <SpeedInsights />
-          <ToastContainer />
+            <Analytics />
+            <SpeedInsights />
+          </GameDataProvider>
         </DrawerProvider>
       </body>
     </html>

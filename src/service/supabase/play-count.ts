@@ -1,4 +1,9 @@
-import { supabase } from './client'
+'use cache'
+
+import { cacheLife } from 'next/cache'
+import { createAdminClient } from './admin'
+
+const supabase = createAdminClient()
 
 export interface PlayCountRanking {
   player_name: string
@@ -7,7 +12,9 @@ export interface PlayCountRanking {
   achievement: string
 }
 
-export const fetchPlayCountRanking = async (): Promise<PlayCountRanking[]> => {
+export async function fetchPlayCountRanking(): Promise<PlayCountRanking[]> {
+  cacheLife('days')
+
   // PostgreSQL関数を使用して効率的にプレイ数をカウント
   // 現在のシーズン中のレコードのみを集計
   // 「プレーヤー」(匿名プレイヤー)を除外

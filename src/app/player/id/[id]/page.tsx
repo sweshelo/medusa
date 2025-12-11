@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { cacheLife } from 'next/cache'
 import { Revalidater } from '@/components/revalidater'
 import { PlayerPage } from '@/features/player'
 import { getRankers } from '@/service/scraping/ranking'
@@ -12,22 +13,30 @@ interface PageProps {
   params: Promise<{ id: string }>
 }
 
-export const revalidate = 86400 // 丸一日キャッシュする
-export const dynamicParams = true
-
+// Disable static generation to avoid cacheComponents conflicts with complex queries
 export async function generateStaticParams() {
   const playerNames = await getRankers()
   const playersId = await fetchRecentPlayedPlayersId(playerNames)
   return playersId.map((id) => ({ id: `${id}` }))
 }
 
+async function getPlayerData(playerId: number) {
+  'use cache'
+  cacheLife('hours') // 1時間
+
+  const player = await fetchPlayer(playerId)
+  const achievement = (await fetchAchievement(player.achievement)) ?? undefined
+  const timestamp = new Date()
+  return { player, achievement, timestamp }
+}
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { name } = await fetchPlayer(parseInt((await params).id, 10))
+  const { player } = await getPlayerData(parseInt((await params).id, 10))
   return {
-    title: `${name}さんのページ`,
-    description: `${name}さんの記録を閲覧します`,
+    title: `${player.name}さんのページ`,
+    description: `${player.name}さんの記録を閲覧します`,
     robots: {
       index: false,
     },
@@ -36,14 +45,15 @@ export async function generateMetadata({
 
 export default async function Page({ params }: PageProps) {
   try {
-    const player = await fetchPlayer(parseInt((await params).id, 10))
-
-    const achievement =
-      (await fetchAchievement(player.achievement)) ?? undefined
-    const date = new Date()
+    const playerId = parseInt((await params).id, 10)
+    const { player, achievement, timestamp } = await getPlayerData(playerId)
 
     return player ? (
-      <PlayerPage player={player} achievement={achievement} timestamp={date} />
+      <PlayerPage
+        player={player}
+        achievement={achievement}
+        timestamp={timestamp}
+      />
     ) : null
   } catch (e) {
     console.error(e)

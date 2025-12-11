@@ -1,6 +1,13 @@
-import { supabase } from './client'
+'use cache'
 
-export const fetchAchievement = async (name: string) => {
+import { cacheLife } from 'next/cache'
+import { createAdminClient } from './admin'
+
+const supabase = createAdminClient()
+
+export async function fetchAchievement(name: string) {
+  cacheLife('hours') // 1時間
+
   const { data: achievement, error } = await supabase
     .from('achievement')
     .select('*')
@@ -14,7 +21,9 @@ export const fetchAchievement = async (name: string) => {
   return achievement
 }
 
-export const fetchAllAchievements = async () => {
+export async function fetchAllAchievements() {
+  cacheLife('days')
+
   const { data: achievements, error } = await supabase
     .from('achievement')
     .select('*')
