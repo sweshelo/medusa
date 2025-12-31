@@ -51,7 +51,7 @@
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@types/sanitize-html": "^2.16.0",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.0.0",
     "dependency-cruiser": "^17.0.0",
     "husky": "^9.1.7",
     "knip": "^5.71.0",
