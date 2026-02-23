@@ -29,8 +29,8 @@ const sanitizeHTMLServer = (
 }
 
 const originalPageURL = (index: number, date: Date | undefined) => {
-  const month = format(date ?? new Date(), 'yyyyMM')
-  return `https://p.eagate.573.jp/game/chase2jokers/ccj/ranking/index.html?page=${index}&rid=${month}`
+  const monthParam = date ? `&rid=${format(date, 'yyyyMM')}` : ''
+  return `https://p.eagate.573.jp/game/chase2jokers/ccj/ranking/index.html?page=${index}${monthParam}`
 }
 
 export async function fetchRankingTable(date?: Date) {
