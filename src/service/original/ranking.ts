@@ -29,7 +29,7 @@ const sanitizeHTMLServer = (
 }
 
 const originalPageURL = (index: number, date: Date | undefined) => {
-  const monthParam = date ? `&rid=${format(date ?? new Date(), 'yyyyMM')}` : ''
+  const monthParam = date ? `&rid=${format(date, 'yyyyMM')}` : ''
   return `https://p.eagate.573.jp/game/chase2jokers/ccj/ranking/index.html?page=${index}${monthParam}`
 }
 
