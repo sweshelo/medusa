@@ -14,10 +14,6 @@ export const metadata: Metadata = {
 export default async function Page() {
   cacheLife('hours')
 
-  const now = new Date()
-  const ranking =
-    (await fetchRankingTable()) ??
-    (await fetchRankingTable(endOfMonth(subMonths(now, 1)))) ??
-    []
+  const ranking = (await fetchRankingTable()) ?? []
   return <RankingPage ranking={ranking.sort((a, b) => a.rank - b.rank)} />
 }
