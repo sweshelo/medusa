@@ -7,7 +7,7 @@
       "dependencies": {
         "@aws-sdk/client-s3": "^3.1107.0",
         "@date-fns/tz": "^1.5.0",
-        "@supabase/ssr": "^0.8.0",
+        "@supabase/ssr": "^0.12.0",
         "@supabase/supabase-js": "^2.112.2",
         "@tailwindcss/postcss": "^4.3.3",
         "@tailwindcss/typography": "^0.5.20",
@@ -423,7 +423,7 @@
 
     "@supabase/realtime-js": ["@supabase/realtime-js@2.112.2", "", { "dependencies": { "@supabase/phoenix": "0.4.5", "tslib": "2.8.1" } }, "sha512-cd9/CEUJ6Go13FxtfiuC5rYELJtuQzVzTXlGG+XjSppjDS+anq+xo++WQe7ZRUNTuHOCeyKRwmx9Hw/OQJ04ig=="],
 
-    "@supabase/ssr": ["@supabase/ssr@0.8.0", "", { "dependencies": { "cookie": "^1.0.2" }, "peerDependencies": { "@supabase/supabase-js": "^2.76.1" } }, "sha512-/PKk8kNFSs8QvvJ2vOww1mF5/c5W8y42duYtXvkOSe+yZKRgTTZywYG2l41pjhNomqESZCpZtXuWmYjFRMV+dw=="],
+    "@supabase/ssr": ["@supabase/ssr@0.12.6", "", { "dependencies": { "cookie": "^1.0.2" }, "peerDependencies": { "@supabase/supabase-js": "^2.114.0" } }, "sha512-JQ/hwN71p0HXWiETjCAY4sn51NeXCFj1s9l7/WQDp5O9yuF2HSja+rtjR6NWK4G3HigyNxYGwGKXabb4eYZy+Q=="],
 
     "@supabase/storage-js": ["@supabase/storage-js@2.112.2", "", { "dependencies": { "iceberg-js": "^0.8.1", "tslib": "2.8.1" } }, "sha512-6jyBq/J1iXOHNpbjCZS7gFcDk49iM1MCJUVkDl71gLd/+XnLDzpUBs8icGebtwiHpl4kVszxIRDYAosbF4Rsig=="],
 
